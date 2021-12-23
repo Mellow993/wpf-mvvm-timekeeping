@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Arbeitszeiterfassung"
         mc:Ignorable="d"
         Title="Arbeitszeiterfassung" Height="300" Width="500" WindowStartupLocation="CenterScreen">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -73,6 +73,7 @@
                 <Label Content="(hh:mm)" Grid.Column="1" Margin="90,70,-50,0" VerticalAlignment="Top"/>
                 <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
                 <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="5,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
+                <Button Content="Start" Grid.Column="1" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176"/>
             </Grid>
         </StackPanel>
     </Grid>
