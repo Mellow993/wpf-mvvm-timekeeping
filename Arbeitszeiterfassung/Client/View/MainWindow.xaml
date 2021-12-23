@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Arbeitszeiterfassung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="500">
+        Title="Arbeitszeiterfassung" Height="300" Width="500" WindowStartupLocation="CenterScreen">
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
