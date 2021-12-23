@@ -20,8 +20,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _startTimekeepingCommand;
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
 
-
-
         #region Methods
         private void StartTimekeeping()
         {

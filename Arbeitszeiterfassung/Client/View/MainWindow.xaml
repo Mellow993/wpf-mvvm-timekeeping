@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Arbeitszeiterfassung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="500">
+        Title="Arbeitszeiterfassung" Height="300" Width="500" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico">
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="73*"/>
+            <ColumnDefinition Width="177*"/>
+            <ColumnDefinition Width="250*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -18,14 +20,14 @@
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Separator Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"></Separator>
-        <Separator Grid.Row="2" Grid.Column="1" VerticalAlignment="Top"></Separator>
+        <Separator Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,2,0,0"></Separator>
+        <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0"></Separator>
 
         <Label Grid.Row="0" Content="Heute" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
-        <TextBox Grid.Row="0" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" IsReadOnly="True"/>
-        <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom"></Separator>
-        <Separator Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom"></Separator>
-        <StackPanel Grid.Column="0" Grid.ColumnSpan="1" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
+        <TextBox x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="188" IsReadOnly="True" Grid.ColumnSpan="2"/>
+        <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0,0,0,2"></Separator>
+        <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0"></Separator>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"></ColumnDefinition>
@@ -51,13 +53,13 @@
                 <Label Grid.Column="1" Content="Uhr" HorizontalAlignment="Right" Margin="5, 130,10,0" VerticalAlignment="Top"/>
             </Grid>
         </StackPanel>
-        <ProgressBar HorizontalAlignment="Left" Height="15" Width="142" Margin="80,0,0,0" Grid.Row="2" VerticalAlignment="Center" ToolTip="Zeigt den aktuellen Arbeitsfortschritt an"/>
-        <Label Content="Fortschritt" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
-        <Button x:Name="Button_Speichern" Content="Speichern" Grid.Column="1" HorizontalAlignment="Left" Margin="98,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="69" ToolTip="Speichert die Arbeitszeit"/>
-        <Button x:Name="Button_Beenden" Content="Beenden" Grid.Column="1" HorizontalAlignment="Left" Margin="178,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="64" ToolTip="Beende die Zeiterfassung"/>
-        <Button x:Name="Button_Verstecken" Content="Verstecken" Grid.Column="1" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="77" ToolTip="Versteckt das Fenster in der Taskbar"/>
-        <Label Content="Arbeitszeit gesamt" Grid.Column="1" HorizontalAlignment="Left" Margin="12,135,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="Arbeitsbeginn" Grid.Column="1" HorizontalAlignment="Left" Margin="13,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <ProgressBar HorizontalAlignment="Left" Height="15" Width="142" Margin="7,0,0,0" Grid.Row="2" VerticalAlignment="Center" ToolTip="Zeigt den aktuellen Arbeitsfortschritt an" Grid.Column="1"/>
+        <Label Content="Fortschritt" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
+        <Button x:Name="Button_Speichern" Content="Speichern" Grid.Column="2" HorizontalAlignment="Left" Margin="98,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="69" ToolTip="Speichert die Arbeitszeit"/>
+        <Button x:Name="Button_Beenden" Content="Beenden" Grid.Column="2" HorizontalAlignment="Left" Margin="178,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="64" ToolTip="Beende die Zeiterfassung"/>
+        <Button x:Name="Button_Verstecken" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="77" ToolTip="Versteckt das Fenster in der Taskbar"/>
+        <Label Content="Arbeitszeit gesamt" Grid.Column="2" HorizontalAlignment="Left" Margin="12,135,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Arbeitsbeginn" Grid.Column="2" HorizontalAlignment="Left" Margin="13,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <StackPanel Grid.Column="2" Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -72,6 +74,7 @@
                 <Label Content="(hh:mm)" Grid.Column="1" Margin="90,70,-50,0" VerticalAlignment="Top"/>
                 <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
                 <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="5,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
+                <Button Content="Start" Grid.Column="1" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176"/>
             </Grid>
         </StackPanel>
     </Grid>
