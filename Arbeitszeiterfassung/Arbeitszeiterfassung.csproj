@@ -7,12 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Client\View\42604hourglassnotdone_99029.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Include="App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Client\Common\Converters\" />
     <Folder Include="Client\Icon\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Client\View\42604hourglassnotdone_99029.ico" />
   </ItemGroup>
 
 </Project>
