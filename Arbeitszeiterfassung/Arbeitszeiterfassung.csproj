@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Client\Common\Converters\" />
     <Folder Include="Client\Icon\" />
   </ItemGroup>
 

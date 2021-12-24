@@ -9,10 +9,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class WorkTimeCalculationViewModel
     {
-        public WorkTimeCalculationModel Arbeitszeit { get; set; }
+        public WorkTimeCalculationModel WorktimeCalculation { get; set; }
         public WorkTimeCalculationViewModel()
         {
-            Arbeitszeit = new WorkTimeCalculationModel();
+            WorktimeCalculation = new WorkTimeCalculationModel();
+
         }
     }
 }

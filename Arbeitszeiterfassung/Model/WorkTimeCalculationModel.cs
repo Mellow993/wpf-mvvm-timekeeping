@@ -20,9 +20,11 @@ namespace Arbeitszeiterfassung.Model
                 if (_arbeitsBeginn != value)
                 {
                     _arbeitsBeginn = value;
-                    this.AddiereArbeitszeit();
-                    this.OnPropertyChanged();
-                    this.OnPropertyChanged("KurzerTag");
+                    AddiereArbeitszeit();
+                    OnPropertyChanged();
+                    OnPropertyChanged("KurzerTag");
+                    OnPropertyChanged("NormalerTag");
+                    OnPropertyChanged("LangerTag");
                 }
             }
         }

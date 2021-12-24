@@ -10,7 +10,7 @@ namespace Arbeitszeiterfassung.ViewModel
 {
     class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propname = "")
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
     }
