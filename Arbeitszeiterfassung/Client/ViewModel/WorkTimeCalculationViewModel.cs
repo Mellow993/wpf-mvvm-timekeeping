@@ -13,7 +13,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public WorkTimeCalculationViewModel()
         {
             WorktimeCalculation = new WorkTimeCalculationModel();
-
         }
     }
 }

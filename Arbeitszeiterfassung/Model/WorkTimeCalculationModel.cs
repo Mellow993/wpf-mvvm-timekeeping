@@ -9,77 +9,84 @@ namespace Arbeitszeiterfassung.Model
 {
     class WorkTimeCalculationModel : ViewModelBase
     {
-        #region Properties Zeitangaben
+        #region Properties diffrent times
+        public DateTime Today { get => DateTime.Now; }
 
-        private DateTime _arbeitsBeginn;
-        public DateTime Arbeitsbeginn
+        private DateTime _startOfWork;
+        public DateTime StartOfWork
         {
-            get => _arbeitsBeginn;
+            get => _startOfWork;
             set
             {
-                if (_arbeitsBeginn != value)
+                if (_startOfWork != value)
                 {
-                    _arbeitsBeginn = value;
-                    AddiereArbeitszeit();
-                    OnPropertyChanged();
-                    OnPropertyChanged("KurzerTag");
-                    OnPropertyChanged("NormalerTag");
-                    OnPropertyChanged("LangerTag");
+                    _startOfWork = value;
+                    CalculateWorkTime();
+                    RefreshUserInterface();
                 }
             }
         }
 
-        private DateTime _kuzerTag;
-        public DateTime KurzerTag
+        private DateTime _shortDay;
+        public DateTime ShortDay
         {
-            get => _kuzerTag;
-            private set => _kuzerTag = value;
+            get => _shortDay;
+            private set => _shortDay = value;
         }
 
-        private DateTime _normalerTag;
-        public DateTime NormalerTag
+        private DateTime _normalDay;
+        public DateTime NormalDay
         {
-            get => _normalerTag;
-            private set => _normalerTag = value;
+            get => _normalDay;
+            private set => _normalDay = value;
         }
 
-        private DateTime _langerTag;
-        public DateTime LangerTag
+        private DateTime _longDay;
+        public DateTime LongDay
         {
-            get => _langerTag;
-            private set => _langerTag = value;
+            get => _longDay;
+            private set => _longDay = value;
         }
         #endregion
 
-        #region Properties Zeitspannen ohne Pause
-        private TimeSpan Kurz { get => new TimeSpan(6, 0, 0); }
+        #region Properties timespans without break
+        private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
         private TimeSpan Normal { get => new TimeSpan(7, 36, 0); }
-        private TimeSpan Lang { get => new TimeSpan(10, 0, 0); }
+        private TimeSpan Long { get => new TimeSpan(10, 0, 0); }
 
         #endregion
 
-        #region Properties Zeitspanne Pausen
-        private TimeSpan _zusätzlichePause;
-        public TimeSpan ZusätzlichePause
+        #region Properties additional break
+        private int _breakTimeInMinutes;
+        public int BreakTimeInMinutes
         {
-            get => _zusätzlichePause;
+            get => _breakTimeInMinutes;
             set
             {
-                if (_zusätzlichePause != value)
+                if(_breakTimeInMinutes != value)
                 {
-                    _zusätzlichePause = value;
-
+                    _breakTimeInMinutes = value;
+                    CalculateWorkTime();
+                    RefreshUserInterface();
                 }
             }
         }
         #endregion
 
-        #region Methoden Berechnung der Arbeitszeit
-        private void AddiereArbeitszeit()
+        #region Method calculate daily work time
+        private void CalculateWorkTime()
         {
-            KurzerTag = Arbeitsbeginn.Add(Kurz); //AddHours(6);
-            NormalerTag = Arbeitsbeginn.Add(Normal);
-            LangerTag = Arbeitsbeginn.Add(Lang);
+            ShortDay = StartOfWork.Add(Short).AddMinutes(BreakTimeInMinutes);
+            NormalDay = StartOfWork.Add(Normal).AddMinutes(BreakTimeInMinutes);
+            LongDay = StartOfWork.Add(Long).AddMinutes(BreakTimeInMinutes);
+        }
+
+        private void RefreshUserInterface()
+        {
+            OnPropertyChanged();
+            OnPropertyChanged("ShortDay");
+            OnPropertyChanged("NormalDay");
+            OnPropertyChanged("LongDay");
         }
         #endregion
     }

@@ -8,9 +8,16 @@ using System.Windows.Data;
 
 namespace Arbeitszeiterfassung.Client.Common.Converters
 {
-    public class TimeConverter : IValueConverter
+    public abstract class TimeConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
+        public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
+      
+    }
+
+    public class ConvertTime : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null && parameter.ToString() == "TimeToString")
             {
@@ -21,7 +28,7 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
                 return "07:00";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
             {
@@ -31,6 +38,50 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             }
             else
                 return "07:00";
+        }
+    }
+
+    public class ConvertMinutes : TimeConverter // : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && parameter.ToString() == "MinutesIntToString")
+            {
+                int minutes = (int)value;
+                return minutes.ToString();
+            }
+            else
+                return "0";
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                string convertValue = (string)value;
+                int minutes;
+                return int.TryParse(convertValue, out minutes) ? minutes : (object)0;
+            }
+            else
+                return 0;
+        }
+    }
+
+    public class ConvertDate : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && parameter.ToString() == "DateTimeToString")
+            {
+                DateTime Today = (DateTime)value;
+                return Today.ToString("D", CultureInfo.CreateSpecificCulture("de-DE"));
+            }
+            else
+                return value;
+        }
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
