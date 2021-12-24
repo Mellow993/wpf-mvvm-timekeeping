@@ -5,16 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Arbeitszeiterfassung.Client.Common.Converters"
         xmlns:local="clr-namespace:Arbeitszeiterfassung" 
-
         xmlns:ViewModel="clr-namespace:Arbeitszeiterfassung.Client.ViewModel" xmlns:Model="clr-namespace:Arbeitszeiterfassung.Model" x:Class="Arbeitszeiterfassung.MainWindow" 
-
         mc:Ignorable="d"
         Title="Arbeitszeiterfassung" Height="300" Width="500" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico">
         <Window.Resources>
-        <converters:TimeConverter x:Key="timeconverter"></converters:TimeConverter>
+        <converters:ConvertTime x:Key="timeconverter"></converters:ConvertTime>
+        <converters:ConvertMinutes x:Key="intconverter"></converters:ConvertMinutes>
+        <converters:ConvertDate x:Key="datetimeconverter"></converters:ConvertDate>
         </Window.Resources>
 
     <Grid>
+        <Grid.DataContext>
+            <ViewModel:WorkTimeCalculationViewModel/>
+        </Grid.DataContext>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="73*"/>
             <ColumnDefinition Width="177*"/>
@@ -31,13 +34,13 @@
         <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0"/>
 
         <Label Grid.Row="0" Content="Heute" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="188" IsReadOnly="True" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding WorktimeCalculation.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="188" IsReadOnly="True" Grid.ColumnSpan="2"/>
         <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
         <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
-            <StackPanel.DataContext>
-                <ViewModel:WorkTimeCalculationViewModel/>
-            </StackPanel.DataContext>
+        <!-- <StackPanel.DataContext>
+            <ViewModel:WorkTimeCalculationViewModel/>
+        </StackPanel.DataContext> -->
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -51,11 +54,11 @@
                 <Label Grid.Column="0" Content="Normaler Tag" HorizontalAlignment="Left" Margin="5,100,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="0" Content="Langer Tag" HorizontalAlignment="Left" Margin="5,130,0,0" VerticalAlignment="Top"/>
 
-                <TextBox Text="{Binding WorktimeCalculation.Arbeitsbeginn, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=07:00, FallbackValue=07:00}" Grid.Column="1" Margin="5,15,0,0" x:Name="TextBox_Arbeitsbeginn" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" MaxLines="1" ToolTip="Format (HH:MM)"/>
-                <TextBox Grid.Column="1" Margin="5,45,0,0" x:Name="TextBox_PauseInMinuten" HorizontalAlignment="Left"  MaxLines="1" MaxLength="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" ToolTip="Format Minuten"/>
-                <TextBox Text="{Binding WorktimeCalculation.KurzerTag, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,75,0,0" x:Name="TextBox_KuzerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"    IsReadOnly="True" Width="50"/>
-                <TextBox Text="{Binding WorktimeCalculation.NormalerTag, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
-                <TextBox Text="{Binding WorktimeCalculation.LangerTag, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
+                <TextBox Text="{Binding WorktimeCalculation.StartOfWork, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=07:00, FallbackValue=07:00}" Grid.Column="1" Margin="5,15,0,0" x:Name="TextBox_Arbeitsbeginn" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" MaxLines="1" ToolTip="Format (HH:MM)"/>
+                <TextBox Text="{Binding WorktimeCalculation.BreakTimeInMinutes, Converter={StaticResource ResourceKey=intconverter}, ConverterParameter=MinutesIntToString, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=0, FallbackValue=0}" Grid.Column="1" Margin="5,45,0,0" x:Name="TextBox_PauseInMinuten" HorizontalAlignment="Left"  MaxLines="1" MaxLength="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" ToolTip="Format Minuten"/>
+                <TextBox Text="{Binding WorktimeCalculation.ShortDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,75,0,0" x:Name="TextBox_KuzerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"    IsReadOnly="True" Width="50"/>
+                <TextBox Text="{Binding WorktimeCalculation.NormalDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
+                <TextBox Text="{Binding WorktimeCalculation.LongDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
 
                 <Label Grid.Column="1" Content="Uhr" HorizontalAlignment="Right" Margin="5, 10,10,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="1" Content="Uhr" HorizontalAlignment="Right" Margin="5, 40,10,0" VerticalAlignment="Top"/>
