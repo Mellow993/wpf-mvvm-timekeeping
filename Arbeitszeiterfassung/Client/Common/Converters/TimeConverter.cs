@@ -12,13 +12,25 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var Datum = (DateTime)value;
-            return Datum.ToLongTimeString();
+            if (value != null && parameter.ToString() == "TimeToString")
+            {
+                DateTime Datum = (DateTime)value;
+                return Datum.ToShortTimeString();
+            }
+            else
+                return "07:00";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value != null)
+            {
+                DateTime arbeitszeit;
+                DateTime.TryParse(value.ToString(), out arbeitszeit);
+                return arbeitszeit;
+            }
+            else
+                return "07:00";
         }
     }
 }

@@ -10,12 +10,11 @@
 
         mc:Ignorable="d"
         Title="Arbeitszeiterfassung" Height="300" Width="500" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico">
+        <Window.Resources>
+        <converters:TimeConverter x:Key="timeconverter"></converters:TimeConverter>
+        </Window.Resources>
 
     <Grid>
-        <Grid.DataContext>
-            <converters:TimeConverter/>
-        </Grid.DataContext>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="73*"/>
             <ColumnDefinition Width="177*"/>
@@ -37,8 +36,9 @@
         <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
             <StackPanel.DataContext>
-                <Model:WorkTimeCalculationModel/>
+                <ViewModel:WorkTimeCalculationViewModel/>
             </StackPanel.DataContext>
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"/>
@@ -51,11 +51,11 @@
                 <Label Grid.Column="0" Content="Normaler Tag" HorizontalAlignment="Left" Margin="5,100,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="0" Content="Langer Tag" HorizontalAlignment="Left" Margin="5,130,0,0" VerticalAlignment="Top"/>
 
-                <TextBox Grid.Column="1" Margin="5,15,0,0" x:Name="TextBox_Arbeitsbeginn" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" MaxLines="1" ToolTip="Format (HH:MM)"/>
+                <TextBox Text="{Binding WorktimeCalculation.Arbeitsbeginn, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=TwoWay, UpdateSourceTrigger=LostFocus, TargetNullValue=07:00, FallbackValue=07:00}" Grid.Column="1" Margin="5,15,0,0" x:Name="TextBox_Arbeitsbeginn" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" MaxLines="1" ToolTip="Format (HH:MM)"/>
                 <TextBox Grid.Column="1" Margin="5,45,0,0" x:Name="TextBox_PauseInMinuten" HorizontalAlignment="Left"  MaxLines="1" MaxLength="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" ToolTip="Format Minuten"/>
-                <TextBox Grid.Column="1" Margin="5,75,0,0" x:Name="TextBox_KuzerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"    IsReadOnly="True" Width="50"/>
-                <TextBox Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
-                <TextBox Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
+                <TextBox Text="{Binding WorktimeCalculation.KurzerTag, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,75,0,0" x:Name="TextBox_KuzerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"    IsReadOnly="True" Width="50"/>
+                <TextBox Text="{Binding WorktimeCalculation.NormalerTag, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
+                <TextBox Text="{Binding WorktimeCalculation.LangerTag, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50"/>
 
                 <Label Grid.Column="1" Content="Uhr" HorizontalAlignment="Right" Margin="5, 10,10,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="1" Content="Uhr" HorizontalAlignment="Right" Margin="5, 40,10,0" VerticalAlignment="Top"/>
