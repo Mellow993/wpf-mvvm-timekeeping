@@ -13,17 +13,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class TimekeepingViewModel : ViewModelBase
     {
+        public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
-        private WorkTimeMeasurementModel _workTimeMeasurementModel;
-        public WorkTimeMeasurementModel WorkTimeMeasurementModel
-        {
-            get => _workTimeMeasurementModel;
-            set => _workTimeMeasurementModel = value;
-        }
         public TimekeepingViewModel()
         {
-            //var _workTimeMeasurementModel = new WorkTimeMeasurementModel(); // why I can't initiate an object and use it in the entire class
             PrepareCommands();
+        }
+        public void PrepareCommands()
+        {
+            _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
+            _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
+            _finishWorkCommand = new DelegateCommand(FinishWork);
+            _exitWindowCommand = new DelegateCommand(ExitWindow);
         }
 
         #region Commands
@@ -38,34 +39,30 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         #endregion
 
-        public void PrepareCommands()
-        {
-            _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
-            _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
-            _finishWorkCommand = new DelegateCommand(FinishWork);
-            _exitWindowCommand = new DelegateCommand(ExitWindow);
-        }
 
         #region Methods
         private void StartTimekeeping()
         {
+            //WorkTimeMeasurementModel getTime = new WorkTimeMeasurementModel();
+            WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
+            MessageBox.Show(WorkTimeMeasurementModelInstance.StartWork.ToString());
         }
         
         private void StartBreakTime()
         {
-         
-            //MessageBox.Show(foo2.FinishWork.ToString());
+            WorkTimeMeasurementModelInstance.StartBreak = DateTime.Now;
         }
 
         private void FinishWork()
         {
-            //WorkTimeMeasurementModel foo2 = new WorkTimeMeasurementModel();
+            WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
+            WorkTimeMeasurementModelInstance.CalculateTimeSpan();
+            var totalTime = WorkTimeMeasurementModelInstance.EntireWorkTime.TotalSeconds.ToString();
+            MessageBox.Show(totalTime);
         }
 
-        private void ExitWindow()
-        {
-            Application.Current.Shutdown();
-        }
+        private void ExitWindow() => Application.Current.Shutdown();
+     
         #endregion
 
     }

@@ -15,7 +15,7 @@
         <converters:ConvertDate x:Key="datetimeconverter"></converters:ConvertDate>
         <converters:BoolConverter x:Key="boolconverter"></converters:BoolConverter>
 
-        
+
     </Window.Resources>
 
     <Grid>
@@ -38,7 +38,7 @@
         <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0"/>
 
         <Label Grid.Row="0" Content="Heute" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding WorktimeCalculation.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="158" IsReadOnly="True" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding WorktimeCalculation.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="179" IsReadOnly="True" Grid.ColumnSpan="2"/>
         <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
         <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
