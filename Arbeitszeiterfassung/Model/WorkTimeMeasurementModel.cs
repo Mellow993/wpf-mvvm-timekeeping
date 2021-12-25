@@ -15,29 +15,34 @@ namespace Arbeitszeiterfassung.Model
             set => _startWork = value;
         }
 
+
         private DateTime _startBreak;
         public DateTime StartBreak
         {
-            get => _startBreak;
+            private get => _startBreak;
             set => _startBreak = value;
         }
+
+
         private DateTime _finishWork;
         public DateTime FinishWork
         {
-            get => _finishWork;
+            private get => _finishWork;
             set => _finishWork = value;
         }
+
 
         private TimeSpan _entireWorkTime;
         public TimeSpan EntireWorkTime
         {
             get => _entireWorkTime;
-            private set => _entireWorkTime = value;
+            set => _entireWorkTime = value;
         }
 
-        private void CalculateTimeSpan()
-        {
 
+        public void CalculateTimeSpan()
+        {
+            EntireWorkTime = FinishWork.Subtract(StartWork);
         }
     }
 }

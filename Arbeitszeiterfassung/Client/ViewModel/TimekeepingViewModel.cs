@@ -13,18 +13,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class TimekeepingViewModel : ViewModelBase
     {
-        private static readonly WorkTimeMeasurementModel _workTimeMeasurementModel = new WorkTimeMeasurementModel();
-        //private WorkTimeMeasurementModel _workTimeMeasurementModel;
-        //public WorkTimeMeasurementModel WorkTimeMeasurementModel
-        //{
-        //    get => _workTimeMeasurementModel;
-        //    set => _workTimeMeasurementModel = value;
-        //}
-
-        public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance
-        {
-            get => _workTimeMeasurementModel;
-        }
+        public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
         public TimekeepingViewModel()
         {
@@ -54,25 +43,26 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #region Methods
         private void StartTimekeeping()
         {
-            WorkTimeMeasurementModel getTime = new WorkTimeMeasurementModel();
-            MessageBox.Show(getTime.StartWork.ToString());
+            //WorkTimeMeasurementModel getTime = new WorkTimeMeasurementModel();
+            WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
+            MessageBox.Show(WorkTimeMeasurementModelInstance.StartWork.ToString());
         }
         
         private void StartBreakTime()
         {
-            WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
-            _ = MessageBox.Show(WorkTimeMeasurementModelInstance.StartWork.ToString());
+            WorkTimeMeasurementModelInstance.StartBreak = DateTime.Now;
         }
 
         private void FinishWork()
         {
-            MessageBox.Show(WorkTimeMeasurementModelInstance.StartWork.ToString());
+            WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
+            WorkTimeMeasurementModelInstance.CalculateTimeSpan();
+            var totalTime = WorkTimeMeasurementModelInstance.EntireWorkTime.TotalSeconds.ToString();
+            MessageBox.Show(totalTime);
         }
 
-        private void ExitWindow()
-        {
-            Application.Current.Shutdown();
-        }
+        private void ExitWindow() => Application.Current.Shutdown();
+     
         #endregion
 
     }
