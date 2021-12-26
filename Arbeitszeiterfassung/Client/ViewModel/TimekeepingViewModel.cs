@@ -50,7 +50,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void StartTimekeeping()
         {
             WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
-            MessageBox.Show(WorkTimeMeasurementModelInstance.StartWork.ToString());
         }
         
         private void StartBreakTime()
@@ -70,13 +69,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             var grossTotalTime = WorkTimeMeasurementModelInstance.GrossWorkTime.TotalSeconds.ToString();
             var netTotalTime = WorkTimeMeasurementModelInstance.NetWorkTime.TotalSeconds.ToString();
             var breaktime = WorkTimeMeasurementModelInstance.BreakTime;
-            MessageBox.Show("Pausenzeit: " + breaktime.TotalSeconds.ToString());
-            MessageBox.Show("Gesamte Arbeitszeit brutto: " + grossTotalTime);
-            MessageBox.Show("Gesamte Arbeitszeit netto: " + grossTotalTime);
+            //MessageBox.Show("Pausenzeit: " + breaktime.TotalSeconds.ToString());
+            //MessageBox.Show("Gesamte Arbeitszeit brutto: " + grossTotalTime);
+            //MessageBox.Show("Gesamte Arbeitszeit netto: " + grossTotalTime);
         }
 
-        //TODO: Bind start to form 
-        // Bind shortDay, normal and long day
         private void HideForm()
         {
 

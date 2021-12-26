@@ -15,7 +15,5 @@ namespace Arbeitszeiterfassung
     /// </summary>
     public partial class App : Application
     {
-        //WorkTimeMeasurementModel timeMeasurementModel = new WorkTimeMeasurementModel();
-        //TimekeepingViewModel timekeepingViewModel = new TimekeepingViewModel(timeMeasurementModel);
     }
 }

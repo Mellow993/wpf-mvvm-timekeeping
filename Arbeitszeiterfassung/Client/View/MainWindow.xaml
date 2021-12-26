@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Arbeitszeiterfassung" 
         xmlns:ViewModel="clr-namespace:Arbeitszeiterfassung.Client.ViewModel" xmlns:Model="clr-namespace:Arbeitszeiterfassung.Model" x:Class="Arbeitszeiterfassung.MainWindow" 
         mc:Ignorable="d"
-        Title="Arbeitszeiterfassung" Height="300" Width="500" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico" ResizeMode="CanMinimize">
+        Title="Arbeitszeiterfassung" Height="300" Width="450" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico" ResizeMode="CanMinimize">
 
     <Window.Resources>
         <converters:ConvertTime x:Key="timeconverter"></converters:ConvertTime>
@@ -20,14 +20,9 @@
     </Window.DataContext>
 
     <Grid>
-
-
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="73*"/>
-            <ColumnDefinition Width="177*"/>
-            <ColumnDefinition Width="78*"/>
-            <ColumnDefinition Width="172*"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -39,8 +34,7 @@
         <Separator Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,2,0,0"/>
         <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0" Grid.ColumnSpan="2"/>
 
-        <Label Grid.Row="0" Content="Heute" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding WorkTimeMeasurementModelInstance.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="179" IsReadOnly="True" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding WorkTimeMeasurementModelInstance.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="179" IsReadOnly="True" Grid.ColumnSpan="2"/>
         <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,37,0,0"/>
         <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
@@ -74,11 +68,11 @@
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,130,10,0" VerticalAlignment="Top"/>
             </Grid>
         </StackPanel>
-        <ProgressBar HorizontalAlignment="Left" Height="15" Width="142" Margin="7,0,0,0" Grid.Row="2" VerticalAlignment="Center" ToolTip="Zeigt den aktuellen Arbeitsfortschritt an" Grid.Column="1"/>
-        <Label Content="Fortschritt" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
-        <Button x:Name="Button_Speichern" Content="Speichern" Grid.Column="3" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="69" ToolTip="Speichert die Arbeitszeit"/>
-        <Button x:Name="Button_Beenden" Content="Beenden" Grid.Column="3" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="64" ToolTip="Beende die Zeiterfassung"/>
-        <Button x:Name="Button_Verstecken" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="77" ToolTip="Versteckt das Fenster in der Taskbar" Grid.ColumnSpan="2"/>
+        <ProgressBar HorizontalAlignment="Left" Height="15" Width="107" Margin="77,0,0,0" Grid.Row="2" VerticalAlignment="Center" ToolTip="Zeigt den aktuellen Arbeitsfortschritt an" Grid.Column="0"/>
+        <Label Content="Fortschritt" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
+        <Button x:Name="Button_Speichern" Content="Speichern" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Width="68" ToolTip="Speichert die Arbeitszeit"/>
+        <Button x:Name="Button_Beenden" Command="{Binding ExitWindowCommand}" Content="Beenden" Grid.Column="3" HorizontalAlignment="Right" Margin="100,0,12,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="68" ToolTip="Beende die Zeiterfassung"/>
+        <Button x:Name="Button_Verstecken" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="68" ToolTip="Versteckt das Fenster in der Taskbar" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2">
             <StackPanel.DataContext>
                 <ViewModel:TimekeepingViewModel/>
@@ -97,5 +91,6 @@
                 <Button Content="Finish work" Command="{Binding FinishWorkCommand}" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
             </Grid>
         </StackPanel>
+        <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
     </Grid>
 </Window>
