@@ -61,11 +61,10 @@ namespace Arbeitszeiterfassung.Model
             }
             else
             {
-                var timeFromStartTillBreak = StartBreak.Subtract(StartWork);
+                var timeFromStartTillBreak = (TimeSpan)StartBreak.Subtract(StartWork);
                 BreakTime = ContinueWork.Subtract(StartBreak);
                 var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
-                EntireWorkTime = 
-
+                EntireWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
             }
         }
     }

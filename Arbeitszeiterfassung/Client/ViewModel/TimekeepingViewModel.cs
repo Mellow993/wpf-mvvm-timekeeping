@@ -69,7 +69,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
             var totalTime = WorkTimeMeasurementModelInstance.EntireWorkTime.TotalSeconds.ToString();
-            MessageBox.Show(totalTime);
+            var breaktime = WorkTimeMeasurementModelInstance.BreakTime;
+            MessageBox.Show("Pausenzeit: " + breaktime.TotalSeconds.ToString());
+            MessageBox.Show("Gesamte Arbeitszeit: " +  totalTime);
         }
 
         private void HideForm()

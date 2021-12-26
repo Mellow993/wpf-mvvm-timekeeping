@@ -97,8 +97,8 @@
                 <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
                 <Button Content="Start work" Command="{Binding StartTimekeepingCommand}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,-45,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
                 <Button Content="Have a break" Command="{Binding StartBreakTimeCommand}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,30,-45,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Continue" Command="{Binding ContinueWorkCommand}" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="71"/>
                 <Button Content="Finish work" Command="{Binding FinishWorkCommand}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,60,-45,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Continue" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="71"/>
             </Grid>
         </StackPanel>
     </Grid>
