@@ -23,6 +23,19 @@ namespace Arbeitszeiterfassung.Model
             set => _startBreak = value;
         }
 
+        private DateTime _continueWork;
+
+        private TimeSpan _breakTime;
+        public TimeSpan BreakTime
+        {
+            get => _breakTime;
+            set => _breakTime = value;
+        }
+        public DateTime ContinueWork
+        {
+            private get => _continueWork;
+            set => _continueWork = value;
+        }
 
         private DateTime _finishWork;
         public DateTime FinishWork
@@ -42,7 +55,17 @@ namespace Arbeitszeiterfassung.Model
 
         public void CalculateTimeSpan()
         {
-            EntireWorkTime = FinishWork.Subtract(StartWork);
+            if(StartBreak == DateTime.MinValue)
+            {
+                EntireWorkTime = FinishWork.Subtract(StartWork);
+            }
+            else
+            {
+                var timeFromStartTillBreak = (TimeSpan)StartBreak.Subtract(StartWork);
+                BreakTime = ContinueWork.Subtract(StartBreak);
+                var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
+                EntireWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+            }
         }
     }
 }
