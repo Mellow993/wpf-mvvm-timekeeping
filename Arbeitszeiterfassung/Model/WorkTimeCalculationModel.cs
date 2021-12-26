@@ -51,9 +51,8 @@ namespace Arbeitszeiterfassung.Model
 
         #region Properties timespans without break
         private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
-        private TimeSpan Normal { get => new TimeSpan(7, 36, 0); }
-        private TimeSpan Long { get => new TimeSpan(10, 0, 0); }
-
+        private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
+        private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
         #endregion
 
         #region Properties additional break
