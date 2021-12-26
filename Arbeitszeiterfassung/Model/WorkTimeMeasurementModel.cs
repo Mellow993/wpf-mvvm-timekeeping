@@ -16,12 +16,67 @@ namespace Arbeitszeiterfassung.Model
             InPause,
             Fertig
         }
+
+        public DateTime Today { get => DateTime.Now; }
+
         private DateTime _startWork;
         public DateTime StartWork
         {
             get => _startWork;
-            set => _startWork = value;
+            set
+            {
+                if (_startWork != value)
+                {
+                    _startWork = value;
+                    CalculateWorkTime();
+                    UpdateUserinterface();
+                }
+            }
         }
+
+        #region Merged from calculation class
+        private DateTime _shortDay;
+        public DateTime ShortDay
+        {
+            get => _shortDay;
+            private set => _shortDay = value;
+        }
+
+        private DateTime _normalDay;
+        public DateTime NormalDay
+        {
+            get => _normalDay;
+            private set => _normalDay = value;
+        }
+
+        private DateTime _longDay;
+        public DateTime LongDay
+        {
+            get => _longDay;
+            private set => _longDay = value;
+        }
+
+        #region Properties timespans without break
+        private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
+        private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
+        private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
+        #endregion
+
+        private int _breakTimeInMinutes;
+        public int BreakTimeInMinutes
+        {
+            get => _breakTimeInMinutes;
+            set
+            {
+                if (_breakTimeInMinutes != value)
+                {
+                    _breakTimeInMinutes = value;
+                    //CalculateWorkTime();
+                    //UpdateUserinterface();
+                }
+            }
+        }
+        #endregion
 
         private DateTime _startBreak;
         public DateTime StartBreak
@@ -63,6 +118,21 @@ namespace Arbeitszeiterfassung.Model
         {
             get => _grossWorkTime;
             set => _grossWorkTime = value;
+        }
+
+        private void CalculateWorkTime()
+        {
+            ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
+            NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
+            LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
+        }
+
+        private void UpdateUserinterface()
+        {
+            OnPropertyChanged(nameof(StartWork));
+            OnPropertyChanged(nameof(ShortDay));
+            OnPropertyChanged(nameof(NormalDay));
+            OnPropertyChanged(nameof(LongDay));
         }
 
 
