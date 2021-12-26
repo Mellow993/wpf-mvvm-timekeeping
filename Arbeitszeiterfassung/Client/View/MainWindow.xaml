@@ -15,11 +15,12 @@
         <converters:ConvertDate x:Key="datetimeconverter"></converters:ConvertDate>
         <converters:BoolConverter x:Key="boolconverter"></converters:BoolConverter>
     </Window.Resources>
+    <Window.DataContext>
+        <ViewModel:TimekeepingViewModel/>
+    </Window.DataContext>
 
     <Grid>
-        <Grid.DataContext>
-            <ViewModel:TimekeepingViewModel/>
-        </Grid.DataContext>
+
 
 
         <Grid.ColumnDefinitions>
@@ -83,7 +84,7 @@
                 <ViewModel:TimekeepingViewModel/>
             </StackPanel.DataContext>
 
-            <Grid>
+            <Grid Height="162">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
@@ -96,6 +97,5 @@
                 <Button Content="Finish work" Command="{Binding FinishWorkCommand}" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
             </Grid>
         </StackPanel>
-        <Label Content="Zustand" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
     </Grid>
 </Window>
