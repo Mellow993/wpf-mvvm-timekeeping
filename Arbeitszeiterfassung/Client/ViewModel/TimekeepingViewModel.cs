@@ -49,7 +49,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #region Methods
         private void StartTimekeeping()
         {
-            //WorkTimeMeasurementModel getTime = new WorkTimeMeasurementModel();
             WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
             MessageBox.Show(WorkTimeMeasurementModelInstance.StartWork.ToString());
         }
