@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Arbeitszeiterfassung.ViewModel;
 
 namespace Arbeitszeiterfassung.Model
 {
-    class WorkTimeMeasurementModel
+    class WorkTimeMeasurementModel : ViewModelBase
     {
+        enum State
+        {
+            VormArbeiten,
+            AmArbeiten,
+            InPause,
+            Fertig
+        }
         private DateTime _startWork;
         public DateTime StartWork
         {
             get => _startWork;
             set => _startWork = value;
         }
-
 
         private DateTime _startBreak;
         public DateTime StartBreak
@@ -44,12 +51,18 @@ namespace Arbeitszeiterfassung.Model
             set => _finishWork = value;
         }
 
-
-        private TimeSpan _entireWorkTime;
-        public TimeSpan EntireWorkTime
+        private TimeSpan _neteWorkTime;
+        public TimeSpan NetWorkTime
         {
-            get => _entireWorkTime;
-            set => _entireWorkTime = value;
+            get => _neteWorkTime;
+            set => _neteWorkTime = value;
+        }
+
+        private TimeSpan _grossWorkTime;
+        public TimeSpan GrossWorkTime
+        {
+            get => _grossWorkTime;
+            set => _grossWorkTime = value;
         }
 
 
@@ -57,14 +70,15 @@ namespace Arbeitszeiterfassung.Model
         {
             if(StartBreak == DateTime.MinValue)
             {
-                EntireWorkTime = FinishWork.Subtract(StartWork);
+                GrossWorkTime = FinishWork.Subtract(StartWork);
             }
             else
             {
-                var timeFromStartTillBreak = (TimeSpan)StartBreak.Subtract(StartWork);
+                var timeFromStartTillBreak = StartBreak.Subtract(StartWork);
                 BreakTime = ContinueWork.Subtract(StartBreak);
                 var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
-                EntireWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+                NetWorkTime = timeFromStartTillBreak + timeFromBreakTillFinish;
+                GrossWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
             }
         }
     }
