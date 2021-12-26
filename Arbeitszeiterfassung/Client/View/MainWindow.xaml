@@ -25,7 +25,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="73*"/>
             <ColumnDefinition Width="177*"/>
-            <ColumnDefinition Width="250*"/>
+            <ColumnDefinition Width="78*"/>
+            <ColumnDefinition Width="172*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -35,12 +36,12 @@
         </Grid.RowDefinitions>
 
         <Separator Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,2,0,0"/>
-        <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0"/>
+        <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0" Grid.ColumnSpan="2"/>
 
         <Label Grid.Row="0" Content="Heute" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding WorktimeCalculation.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="52,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="179" IsReadOnly="True" Grid.ColumnSpan="2"/>
-        <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
-        <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0"/>
+        <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,37,0,0"/>
+        <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
             <!-- <StackPanel.DataContext>
             <ViewModel:WorkTimeCalculationViewModel/>
@@ -74,32 +75,27 @@
         </StackPanel>
         <ProgressBar HorizontalAlignment="Left" Height="15" Width="142" Margin="7,0,0,0" Grid.Row="2" VerticalAlignment="Center" ToolTip="Zeigt den aktuellen Arbeitsfortschritt an" Grid.Column="1"/>
         <Label Content="Fortschritt" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
-        <Button x:Name="Button_Speichern" Content="Speichern" Grid.Column="2" HorizontalAlignment="Left" Margin="98,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="69" ToolTip="Speichert die Arbeitszeit"/>
-        <Button x:Name="Button_Beenden" Content="Beenden" Grid.Column="2" HorizontalAlignment="Left" Margin="178,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="64" ToolTip="Beende die Zeiterfassung"/>
-        <Button x:Name="Button_Verstecken" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="77" ToolTip="Versteckt das Fenster in der Taskbar"/>
-        <Label Content="Arbeitszeit gesamt" Grid.Column="2" HorizontalAlignment="Left" Margin="12,135,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <StackPanel Grid.Column="2" Grid.Row="1">
+        <Button x:Name="Button_Speichern" Content="Speichern" Grid.Column="3" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="69" ToolTip="Speichert die Arbeitszeit"/>
+        <Button x:Name="Button_Beenden" Content="Beenden" Grid.Column="3" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="64" ToolTip="Beende die Zeiterfassung"/>
+        <Button x:Name="Button_Verstecken" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="77" ToolTip="Versteckt das Fenster in der Taskbar" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2">
             <StackPanel.DataContext>
                 <ViewModel:TimekeepingViewModel/>
             </StackPanel.DataContext>
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Label Content="Arbeitszeit ges" HorizontalAlignment="Center" Margin="0,77,0,0" VerticalAlignment="Top"/>
-                <Label Content="min" Grid.Column="1" Margin="93,95,-37,0" VerticalAlignment="Top"/>
-                <Label Content="(hh:mm)" Grid.Column="1" Margin="85,112,-45,0" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
-                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
-                <Button Content="Start work" Command="{Binding StartTimekeepingCommand}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,-45,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Have a break" Command="{Binding StartBreakTimeCommand}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,30,-45,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Continue" Command="{Binding ContinueWorkCommand}" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="71"/>
-                <Button Content="Finish work" Command="{Binding FinishWorkCommand}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,60,-45,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Start work" Command="{Binding StartTimekeepingCommand}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Have a break" Command="{Binding StartBreakTimeCommand}" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Center" Margin="0, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Continue" Command="{Binding ContinueWorkCommand}" IsEnabled="False" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="145"/>
+                <Button Content="Finish work" Command="{Binding FinishWorkCommand}" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
             </Grid>
         </StackPanel>
+        <Label Content="Zustand" Grid.Column="2" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
     </Grid>
 </Window>
