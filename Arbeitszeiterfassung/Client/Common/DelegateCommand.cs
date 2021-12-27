@@ -10,7 +10,8 @@ namespace Arbeitszeiterfassung.Client.Common
     class DelegateCommand : ICommand
     {
         private Action _execute;
-        public DelegateCommand(Action execute) {_execute = execute; }
+
+        public DelegateCommand(Action execute) { _execute = execute; }
 
         public event EventHandler CanExecuteChanged;
 

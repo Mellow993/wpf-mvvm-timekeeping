@@ -11,6 +11,7 @@ namespace Arbeitszeiterfassung.Model
     {
 
         #region Properties timespans without break
+        public string[] State = new string[] { "", "Arbeiten", "Pause", "Feierabend"};
 
         public DateTime Today { get => DateTime.Now; }
 
@@ -65,7 +66,7 @@ namespace Arbeitszeiterfassung.Model
                 {
                     _breakTimeInMinutes = value;
                     //CalculateWorkTime();
-                    //UpdateUserinterface();
+                    UpdateUserinterface();
                 }
             }
         }
@@ -155,6 +156,7 @@ namespace Arbeitszeiterfassung.Model
             OnPropertyChanged(nameof(ShortDay));
             OnPropertyChanged(nameof(NormalDay));
             OnPropertyChanged(nameof(LongDay));
+            OnPropertyChanged(nameof(BreakTime));
             OnPropertyChanged(nameof(NetWorkTime));
             OnPropertyChanged(nameof(GrossWorkTime));
         }

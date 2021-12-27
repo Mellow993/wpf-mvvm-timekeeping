@@ -18,6 +18,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public TimekeepingViewModel() 
         {
             SetupCommands();
+            _canCloseCommand = new DelegateCommand(StartTimekeeping);
         }
         public void SetupCommands()
         {
@@ -38,6 +39,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _hideFormCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
+        private DelegateCommand _canCloseCommand;
 
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
         public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
