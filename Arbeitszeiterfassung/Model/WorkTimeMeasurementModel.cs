@@ -51,9 +51,12 @@ namespace Arbeitszeiterfassung.Model
             private set => _longDay = value;
         }
 
+        #region Properties TimeSpans
+
         private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
         private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
         private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
+        #endregion
         
 
         private int _breakTimeInMinutes;
@@ -117,20 +120,26 @@ namespace Arbeitszeiterfassung.Model
         #region Public methods
         public void CalculateTimeSpan()
         {
-            if (StartBreak == DateTime.MinValue)
-                CalulateTimeSpanWithoutBreak();
+            if (Validation.IsServiceTime(StartWork, FinishWork))
+            {
+                if (StartBreak == DateTime.MinValue)
+                    CalulateTimeSpanWithoutBreak();
+                else
+                    CalculateTimeSpanWithBreak();
+            }
             else
-                CalculateTimeSpanWithBreak();
+                throw new Exception("wrong service time");
+
         }
         #endregion
 
         #region Private methods
-
         private void CalculateWorkTime()
         {
             ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
             NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
             LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
+            UpdateUserinterface();
         }
 
         private void CalulateTimeSpanWithoutBreak()
