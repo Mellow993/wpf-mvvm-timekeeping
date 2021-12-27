@@ -9,21 +9,8 @@ namespace Arbeitszeiterfassung.Model
 {
     class WorkTimeMeasurementModel : ViewModelBase
     {
-        public enum teststate
-        {
-            VormArbeiten,
-            AmArbeiten,
-            InPause,
-            Fertig
-        }
 
-        public List<string> State = new()
-        {
-            "am Arbeiten",
-            "in Pause",
-            "Fertig"
-        };
-
+        #region Properties timespans without break
 
         public DateTime Today { get => DateTime.Now; }
 
@@ -42,7 +29,6 @@ namespace Arbeitszeiterfassung.Model
             }
         }
 
-        #region Merged from calculation class
         private DateTime _shortDay;
         public DateTime ShortDay
         {
@@ -64,11 +50,10 @@ namespace Arbeitszeiterfassung.Model
             private set => _longDay = value;
         }
 
-        #region Properties timespans without break
         private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
         private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
         private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
-        #endregion
+        
 
         private int _breakTimeInMinutes;
         public int BreakTimeInMinutes
@@ -84,7 +69,6 @@ namespace Arbeitszeiterfassung.Model
                 }
             }
         }
-        #endregion
 
         private DateTime _startBreak;
         public DateTime StartBreak
@@ -127,6 +111,19 @@ namespace Arbeitszeiterfassung.Model
             get => _grossWorkTime;
             set => _grossWorkTime = value;
         }
+        #endregion
+
+        #region Public methods
+        public void CalculateTimeSpan()
+        {
+            if (StartBreak == DateTime.MinValue)
+                CalulateTimeSpanWithoutBreak();
+            else
+                CalculateTimeSpanWithBreak();
+        }
+        #endregion
+
+        #region Private methods
 
         private void CalculateWorkTime()
         {
@@ -135,31 +132,32 @@ namespace Arbeitszeiterfassung.Model
             LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
         }
 
+        private void CalulateTimeSpanWithoutBreak()
+        {
+            NetWorkTime= FinishWork.Subtract(StartWork);
+            GrossWorkTime = NetWorkTime;
+            UpdateUserinterface();
+        }
+
+        private void CalculateTimeSpanWithBreak()
+        {
+            var timeFromStartTillBreak = StartBreak.Subtract(StartWork);
+            BreakTime = ContinueWork.Subtract(StartBreak);
+            var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
+            NetWorkTime = new TimeSpan(8, 36, 5); //timeFromStartTillBreak + timeFromBreakTillFinish;
+            GrossWorkTime = new TimeSpan(10, 58, 0); // timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+            UpdateUserinterface();
+        }
+
         private void UpdateUserinterface()
         {
             OnPropertyChanged(nameof(StartWork));
             OnPropertyChanged(nameof(ShortDay));
             OnPropertyChanged(nameof(NormalDay));
             OnPropertyChanged(nameof(LongDay));
+            OnPropertyChanged(nameof(NetWorkTime));
+            OnPropertyChanged(nameof(GrossWorkTime));
         }
-
-
-        public void CalculateTimeSpan()
-        {
-            if(StartBreak == DateTime.MinValue)
-            {
-                GrossWorkTime = FinishWork.Subtract(StartWork);
-            }
-            else
-            {
-                var timeFromStartTillBreak = StartBreak.Subtract(StartWork);
-                BreakTime = ContinueWork.Subtract(StartBreak);
-                var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
-                NetWorkTime = timeFromStartTillBreak + timeFromBreakTillFinish;
-                GrossWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
-                
-                OnPropertyChanged(nameof(NetWorkTime));
-            }
-        }
+        #endregion
     }
 }
