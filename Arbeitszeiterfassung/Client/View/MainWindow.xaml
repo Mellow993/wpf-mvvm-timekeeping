@@ -60,6 +60,7 @@
                 <TextBox Text="{Binding WorkTimeMeasurementModelInstance.ShortDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,75,0,0" x:Name="TextBox_KuzerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"    IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox Text="{Binding WorkTimeMeasurementModelInstance.NormalDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox Text="{Binding WorkTimeMeasurementModelInstance.LongDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
+                <TextBox Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" Margin="5,170,0,0" x:Name="TextBox_State" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
 
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Content="min" HorizontalAlignment="Right" Margin="0,40,10,0" VerticalAlignment="Top"/>
@@ -78,17 +79,22 @@
                 <ViewModel:TimekeepingViewModel/>
             </StackPanel.DataContext>
 
-            <Grid Height="162">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Start work" Command="{Binding StartTimekeepingCommand}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Have a break" Command="{Binding StartBreakTimeCommand}" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Center" Margin="0, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Continue" Command="{Binding ContinueWorkCommand}" IsEnabled="False" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="145"/>
-                <Button Content="Finish work" Command="{Binding FinishWorkCommand}" IsEnabled="False" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Start" Command="{Binding StartTimekeepingCommand}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Weiter" Command="{Binding ContinueWorkCommand}" IsEnabled="True" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="145"/>
+                <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <TextBox Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Mode=OneWay}" HorizontalAlignment="Left" Margin="125,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
+                <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="10,126,0,0" VerticalAlignment="Top"/>
+                <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Margin="125,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" IsReadOnly="True"/>
+
             </Grid>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
