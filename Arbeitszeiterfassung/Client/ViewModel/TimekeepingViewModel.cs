@@ -15,7 +15,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     {
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
-        public TimekeepingViewModel()
+        public TimekeepingViewModel() 
         {
             SetupCommands();
         }
@@ -29,7 +29,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _saveCommand = new DelegateCommand(Save);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
         }
-
 
         #region Commands
         private DelegateCommand _startTimekeepingCommand;
@@ -49,47 +48,26 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand SaveCommand { get => _saveCommand; }
         #endregion
 
-
-        #region Methods
-        private void StartTimekeeping()
-        {
-            WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
-        }
+        #region private methods
+        private void StartTimekeeping() => WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
         
-        private void StartBreakTime()
-        {
-            WorkTimeMeasurementModelInstance.StartBreak = DateTime.Now;
-        }        
+        private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
         
-        private void ContinueWork()
-        {
-           WorkTimeMeasurementModelInstance.ContinueWork = DateTime.Now;
-        }
-
+        private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
+     
         private void FinishWork()
         {
-            WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
+            WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
-            var grossTotalTime = WorkTimeMeasurementModelInstance.GrossWorkTime.ToString(@"hh\:mm");
-            var netTotalTime = WorkTimeMeasurementModelInstance.NetWorkTime.ToString(@"hh\:mm");
-            var breaktime = WorkTimeMeasurementModelInstance.BreakTime.ToString(@"hh\:mm");
-            MessageBox.Show("Pausenzeit: " + breaktime);
-            MessageBox.Show("Gesamte Arbeitszeit brutto: " + grossTotalTime);
-            MessageBox.Show("Gesamte Arbeitszeit netto: " + netTotalTime);
         }
 
-        private void HideForm()
-        {
-            throw new NotImplementedException();
-
-        }
-        private void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ExitWindow() => Application.Current.Shutdown();
+        private void HideForm() => throw new NotImplementedException();
      
+        private void Save() => throw new NotImplementedException();
+     
+        private void ExitWindow() => Application.Current.Shutdown();
+
+        private DateTime GetDateTime() => DateTime.Now;
         #endregion
 
     }
