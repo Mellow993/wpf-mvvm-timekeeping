@@ -9,13 +9,21 @@ namespace Arbeitszeiterfassung.Model
 {
     class WorkTimeMeasurementModel : ViewModelBase
     {
-        enum State
+        public enum teststate
         {
             VormArbeiten,
             AmArbeiten,
             InPause,
             Fertig
         }
+
+        public List<string> State = new List<string>()
+        {
+            "am Arbeiten",
+            "in Pause",
+            "Fertig"
+        };
+
 
         public DateTime Today { get => DateTime.Now; }
 
