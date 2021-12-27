@@ -15,6 +15,25 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
       
     }
 
+    public class ConvertTimeSpan : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && parameter.ToString() == "TimeSpanToString")
+            {
+                var worktimespan = (TimeSpan)value;
+                return worktimespan.ToString(@"hh\:mm");
+            }
+            else
+                return "00:00";
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();    
+        }
+    }
+
     public class ConvertTime : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -14,6 +14,7 @@
         <converters:ConvertMinutes x:Key="intconverter"></converters:ConvertMinutes>
         <converters:ConvertDate x:Key="datetimeconverter"></converters:ConvertDate>
         <converters:BoolConverter x:Key="boolconverter"></converters:BoolConverter>
+        <converters:ConvertTimeSpan x:Key="timespanconverter"></converters:ConvertTimeSpan>
     </Window.Resources>
     <Window.DataContext>
         <ViewModel:TimekeepingViewModel/>
@@ -90,10 +91,10 @@
                 <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
                 <Button Content="Weiter" Command="{Binding ContinueWorkCommand}" IsEnabled="True" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="145"/>
                 <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <TextBox Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Mode=OneWay}" HorizontalAlignment="Left" Margin="125,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62"/>
-                <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="10,126,0,0" VerticalAlignment="Top"/>
-                <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Margin="125,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" IsReadOnly="True"/>
+                <TextBox Text="{Binding WorkTimeMeasurementModelInstance.NetWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="115,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
+                <TextBox Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="115,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
+                <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="8,126,0,0" VerticalAlignment="Top"/>
+                <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="8,156,0,0" VerticalAlignment="Top"/>
 
             </Grid>
         </StackPanel>

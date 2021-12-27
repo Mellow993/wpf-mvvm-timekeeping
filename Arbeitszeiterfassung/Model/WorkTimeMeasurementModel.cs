@@ -17,7 +17,7 @@ namespace Arbeitszeiterfassung.Model
             Fertig
         }
 
-        public List<string> State = new List<string>()
+        public List<string> State = new()
         {
             "am Arbeiten",
             "in Pause",
@@ -157,6 +157,8 @@ namespace Arbeitszeiterfassung.Model
                 var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
                 NetWorkTime = timeFromStartTillBreak + timeFromBreakTillFinish;
                 GrossWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+                
+                OnPropertyChanged(nameof(NetWorkTime));
             }
         }
     }
