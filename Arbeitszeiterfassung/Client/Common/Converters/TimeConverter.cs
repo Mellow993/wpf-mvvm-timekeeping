@@ -49,14 +49,8 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
-            {
-                DateTime arbeitszeit;
-                DateTime.TryParse(value.ToString(), out arbeitszeit);
-                return arbeitszeit;
-            }
-            else
-                return "07:00";
+            throw new NotImplementedException();
+
         }
     }
 
@@ -75,14 +69,8 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
-            {
-                string convertValue = (string)value;
-                int minutes;
-                return int.TryParse(convertValue, out minutes) ? minutes : (object)0;
-            }
-            else
-                return 0;
+            throw new NotImplementedException();
+
         }
     }
 
