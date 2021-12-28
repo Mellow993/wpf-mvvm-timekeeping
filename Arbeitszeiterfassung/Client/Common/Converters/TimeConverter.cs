@@ -30,7 +30,27 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();    
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ConvertTimeSpanToMiniutes : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && parameter.ToString() == "TimeSpanMinutesToString")
+            {
+                var worktimespanminutes = (TimeSpan)value;
+               // var strworktimespanminutes = String.Format(@"{0:mm\:ss\.f}", worktimespanminutes);
+                return worktimespanminutes.TotalMinutes.ToString();
+            }
+            else
+                return "0";
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

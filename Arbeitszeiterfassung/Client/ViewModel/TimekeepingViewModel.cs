@@ -61,6 +61,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
+            var breaktime = WorkTimeMeasurementModelInstance.BreakTime.TotalMinutes.ToString();
+            MessageBox.Show(breaktime);
         }
 
         private void HideForm() => throw new NotImplementedException();
