@@ -15,6 +15,7 @@
         <converters:ConvertDate x:Key="datetimeconverter"></converters:ConvertDate>
         <converters:BoolConverter x:Key="boolconverter"></converters:BoolConverter>
         <converters:ConvertTimeSpan x:Key="timespanconverter"></converters:ConvertTimeSpan>
+        <converters:ConvertTimeSpanToMiniutes x:Key="timespanconvertertominutes"></converters:ConvertTimeSpanToMiniutes>
     </Window.Resources>
     <Window.DataContext>
         <ViewModel:TimekeepingViewModel/>
@@ -61,7 +62,7 @@
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.NormalDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.LongDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" Margin="5,170,0,0" x:Name="TextBox_State" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
-                <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.BreakTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" IsReadOnly="True" MaxLines="1"/>
+                <TextBox x:Name="TextBox_BreakTimeInMinutes" BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.BreakTime, Converter={StaticResource ResourceKey=timespanconvertertominutes}, ConverterParameter=TimeSpanMinutesToString, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" IsReadOnly="True" MaxLines="1"/>
 
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Content="hh:mm" HorizontalAlignment="Right" Margin="0,40,0,0" VerticalAlignment="Top"/>
