@@ -152,10 +152,11 @@ namespace Arbeitszeiterfassung.Model
         private void CalculateTimeSpanWithBreak()
         {
             var timeFromStartTillBreak = StartBreak.Subtract(StartWork);
-            BreakTime = ContinueWork.Subtract(StartBreak);
+            //BreakTime = ContinueWork.Subtract(StartBreak);
             var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
-            NetWorkTime = new TimeSpan(8, 36, 5); //timeFromStartTillBreak + timeFromBreakTillFinish;
-            GrossWorkTime = new TimeSpan(10, 58, 0); // timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+            BreakTime = new TimeSpan(1, 1, 1); //DEbugging
+            NetWorkTime = new TimeSpan(8, 36, 5); // #debugging //timeFromStartTillBreak + timeFromBreakTillFinish;
+            GrossWorkTime = new TimeSpan(10, 58, 0); //#debugging // timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
             UpdateUserinterface();
         }
 
