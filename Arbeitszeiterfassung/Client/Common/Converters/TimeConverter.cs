@@ -41,8 +41,8 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             if (value != null && parameter.ToString() == "TimeSpanMinutesToString")
             {
                 var worktimespanminutes = (TimeSpan)value;
-               // var strworktimespanminutes = String.Format(@"{0:mm\:ss\.f}", worktimespanminutes);
-                return worktimespanminutes.TotalMinutes.ToString();
+                var test = worktimespanminutes.TotalMinutes.ToString("#");
+                return test; // worktimespanminutes.TotalMinutes.ToString("#");
             }
             else
                 return "0";

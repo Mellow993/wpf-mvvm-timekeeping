@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+//using System.Windows.Forms;
+
+
 using Arbeitszeiterfassung.Model;
 
 namespace Arbeitszeiterfassung.Client.ViewModel
@@ -61,8 +64,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
-            var breaktime = WorkTimeMeasurementModelInstance.BreakTime.TotalMinutes.ToString();
-            MessageBox.Show(breaktime);
         }
 
         private void HideForm() => throw new NotImplementedException();

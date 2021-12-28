@@ -52,7 +52,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" Content="Arbeitsbeginn" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="Pause in Minuten" HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top"/>
+                <Label Content="Pause" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="0" Content="Kurzer Tag" HorizontalAlignment="Left" Margin="5, 70,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="0" Content="Normaler Tag" HorizontalAlignment="Left" Margin="5,100,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="0" Content="Langer Tag" HorizontalAlignment="Left" Margin="5,130,0,0" VerticalAlignment="Top"/>
@@ -65,7 +65,7 @@
                 <TextBox x:Name="TextBox_BreakTimeInMinutes" BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.BreakTime, Converter={StaticResource ResourceKey=timespanconvertertominutes}, ConverterParameter=TimeSpanMinutesToString, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" IsReadOnly="True" MaxLines="1"/>
 
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="hh:mm" HorizontalAlignment="Right" Margin="0,40,0,0" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" Content="Minuten" HorizontalAlignment="Right" Margin="0,40,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,70,10,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,100,10,0" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,130,10,0" VerticalAlignment="Top"/>
