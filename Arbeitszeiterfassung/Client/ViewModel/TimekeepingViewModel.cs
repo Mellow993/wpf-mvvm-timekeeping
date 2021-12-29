@@ -7,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
-//using System.Windows.Forms;
+using Form =  System.Windows.Forms;
+using System.Drawing;
 
 
 using Arbeitszeiterfassung.Model;
@@ -17,21 +18,31 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     class TimekeepingViewModel : ViewModelBase
     {
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
-
+        Form.NotifyIcon _notifyIcon = new Form.NotifyIcon();
         public TimekeepingViewModel() 
         {
             SetupCommands();
-            _canCloseCommand = new DelegateCommand(StartTimekeeping);
         }
-        public void SetupCommands()
+
+        private void SetupCommands()
+        {
+            LogicCommands();
+            ControlCommands();
+        }
+        private void LogicCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
             _continueWorkCommand = new DelegateCommand(ContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork);
-            _hideFormCommand = new DelegateCommand(HideForm);
+        }
+
+        private void ControlCommands()
+        {
             _saveCommand = new DelegateCommand(Save);
+            _hideFormCommand = new DelegateCommand(HideForm);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
+
         }
 
         #region Commands
@@ -42,7 +53,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _hideFormCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
-        private DelegateCommand _canCloseCommand;
+        //private DelegateCommand _canCloseCommand;
 
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
         public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
@@ -54,6 +65,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region private methods
+
+        private bool IsEnabledButton()
+        {
+            return false;
+        }
         private void StartTimekeeping() => WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
         
         private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
@@ -66,11 +82,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
 
-        private void HideForm() => throw new NotImplementedException();
+        private void HideForm()
+        {
+            //this.WindowState = System.Windows.WindowState.Minimized;
+            //_notifyIcon.Icon = new Icon(@"../42604hourglassnotdone_99029.ico");
+           _notifyIcon.ShowBalloonTip(5000, "hi", "hallo welt", Form.ToolTipIcon.Info);
+        }
      
         private void Save() => throw new NotImplementedException();
      
-        private void ExitWindow() => Application.Current.Shutdown();
+       private void ExitWindow() => Application.Current.Shutdown();
 
         private DateTime GetDateTime() => DateTime.Now;
         #endregion
