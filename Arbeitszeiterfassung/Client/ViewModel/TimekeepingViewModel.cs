@@ -9,23 +9,37 @@ using System.Windows.Input;
 using System.Windows;
 using Form =  System.Windows.Forms;
 using System.Drawing;
-
-
 using Arbeitszeiterfassung.Model;
+
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class TimekeepingViewModel : ViewModelBase
     {
+        private readonly Form.NotifyIcon _notifyIcon;
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
-        Form.NotifyIcon _notifyIcon = new Form.NotifyIcon();
         public TimekeepingViewModel() 
         {
+            _notifyIcon = new Form.NotifyIcon();
             SetupCommands();
         }
 
+        private void SetupNotification()
+        {
+            _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
+            _notifyIcon.Visible = true;
+            _notifyIcon.Text = "Arbeitszeiterfassung";
+            _notifyIcon.Click += NotifyIconClick;
+        }
+
+
+        private void NotifyIconClick(object sender, EventArgs e)
+        {
+            MessageBox.Show("Event wurde getriggert");
+        }
         private void SetupCommands()
         {
+            SetupNotification();
             LogicCommands();
             ControlCommands();
         }
@@ -42,7 +56,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _saveCommand = new DelegateCommand(Save);
             _hideFormCommand = new DelegateCommand(HideForm);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
-
         }
 
         #region Commands
@@ -86,12 +99,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             //this.WindowState = System.Windows.WindowState.Minimized;
             //_notifyIcon.Icon = new Icon(@"../42604hourglassnotdone_99029.ico");
-           _notifyIcon.ShowBalloonTip(5000, "hi", "hallo welt", Form.ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(5000, "hi", "hallo welt", Form.ToolTipIcon.Info);
         }
      
         private void Save() => throw new NotImplementedException();
-     
-       private void ExitWindow() => Application.Current.Shutdown();
+
+        private void ExitWindow()
+        {
+            _notifyIcon.Dispose();
+             Application.Current.Shutdown();
+
+        }
+
 
         private DateTime GetDateTime() => DateTime.Now;
         #endregion

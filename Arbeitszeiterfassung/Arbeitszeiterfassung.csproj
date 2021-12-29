@@ -20,4 +20,10 @@
     <Resource Include="Client\View\42604hourglassnotdone_99029.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Client\Icon\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
