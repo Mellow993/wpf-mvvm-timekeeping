@@ -4,6 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+	<UseWindowsForms>true</UseWindowsForms>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +14,6 @@
 
   <ItemGroup>
     <Page Include="App.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Client\Icon\" />
   </ItemGroup>
 
   <ItemGroup>

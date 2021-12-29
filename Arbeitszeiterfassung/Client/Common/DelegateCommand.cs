@@ -10,8 +10,10 @@ namespace Arbeitszeiterfassung.Client.Common
     class DelegateCommand : ICommand
     {
         private Action _execute;
+        private Func<bool> _canExecute;
 
         public DelegateCommand(Action execute) { _execute = execute; }
+        public DelegateCommand(Action execute, Func<bool> canexecute) { _execute = execute; _canExecute = canexecute; }
 
         public event EventHandler CanExecuteChanged;
 
@@ -19,6 +21,6 @@ namespace Arbeitszeiterfassung.Client.Common
 
         public void Execute(object parameter) => _execute.Invoke();
 
-        public bool CanExecute(object parameter) => true;
+        public bool CanExecute(object parameter) => _canExecute == null;
     }
 }
