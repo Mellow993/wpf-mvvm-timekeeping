@@ -34,7 +34,7 @@
             <RowDefinition Height="200*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-       
+
         <Separator Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,2,0,0"/>
         <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0" Grid.ColumnSpan="2"/>
 
@@ -96,7 +96,7 @@
                 <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.NetWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
-               
+
                 <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="0,126,0,0" VerticalAlignment="Top"/>
                 <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="0,156,0,0" VerticalAlignment="Top"/>
                 <Label Content="HH:MM" HorizontalAlignment="Left" Margin="149,126,0,0" VerticalAlignment="Top"/>
@@ -105,6 +105,6 @@
             </Grid>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
-        <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State[1], Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="80,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
+        <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="80,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
     </Grid>
 </Window>
