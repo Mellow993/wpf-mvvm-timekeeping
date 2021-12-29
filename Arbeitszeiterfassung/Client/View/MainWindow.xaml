@@ -63,7 +63,6 @@
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.ShortDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,75,0,0" x:Name="TextBox_KuzerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"    IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.NormalDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,105,0,0" x:Name="TextBox_NormalerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.LongDay, Converter={StaticResource ResourceKey=timeconverter}, ConverterParameter=TimeToString, Mode=OneWay}" Grid.Column="1" Margin="5,135,0,0" x:Name="TextBox_LangerTag" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
-                <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" Margin="5,170,0,0" x:Name="TextBox_State" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="50" Grid.ColumnSpan="2"/>
                 <TextBox x:Name="TextBox_BreakTimeInMinutes" BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.BreakTime, Converter={StaticResource ResourceKey=timespanconvertertominutes}, ConverterParameter=TimeSpanMinutesToString, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" IsReadOnly="True" MaxLines="1"/>
 
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
@@ -90,10 +89,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Start" Command="{Binding StartTimekeepingCommand}" IsEnabled="{Binding StartTimekeeping}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
-                <Button Content="Weiter" Command="{Binding ContinueWorkCommand}" IsEnabled="True" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="145"/>
-                <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="145"/>
+                <Button Content="Start" Command="{Binding StartTimekeepingCommand}" IsEnabled="{Binding StartTimekeeping}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="200"/>
+                <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
+                <Button Content="Weiter" Command="{Binding ContinueWorkCommand}" IsEnabled="True" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="200"/>
+                <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.NetWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
 
@@ -105,6 +104,6 @@
             </Grid>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
-        <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="80,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
+        <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="62,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" IsReadOnly="True"/>
     </Grid>
 </Window>

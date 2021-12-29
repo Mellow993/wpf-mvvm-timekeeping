@@ -91,10 +91,17 @@ namespace Arbeitszeiterfassung.Model
         public DateTime StartBreak
         {
             private get => _startBreak;
-            set => _startBreak = value;
+            set
+            {
+                if(_startBreak != value)
+                {
+                    _startBreak = value;
+                    SetState("break");
+                    UpdateUserinterface();
+                }
+            }
         }
 
-        private DateTime _continueWork;
 
         private TimeSpan _breakTime;
         public TimeSpan BreakTime
@@ -102,17 +109,36 @@ namespace Arbeitszeiterfassung.Model
             get => _breakTime;
             set => _breakTime = value;
         }
+
+        private DateTime _continueWork;
         public DateTime ContinueWork
         {
             private get => _continueWork;
-            set => _continueWork = value;
+            set
+            {
+                if(_continueWork != value)
+                {
+                    _continueWork = value;
+                    SetState("work");
+                    UpdateUserinterface();
+                }
+            }
         }
 
         private DateTime _finishWork;
         public DateTime FinishWork
         {
             private get => _finishWork;
-            set => _finishWork = value;
+            set
+            {
+                if(_finishWork != value)
+                {
+                    _finishWork = value;
+                    SetState("end");
+                    UpdateUserinterface();
+                }
+            }
+                
         }
 
         private TimeSpan _neteWorkTime;
