@@ -108,8 +108,19 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             return false;
         }
-        private void StartTimekeeping() => WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
-        
+        private void StartTimekeeping()
+        {
+            WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
+
+            if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay)) // remove exclamation mark just for debugging
+            {
+                _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
+            }
+        }
+
+        // TODO Notification Klasse implementieren
+
+
         private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
         
         private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
@@ -124,16 +135,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             //this.WindowState = System.Windows.WindowState.Minimized;
             //_notifyIcon.Icon = new Icon(@"../42604hourglassnotdone_99029.ico");
-            _notifyIcon.ShowBalloonTip(5000, "hi", "hallo welt", Form.ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
         }
      
-        private void Save() => throw new NotImplementedException();
+        private void Save()
+        {
+            _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+        }
 
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
              Application.Current.Shutdown();
-
         }
 
 

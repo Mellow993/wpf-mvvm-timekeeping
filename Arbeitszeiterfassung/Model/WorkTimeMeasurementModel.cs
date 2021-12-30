@@ -171,11 +171,9 @@ namespace Arbeitszeiterfassung.Model
             ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
             NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
             LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
-            if (Validation.IsServiceTime(StartWork, LongDay))
-                UpdateUserinterface();
-            else
-                throw new ArgumentException("wrong service time");
-            // notify here
+            UpdateUserinterface();
+
+
         }
 
         private void CalulateTimeSpanWithoutBreak()
