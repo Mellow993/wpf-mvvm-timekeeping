@@ -138,7 +138,6 @@ namespace Arbeitszeiterfassung.Model
                     UpdateUserinterface();
                 }
             }
-                
         }
 
         private TimeSpan _neteWorkTime;
@@ -159,16 +158,10 @@ namespace Arbeitszeiterfassung.Model
         #region Public methods
         public void CalculateTimeSpan()
         {
-            if (Validation.IsServiceTime(StartWork, FinishWork))
-            {
-                if (StartBreak == DateTime.MinValue)
-                    CalulateTimeSpanWithoutBreak();
-                else
-                    CalculateTimeSpanWithBreak();
-            }
+            if (StartBreak == DateTime.MinValue)
+                CalulateTimeSpanWithoutBreak();
             else
-                throw new Exception("wrong service time");
-
+                CalculateTimeSpanWithBreak();
         }
         #endregion
 
@@ -178,7 +171,11 @@ namespace Arbeitszeiterfassung.Model
             ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
             NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
             LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
-            UpdateUserinterface();
+            if (Validation.IsServiceTime(StartWork, LongDay))
+                UpdateUserinterface();
+            else
+                throw new ArgumentException("wrong service time");
+            // notify here
         }
 
         private void CalulateTimeSpanWithoutBreak()
@@ -201,19 +198,28 @@ namespace Arbeitszeiterfassung.Model
 
         private void UpdateUserinterface()
         {
+            DisplayLeftSite();
+            DisplayRightSite();
+        }
+
+        private void DisplayLeftSite()
+        {
+            OnPropertyChanged(nameof(BreakTime));
             OnPropertyChanged(nameof(StartWork));
             OnPropertyChanged(nameof(ShortDay));
             OnPropertyChanged(nameof(NormalDay));
             OnPropertyChanged(nameof(LongDay));
+        }
+
+        private void DisplayRightSite()
+        {
             OnPropertyChanged(nameof(State));
-            OnPropertyChanged(nameof(BreakTime));
             OnPropertyChanged(nameof(NetWorkTime));
             OnPropertyChanged(nameof(GrossWorkTime));
         }
 
         private void SetState(string state)
         {
-
             switch (state)
             {
                 case "work":
@@ -229,7 +235,6 @@ namespace Arbeitszeiterfassung.Model
                     State =" ";
                     break;
             }
-
         }
         #endregion
     }

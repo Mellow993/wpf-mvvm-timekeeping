@@ -10,14 +10,39 @@ using System.Windows;
 using Form =  System.Windows.Forms;
 using System.Drawing;
 using Arbeitszeiterfassung.Model;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
-    class TimekeepingViewModel : ViewModelBase
+    class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
         private readonly Form.NotifyIcon _notifyIcon;
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
+
+        private bool _showInTaskbar;
+        private WindowState _windowState;
+
+        public bool ShowInTaskbar
+        {
+            get => _showInTaskbar;
+            set => SetProperty(ref _showInTaskbar, value);
+        }
+
+        public WindowState WindowState
+        {
+            get => _windowState;
+
+            set
+            {
+                ShowInTaskbar = true;
+                SetProperty(ref _windowState, value);
+                ShowInTaskbar = value != WindowState.Minimized;
+            }
+        }
+
+
         public TimekeepingViewModel() 
         {
             _notifyIcon = new Form.NotifyIcon();

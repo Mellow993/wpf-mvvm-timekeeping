@@ -8,12 +8,14 @@ namespace Arbeitszeiterfassung.Model
 {
     public class Validation
     {
-        private static  DateTime ServiceTimeStart { get => new DateTime(1, 1, 1, 7, 0, 0); }
-        private static DateTime ServiceTimeEnd { get => new DateTime(1, 1, 1, 20, 0, 0); }
+        private DateTime now = DateTime.Now;
+
+        private static  DateTime ServiceTimeStart { get => new DateTime(DateTime.Now.Year , DateTime.Now.Month, DateTime.Now.Day, 7, 0, 0); }
+        private static DateTime ServiceTimeEnd { get => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0); }
          
         public static bool IsServiceTime(DateTime starttime, DateTime endtime) 
         { 
-            if(starttime.TimeOfDay <= ServiceTimeStart.TimeOfDay || endtime.TimeOfDay >= ServiceTimeEnd.TimeOfDay)
+            if(starttime <= ServiceTimeStart || endtime >= ServiceTimeEnd) 
                 return false;
             
             else
