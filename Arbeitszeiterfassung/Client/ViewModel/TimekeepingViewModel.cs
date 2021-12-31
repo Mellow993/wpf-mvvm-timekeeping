@@ -142,7 +142,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
         }
-
+        
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
