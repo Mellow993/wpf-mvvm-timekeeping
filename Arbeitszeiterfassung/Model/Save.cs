@@ -7,7 +7,6 @@ using Arbeitszeiterfassung.Model;
 using System.Diagnostics;
 using System.IO;
 using Arbeitszeiterfassung.Client.Common.Converters;
-using System.Threading.Tasks;
 using System.Windows;
 
 
@@ -24,12 +23,13 @@ namespace Arbeitszeiterfassung.Model
             set => _workTimeMeasurementModel = value;
         }
 
-        static private string _folder;
+        private string _folder;
         public string Folder
         {
             get => _folder;
             set => _folder = value;
         }
+
         private string _fileName;
         public string FileName
         {
@@ -43,11 +43,13 @@ namespace Arbeitszeiterfassung.Model
         public Save(WorkTimeMeasurementModel worktimemeasurementmodel) 
         { 
             if(worktimemeasurementmodel != null)
-                _workTimeMeasurementModel = worktimemeasurementmodel; 
+            {
+                _workTimeMeasurementModel = worktimemeasurementmodel;
+            }
         }
 
-        private string _content;
-        public string Content
+        private StringBuilder _content;
+        public StringBuilder Content
         {
             get => _content;
             set => _content = value;
@@ -55,21 +57,27 @@ namespace Arbeitszeiterfassung.Model
 
         public void SaveFile()
         {
-            BuildInformationString();
-            File.WriteAllText(@"C:\Users\Lenovo\Desktop\", "Arbeitszeiterfassung.txt");
+            //if (Content != null)
+            //{
+            string dailycontent = BuildInformation();
+            File.AppendAllText(@"C:\Users\Lenovo\Desktop\Arbeitszeiterfassung.txt", dailycontent); // Content.ToString()); // Content.ToString());
+
+            //}
+            //else
+            //    MessageBox.Show("content ist null");
         }
 
-        public StringBuilder BuildInformationString()
+        public string BuildInformation()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Start Work " + WorkTimeMeasurementModel.StartWork + "\n");
-            sb.Append("Start Break " + WorkTimeMeasurementModel.StartBreak + "\n");
-            sb.Append("Continue Work " + WorkTimeMeasurementModel.ContinueWork + "\n");
-            sb.Append("Finish Work " +  WorkTimeMeasurementModel.FinishWork + "\n");
-            sb.Append("NetWorkTime: " +  WorkTimeMeasurementModel.NetWorkTime + "\n");
-            sb.Append("GrossWorkTime: " + WorkTimeMeasurementModel.GrossWorkTime + "\n");
-            MessageBox.Show(sb.ToString());
-            return sb;
+            StringBuilder Content = new StringBuilder();
+            _ = Content.Append("Start Work " + WorkTimeMeasurementModel.StartWork + "\n");
+            _ = Content.Append("Start Break " + WorkTimeMeasurementModel.StartBreak + "\n");
+            _ = Content.Append("Continue Work " + WorkTimeMeasurementModel.ContinueWork + "\n");
+            _ = Content.Append("Finish Work " + WorkTimeMeasurementModel.FinishWork + "\n");
+            _ = Content.Append("NetWorkTime: " + WorkTimeMeasurementModel.NetWorkTime + "\n");
+            _ = Content.Append("GrossWorkTime: " + WorkTimeMeasurementModel.GrossWorkTime + "\n");
+            _ = Content.Append("--------------------------------");
+            return Content.ToString();
         }
     }
 }
