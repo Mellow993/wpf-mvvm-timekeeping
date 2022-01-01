@@ -78,7 +78,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void ControlCommands()
         {
-            _saveCommand = new DelegateCommand(Save);
+            _saveCommand = new DelegateCommand(SaveInformations);
             _hideFormCommand = new DelegateCommand(HideForm);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
         }
@@ -111,7 +111,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void StartTimekeeping()
         {
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
-
+            // TODO: Creates new objects when Property is invoked => baaad
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay)) // remove exclamation mark just for debugging
             {
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
@@ -138,9 +138,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
         }
      
-        private void Save()
+        private void SaveInformations()
         {
-            _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+            Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance);
+            saveTimeKeeping.SaveFile();
+            _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
         }
         
         private void ExitWindow()

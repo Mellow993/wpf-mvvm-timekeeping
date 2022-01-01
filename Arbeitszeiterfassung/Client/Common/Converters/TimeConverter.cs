@@ -14,6 +14,7 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
         public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
       
     }
+    
 
     public class ConvertTimeSpan : TimeConverter
     {

@@ -90,7 +90,7 @@ namespace Arbeitszeiterfassung.Model
         private DateTime _startBreak;
         public DateTime StartBreak
         {
-            private get => _startBreak;
+            get => _startBreak;
             set
             {
                 if(_startBreak != value)
@@ -113,7 +113,7 @@ namespace Arbeitszeiterfassung.Model
         private DateTime _continueWork;
         public DateTime ContinueWork
         {
-            private get => _continueWork;
+            get => _continueWork;
             set
             {
                 if(_continueWork != value)
@@ -128,7 +128,7 @@ namespace Arbeitszeiterfassung.Model
         private DateTime _finishWork;
         public DateTime FinishWork
         {
-            private get => _finishWork;
+            get => _finishWork;
             set
             {
                 if(_finishWork != value)
