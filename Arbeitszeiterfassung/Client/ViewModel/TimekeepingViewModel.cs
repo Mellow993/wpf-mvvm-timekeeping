@@ -22,6 +22,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
         private bool _showInTaskbar;
+
         private WindowState _windowState;
 
         public bool ShowInTaskbar
@@ -58,6 +59,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _notifyIcon = new Form.NotifyIcon();
             SetupCommands();
         }
+
+
+        #region Private methods
 
         private void SetupNotification()
         {
@@ -120,7 +124,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void SaveWork()
         {
             //SaveFactory.GetSaveObject(WorkTimeMeasurementModelInstance);
-            OnPropertyChanged(nameof(Destination));
         }
 
         private bool IsEnabledButton()
@@ -150,8 +153,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void HideForm()
         {
-            //this.WindowState = System.Windows.WindowState.Minimized;
-            //_notifyIcon.Icon = new Icon(@"../42604hourglassnotdone_99029.ico");
+            WindowState = WindowState.Minimized;
             _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
         }
      
@@ -164,6 +166,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 _ = saveFileDialog.FileName;
 
             Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance, saveFileDialog.FileName);
+            Destination = saveFileDialog.FileName;
             OnPropertyChanged(nameof(Destination));
 
             if(saveTimeKeeping.SaveFile())
@@ -178,9 +181,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
              Application.Current.Shutdown();
         }
 
-
         private DateTime GetDateTime() => DateTime.Now;
         #endregion
-
+        #endregion
     }
 }
