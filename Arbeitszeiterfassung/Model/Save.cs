@@ -45,6 +45,9 @@ namespace Arbeitszeiterfassung.Model
             if(worktimemeasurementmodel != null)
             {
                 _workTimeMeasurementModel = worktimemeasurementmodel;
+                _folder = @"C:\Users\Lenovo\Desktop\";
+                _fileName = "Arbeitszeiterfassung.txt";
+                // @"C:\Users\Lenovo\Desktop\Arbeitszeiterfassung.txt";
             }
         }
 
@@ -55,28 +58,29 @@ namespace Arbeitszeiterfassung.Model
             set => _content = value;
         }
 
-        public void SaveFile()
+        public bool SaveFile()
         {
-            //if (Content != null)
-            //{
-            string dailycontent = BuildInformation();
-            File.AppendAllText(@"C:\Users\Lenovo\Desktop\Arbeitszeiterfassung.txt", dailycontent); // Content.ToString()); // Content.ToString());
-
-            //}
-            //else
-            //    MessageBox.Show("content ist null");
+            DirectoryInfo di = new DirectoryInfo(Folder);
+            if (di.Exists)
+            {
+                string dailycontent = BuildInformation();
+                File.AppendAllText(Destination, dailycontent); // Content.ToString()); // Content.ToString());
+                return true;
+            }
+            else
+                return false;
         }
 
         public string BuildInformation()
         {
             StringBuilder Content = new StringBuilder();
-            _ = Content.Append("Start Work " + WorkTimeMeasurementModel.StartWork + "\n");
+            _ = Content.Append("\nStart Work " + WorkTimeMeasurementModel.StartWork + "\n");
             _ = Content.Append("Start Break " + WorkTimeMeasurementModel.StartBreak + "\n");
             _ = Content.Append("Continue Work " + WorkTimeMeasurementModel.ContinueWork + "\n");
             _ = Content.Append("Finish Work " + WorkTimeMeasurementModel.FinishWork + "\n");
             _ = Content.Append("NetWorkTime: " + WorkTimeMeasurementModel.NetWorkTime + "\n");
             _ = Content.Append("GrossWorkTime: " + WorkTimeMeasurementModel.GrossWorkTime + "\n");
-            _ = Content.Append("--------------------------------");
+            _ = Content.Append("--------------------------------\n");
             return Content.ToString();
         }
     }
