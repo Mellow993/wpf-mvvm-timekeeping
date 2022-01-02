@@ -17,15 +17,19 @@ namespace Arbeitszeiterfassung.Model
     {
         #region Fields and Attributes
         private readonly WorkTimeMeasurementModel _workTimeMeasurementModel;
+
         public WorkTimeMeasurementModel WorkTimeMeasurementModel { get => _workTimeMeasurementModel; }
 
         private string _destination;
+
         private string Destination
         {
             get => _destination;
             set => _destination = value;
         }
+
         private StringBuilder _content;
+
         public StringBuilder Content
         {
             get => _content;
@@ -41,7 +45,7 @@ namespace Arbeitszeiterfassung.Model
         }
         #endregion
 
-        #region Public methods
+        #region Public methods (SaveFile)
         public bool SaveFile()
         {
             DirectoryInfo directoryinfo = new DirectoryInfo(Path.GetDirectoryName(Destination));
@@ -56,7 +60,7 @@ namespace Arbeitszeiterfassung.Model
         }
         #endregion
 
-        #region Private methods
+        #region Private methods (Stringbuilder)
         private string BuildInformation()
         {
             StringBuilder Content = new StringBuilder();

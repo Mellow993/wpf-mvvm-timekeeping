@@ -8,18 +8,26 @@ namespace Arbeitszeiterfassung.Model
 {
     public class Validation
     {
+        #region Set service times
+
         private static  DateTime ServiceTimeStart { get => new DateTime(DateTime.Now.Year , DateTime.Now.Month, DateTime.Now.Day, 7, 0, 0); }
         private static DateTime ServiceTimeEnd { get => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0); }
-         
+        #endregion
+
+        #region Compare Inputs
+
         public static bool IsServiceTime(DateTime starttime, DateTime endtime) 
-        { 
-            if(starttime <= ServiceTimeStart || endtime >= ServiceTimeEnd) 
+        {
+            // work started to early or to late
+            if (starttime <= ServiceTimeStart || endtime >= ServiceTimeEnd)  
                 return false;
             
             else
                 return true; 
         }
 
-        public bool IsLegalInput() { return true; }
+        public bool IsLegalInput => true;
+        #endregion
+
     }
 }
