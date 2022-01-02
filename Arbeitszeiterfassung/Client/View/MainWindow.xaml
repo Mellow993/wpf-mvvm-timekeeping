@@ -44,12 +44,8 @@
         <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,37,0,0"/>
         <Separator Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Margin="0,37,0,0" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,36,0,36" Grid.RowSpan="3" HorizontalAlignment="Left">
-            <!-- <StackPanel.DataContext>
-            <ViewModel:WorkTimeCalculationViewModel/>
-        </StackPanel.DataContext> -->
 
             <Grid>
-                <!--<Border BorderThickness="5"></Border> -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="110"/>
