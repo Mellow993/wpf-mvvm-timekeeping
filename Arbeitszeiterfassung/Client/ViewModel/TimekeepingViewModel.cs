@@ -113,9 +113,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
             // TODO: Creates new objects when Property is invoked => baaad
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay)) // remove exclamation mark just for debugging
-            {
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
-            }
         }
 
         // TODO Notification Klasse implementieren
@@ -141,9 +139,10 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void SaveInformations()
         {
             Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance);
-            saveTimeKeeping.SaveFile();
-            _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
-            _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
+            if(saveTimeKeeping.SaveFile())
+                _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+            else
+                _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
         }
         
         private void ExitWindow()

@@ -112,4 +112,25 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             throw new NotImplementedException();
         }
     }
+
+
+    public class ConvertStringBuilderToString : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value != null)
+            {
+                return true;
+            }   
+            else
+            {
+                return false;
+            }
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
