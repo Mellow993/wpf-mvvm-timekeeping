@@ -14,8 +14,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
         public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
       
     }
-    
-
     public class ConvertTimeSpan : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -34,7 +32,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             throw new NotImplementedException();
         }
     }
-
     public class ConvertTimeSpanToMiniutes : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -54,7 +51,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             throw new NotImplementedException();
         }
     }
-
     public class ConvertTime : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -74,7 +70,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
 
         }
     }
-
     public class ConvertMinutes : TimeConverter // : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -94,7 +89,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
 
         }
     }
-
     public class ConvertDate : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -112,8 +106,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             throw new NotImplementedException();
         }
     }
-
-
     public class ConvertStringBuilderToString : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -133,7 +125,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             throw new NotImplementedException();
         }
     }
-
     public class ConvertDecimalToString : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -11,14 +11,14 @@ namespace Arbeitszeiterfassung.Model
     class WorkTimeMeasurementModel : ViewModelBase
     {
 
-        #region Properties timespans without break
+        #region Fields and properties timespans without break
         private string _state;
         public string State
         {
             get => _state;
             set
             {
-                if(_state != value)
+                if (_state != value)
                 {
                     _state = value;
                     UpdateUserinterface();
@@ -65,14 +65,6 @@ namespace Arbeitszeiterfassung.Model
             private set => _longDay = value;
         }
 
-        #region Properties TimeSpans
-
-        private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
-        private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
-        private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
-        #endregion
-        
-
         private int _breakTimeInMinutes;
         public int BreakTimeInMinutes
         {
@@ -103,7 +95,6 @@ namespace Arbeitszeiterfassung.Model
             }
         }
 
-
         private TimeSpan _breakTime;
         public TimeSpan BreakTime
         {
@@ -117,7 +108,7 @@ namespace Arbeitszeiterfassung.Model
             get => _continueWork;
             set
             {
-                if(_continueWork != value)
+                if (_continueWork != value)
                 {
                     _continueWork = value;
                     SetState("work");
@@ -161,7 +152,12 @@ namespace Arbeitszeiterfassung.Model
             get => _timecard;
             set => _timecard = value;
         }
+        #endregion
 
+        #region Properties TimeSpans
+        private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
+        private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
+        private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
         #endregion
 
         #region Public methods
@@ -181,8 +177,6 @@ namespace Arbeitszeiterfassung.Model
             NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
             LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
             UpdateUserinterface();
-
-
         }
 
         private void CalulateTimeSpanWithoutBreak()
@@ -190,7 +184,6 @@ namespace Arbeitszeiterfassung.Model
             NetWorkTime= FinishWork.Subtract(StartWork);
             GrossWorkTime = NetWorkTime;
             Timecard = Convert.ToDecimal(NetWorkTime.TotalHours);
-
             UpdateUserinterface();
         }
 

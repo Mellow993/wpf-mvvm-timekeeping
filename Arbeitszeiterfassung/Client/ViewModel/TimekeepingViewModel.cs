@@ -18,6 +18,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
+        #region Fields and properties
+
         private readonly Form.NotifyIcon _notifyIcon;
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
@@ -30,7 +32,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             get => _showInTaskbar;
             set => SetProperty(ref _showInTaskbar, value);
         }
-
         public WindowState WindowState
         {
             get => _windowState;
@@ -53,34 +54,37 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                     _destination = value;
             }
         }
+        #endregion
 
+        #region Constructor
         public TimekeepingViewModel() 
         {
             _notifyIcon = new Form.NotifyIcon();
             SetupCommands();
         }
+        #endregion
 
+        #region Events
+        private void NotifyIconClick(object sender, EventArgs e)
+        {
+            MessageBox.Show("Event wurde getriggert");
+        }
 
-        #region Private methods
+        #endregion
 
+        #region Setup commands
+        private void SetupCommands()
+        {
+            SetupNotification();
+            LogicCommands();
+            ControlCommands();
+        }
         private void SetupNotification()
         {
             _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
             _notifyIcon.Visible = true;
             _notifyIcon.Text = "Arbeitszeiterfassung";
             _notifyIcon.Click += NotifyIconClick;
-        }
-
-
-        private void NotifyIconClick(object sender, EventArgs e)
-        {
-            MessageBox.Show("Event wurde getriggert");
-        }
-        private void SetupCommands()
-        {
-            SetupNotification();
-            LogicCommands();
-            ControlCommands();
         }
         private void LogicCommands()
         {
@@ -89,14 +93,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _continueWorkCommand = new DelegateCommand(ContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork);
         }
-
         private void ControlCommands()
         {
             _saveCommand = new DelegateCommand(SaveInformations);
             _hideFormCommand = new DelegateCommand(HideForm);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
-            _saveWorkCommand = new DelegateCommand(SaveWork);
         }
+        #endregion
 
         #region Commands
         private DelegateCommand _startTimekeepingCommand;
@@ -106,8 +109,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _hideFormCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
-        private DelegateCommand _saveWorkCommand;
-        //private DelegateCommand _canCloseCommand;
 
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
         public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
@@ -116,15 +117,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand HideFormCommand { get => _hideFormCommand; }
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         public ICommand SaveCommand { get => _saveCommand; }
-        public ICommand SaveWorkCommand { get => _saveWorkCommand; }
         #endregion
 
         #region private methods
-
-        private void SaveWork()
-        {
-            //SaveFactory.GetSaveObject(WorkTimeMeasurementModelInstance);
-        }
 
         private bool IsEnabledButton()
         {
@@ -137,26 +132,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay)) // remove exclamation mark just for debugging
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
         }
-
-        // TODO Notification Klasse implementieren
-
-
         private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
-        
         private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
-     
         private void FinishWork()
         {
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
-
         private void HideForm()
         {
             WindowState = WindowState.Minimized;
             _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
         }
-     
         private void SaveInformations()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -174,15 +161,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             else
                 _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
         }
-
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
              Application.Current.Shutdown();
         }
-
         private DateTime GetDateTime() => DateTime.Now;
         #endregion
-        #endregion
+
     }
 }
