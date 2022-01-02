@@ -133,4 +133,23 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             throw new NotImplementedException();
         }
     }
+
+    public class ConvertDecimalToString : TimeConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && parameter.ToString() == "DecimalToString")
+            {
+                var timecard = (decimal)value;
+                return timecard.ToString("#.00");
+            }
+            else
+                return "0:00";
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

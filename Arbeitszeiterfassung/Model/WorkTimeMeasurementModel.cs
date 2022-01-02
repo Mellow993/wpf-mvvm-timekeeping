@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Arbeitszeiterfassung.ViewModel;
+using System.Windows;
 
 namespace Arbeitszeiterfassung.Model
 {
@@ -153,6 +154,14 @@ namespace Arbeitszeiterfassung.Model
             get => _grossWorkTime;
             set => _grossWorkTime = value;
         }
+
+        private decimal _timecard;
+        public decimal Timecard
+        {
+            get => _timecard;
+            set => _timecard = value;
+        }
+
         #endregion
 
         #region Public methods
@@ -180,6 +189,8 @@ namespace Arbeitszeiterfassung.Model
         {
             NetWorkTime= FinishWork.Subtract(StartWork);
             GrossWorkTime = NetWorkTime;
+            Timecard = Convert.ToDecimal(NetWorkTime.TotalHours);
+
             UpdateUserinterface();
         }
 
@@ -190,7 +201,8 @@ namespace Arbeitszeiterfassung.Model
             var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
             BreakTime = new TimeSpan(1, 1, 1); //DEbugging
             NetWorkTime = new TimeSpan(8, 36, 5); // #debugging //timeFromStartTillBreak + timeFromBreakTillFinish;
-            GrossWorkTime = new TimeSpan(10, 58, 0); //#debugging // timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+            GrossWorkTime = new TimeSpan(10, 30, 0); //#debugging // timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+            Timecard = Convert.ToDecimal(NetWorkTime.TotalHours);
             UpdateUserinterface();
         }
 
@@ -207,6 +219,7 @@ namespace Arbeitszeiterfassung.Model
             OnPropertyChanged(nameof(ShortDay));
             OnPropertyChanged(nameof(NormalDay));
             OnPropertyChanged(nameof(LongDay));
+            OnPropertyChanged(nameof(Timecard));
         }
 
         private void DisplayRightSite()
