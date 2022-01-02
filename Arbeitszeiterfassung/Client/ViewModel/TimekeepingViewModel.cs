@@ -12,7 +12,7 @@ using System.Drawing;
 using Arbeitszeiterfassung.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-
+using Microsoft.Win32;
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
@@ -42,6 +42,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             }
         }
 
+        private string _destination;
+        public string Destination
+        {
+            get => _destination;
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    _destination = value;
+            }
+        }
 
         public TimekeepingViewModel() 
         {
@@ -81,6 +91,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _saveCommand = new DelegateCommand(SaveInformations);
             _hideFormCommand = new DelegateCommand(HideForm);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
+            _saveWorkCommand = new DelegateCommand(SaveWork);
         }
 
         #region Commands
@@ -91,6 +102,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _hideFormCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
+        private DelegateCommand _saveWorkCommand;
         //private DelegateCommand _canCloseCommand;
 
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
@@ -100,9 +112,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand HideFormCommand { get => _hideFormCommand; }
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         public ICommand SaveCommand { get => _saveCommand; }
+        public ICommand SaveWorkCommand { get => _saveWorkCommand; }
         #endregion
 
         #region private methods
+
+        private void SaveWork()
+        {
+            //SaveFactory.GetSaveObject(WorkTimeMeasurementModelInstance);
+            OnPropertyChanged(nameof(Destination));
+        }
 
         private bool IsEnabledButton()
         {
@@ -138,13 +157,21 @@ namespace Arbeitszeiterfassung.Client.ViewModel
      
         private void SaveInformations()
         {
-            Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance);
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = @"C:\Users\Lenovo\Desktop";
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() == true)
+                _ = saveFileDialog.FileName;
+
+            Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance, saveFileDialog.FileName);
+            OnPropertyChanged(nameof(Destination));
+
             if(saveTimeKeeping.SaveFile())
                 _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
             else
                 _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
         }
-        
+
         private void ExitWindow()
         {
             _notifyIcon.Dispose();

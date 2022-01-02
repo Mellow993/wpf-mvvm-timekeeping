@@ -8,80 +8,71 @@ using System.Diagnostics;
 using System.IO;
 using Arbeitszeiterfassung.Client.Common.Converters;
 using System.Windows;
+using Microsoft.Win32;
 
 
 namespace Arbeitszeiterfassung.Model
 {
     class Save
     {
+        #region Fields and Attributes
+        private readonly WorkTimeMeasurementModel _workTimeMeasurementModel;
+        public WorkTimeMeasurementModel WorkTimeMeasurementModel { get => _workTimeMeasurementModel; }
 
-
-        private WorkTimeMeasurementModel _workTimeMeasurementModel;
-        public WorkTimeMeasurementModel WorkTimeMeasurementModel
+        private string _destination;
+        private string Destination
         {
-            get => _workTimeMeasurementModel;
-            set => _workTimeMeasurementModel = value;
+            get => _destination;
+            set => _destination = value;
         }
-
-        private string _folder;
-        public string Folder
-        {
-            get => _folder;
-            set => _folder = value;
-        }
-
-        private string _fileName;
-        public string FileName
-        {
-            get => _fileName;
-            set => _fileName = value;
-        }
-        public string Destination
-        {
-            get => Folder + FileName;
-        }
-        public Save(WorkTimeMeasurementModel worktimemeasurementmodel) 
-        { 
-            if(worktimemeasurementmodel != null)
-            {
-                _workTimeMeasurementModel = worktimemeasurementmodel;
-                _folder = @"C:\Users\Lenovo\Desktop\";
-                _fileName = "Arbeitszeiterfassung.txt";
-                // @"C:\Users\Lenovo\Desktop\Arbeitszeiterfassung.txt";
-            }
-        }
-
         private StringBuilder _content;
         public StringBuilder Content
         {
             get => _content;
             set => _content = value;
         }
+        #endregion
 
+        #region Constructor
+        public Save(WorkTimeMeasurementModel worktimemeasurementmodel, string destination) 
+        { 
+            _workTimeMeasurementModel = worktimemeasurementmodel;
+            _destination = destination;
+        }
+        #endregion
+
+        #region Public methods
         public bool SaveFile()
         {
-            DirectoryInfo di = new DirectoryInfo(Folder);
-            if (di.Exists)
+            DirectoryInfo directoryinfo = new DirectoryInfo(Path.GetDirectoryName(Destination));
+            if (directoryinfo.Exists)
             {
-                string dailycontent = BuildInformation();
-                File.AppendAllText(Destination, dailycontent); // Content.ToString()); // Content.ToString());
+                var content = BuildInformation();
+                File.AppendAllText(Destination, content);
                 return true;
             }
             else
                 return false;
         }
+        #endregion
 
-        public string BuildInformation()
+        #region Private methods
+        private string BuildInformation()
         {
             StringBuilder Content = new StringBuilder();
-            _ = Content.Append("\nStart Work " + WorkTimeMeasurementModel.StartWork + "\n");
-            _ = Content.Append("Start Break " + WorkTimeMeasurementModel.StartBreak + "\n");
-            _ = Content.Append("Continue Work " + WorkTimeMeasurementModel.ContinueWork + "\n");
-            _ = Content.Append("Finish Work " + WorkTimeMeasurementModel.FinishWork + "\n");
-            _ = Content.Append("NetWorkTime: " + WorkTimeMeasurementModel.NetWorkTime + "\n");
-            _ = Content.Append("GrossWorkTime: " + WorkTimeMeasurementModel.GrossWorkTime + "\n");
-            _ = Content.Append("--------------------------------\n");
+            _ = Content.Append("\nAktueller Tag\t" + WorkTimeMeasurementModel.StartWork.ToShortDateString() + "\n");
+            _ = Content.Append("Arbeitsbeginn\t" + WorkTimeMeasurementModel.StartWork.ToShortTimeString() + " Uhr" + "\n");
+            _ = Content.Append("Pausenbeginn\t" + WorkTimeMeasurementModel.StartBreak.ToShortTimeString() + " Uhr" + "\n");
+            _ = Content.Append("Pausenzeit\t" + WorkTimeMeasurementModel.BreakTime.TotalMinutes.ToString("#") + " Minuten" + "\n");
+            _ = Content.Append("Pausenende\t" + WorkTimeMeasurementModel.ContinueWork.ToShortTimeString() + " Uhr" + "\n");
+            _ = Content.Append("Feierabend\t" + WorkTimeMeasurementModel.FinishWork.ToShortTimeString() + " Uhr" + "\n"); ;
+            _ = Content.Append("Nettozeit\t" + WorkTimeMeasurementModel.NetWorkTime + " (hh:mm)" + "\n");
+            _ = Content.Append("Bruttozeit\t" + WorkTimeMeasurementModel.GrossWorkTime + " (hh:mm)"+ "\n");
+            _ = Content.Append("Timecard\t" + WorkTimeMeasurementModel.Timecard + "\n");
+            _ = Content.Append("------------------------------------\n");
             return Content.ToString();
         }
+        #endregion
     }
+
 }
