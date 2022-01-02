@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Arbeitszeiterfassung.Client.Common.Converters"
         xmlns:local="clr-namespace:Arbeitszeiterfassung" 
-        xmlns:ViewModel="clr-namespace:Arbeitszeiterfassung.Client.ViewModel" xmlns:Model="clr-namespace:Arbeitszeiterfassung.Model" x:Class="Arbeitszeiterfassung.MainWindow" 
+        xmlns:ViewModel="clr-namespace:Arbeitszeiterfassung.Client.ViewModel" 
+        xmlns:Model="clr-namespace:Arbeitszeiterfassung.Model" x:Class="Arbeitszeiterfassung.MainWindow" 
         mc:Ignorable="d"
         Title="Arbeitszeiterfassung" Height="300" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico" ResizeMode="CanMinimize">
 
@@ -75,8 +76,6 @@
                 <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,130,10,0" VerticalAlignment="Top"/>
             </Grid>
         </StackPanel>
-        <ProgressBar HorizontalAlignment="Left" Height="15" Width="107" Margin="77,0,0,0" Grid.Row="2" VerticalAlignment="Center" ToolTip="Zeigt den aktuellen Arbeitsfortschritt an" Grid.Column="0"/>
-        <Label Content="Fortschritt" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
         <Button x:Name="Button_Speichern" Command="{Binding SaveCommand}" Content="Speichern" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Width="68" ToolTip="Speichert die Arbeitszeit"/>
         <Button x:Name="Button_Beenden" Command="{Binding ExitWindowCommand}" Content="Beenden" Grid.Column="3" HorizontalAlignment="Right" Margin="100,0,12,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="68" ToolTip="Beende die Zeiterfassung"/>
         <Button x:Name="Button_Verstecken" Command="{Binding HideFormCommand}" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="68" ToolTip="Versteckt das Fenster in der Taskbar" Grid.ColumnSpan="2"/>
@@ -108,5 +107,6 @@
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
         <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="62,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" IsReadOnly="True"/>
+        <TextBox x:Name="TextBox_Destination" Text="{Binding Destination, Mode=TwoWay }" MaxLines="1" IsReadOnly="True" HorizontalAlignment="Left" Margin="18,10,0,0" Grid.Row="2"  TextWrapping="Wrap" VerticalAlignment="Top" Width="222"/>
     </Grid>
 </Window>
