@@ -13,6 +13,8 @@ using Arbeitszeiterfassung.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
+//using SystemTrayApp.WPF;
+using System.ComponentModel;
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
@@ -20,7 +22,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     {
         #region Fields and properties
 
+        private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
+
+        public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
+        {
+            get => _notifyRequest;
+            set => SetProperty(ref _notifyRequest, value);
+        }
+
         private readonly Form.NotifyIcon _notifyIcon;
+
+
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
         private bool _showInTaskbar;
@@ -96,7 +108,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void ControlCommands()
         {
             _saveCommand = new DelegateCommand(SaveInformations);
-            _hideFormCommand = new DelegateCommand(HideForm);
+            //HideFormCommand = new RelayCommand<CancelEventArgs>(HideForm);  //new RelayCommand<CancelEventArgs>(HideForm);
+            //ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);  //new RelayCommand<CancelEventArgs>(HideForm);
+            NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             _exitWindowCommand = new DelegateCommand(ExitWindow);
         }
         #endregion
@@ -106,15 +120,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _startBreakTimeCommand;
         private DelegateCommand _finishWorkCommand;
         private DelegateCommand _exitWindowCommand;
-        private DelegateCommand _hideFormCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
+        //private RelayCommand _hideFormCommand;
+        public ICommand NotifyIconOpenCommand { get; set; }
+
 
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
         public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
         public ICommand ContinueWorkCommand { get => _continueWorkCommand; }
         public ICommand FinishWorkCommand { get => _finishWorkCommand; }
-        public ICommand HideFormCommand { get => _hideFormCommand; }
+        public ICommand HideFormCommand { get; } // => _hideFormCommand; }
+        public ICommand ClosingCommand { get; }
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         public ICommand SaveCommand { get => _saveCommand; }
         #endregion
@@ -139,10 +156,15 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
-        private void HideForm()
+        public void HideForm(CancelEventArgs? e)
         {
+            //WindowState = WindowState.Minimized;
+            //_notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
+
+            if (e == null)
+                return;
+            e.Cancel = true;
             WindowState = WindowState.Minimized;
-            _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
         }
         private void SaveInformations()
         {
@@ -169,5 +191,25 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DateTime GetDateTime() => DateTime.Now;
         #endregion
 
+        private void Closing(CancelEventArgs? e)
+        {
+            if (e == null)
+                return;
+            e.Cancel = true;
+            WindowState = WindowState.Minimized;
+        }
+
     }
+
+    internal class DelegateCommand<T>
+    {
+        private Action<CancelEventArgs> hideForm;
+
+        public DelegateCommand(Action<CancelEventArgs> hideForm)
+        {
+            this.hideForm = hideForm;
+        }
+    }
+
+
 }
