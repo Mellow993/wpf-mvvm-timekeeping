@@ -11,7 +11,7 @@
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
         mc:Ignorable="d"
-        Title="Arbeitszeiterfassung" Height="300" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico" ResizeMode="CanResize">
+        Title="Arbeitszeiterfassung" Height="400" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/View/42604hourglassnotdone_99029.ico" ResizeMode="CanResize">
 
     <Window.Resources>
         <converters:ConvertTime x:Key="timeconverter"></converters:ConvertTime>
@@ -86,7 +86,7 @@
         <Button x:Name="Button_Beenden" Command="{Binding ExitWindowCommand}" Content="Beenden" Grid.Column="3" HorizontalAlignment="Right" Margin="100,0,12,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="0.505,-0.15" Width="68" ToolTip="Beende die Zeiterfassung"/>
         <Button x:Name="Button_Verstecken" Command="{Binding HideFormCommand}" Content="Verstecken" Grid.Column="2" HorizontalAlignment="Left" Margin="12,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="68" ToolTip="Versteckt das Fenster in der Taskbar" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2">
-    <!--.        <StackPanel.DataContext>
+            <!--.        <StackPanel.DataContext>
                 <ViewModel:TimekeepingViewModel/>
             </StackPanel.DataContext> -->
 
@@ -101,20 +101,21 @@
                 <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
                 <Button Content="Weiter" Command="{Binding ContinueWorkCommand}" IsEnabled="True" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="200"/>
                 <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
-                <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.NetWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
-                <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
+                <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.NetWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
+                <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.GrossWorkTime, Converter={StaticResource ResourceKey=timespanconverter}, ConverterParameter=TimeSpanToString, Mode=OneWay}" HorizontalAlignment="Left" Margin="100,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" IsReadOnly="True"/>
+                <Button Content="Kaffeepause" Width="200" Height="20" Margin="10,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="10 Minuten extra, die zur Arbeitszeit gehören. (max. 2 mal wählbar"/>
 
-                <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="0,126,0,0" VerticalAlignment="Top"/>
-                <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="0,156,0,0" VerticalAlignment="Top"/>
-                <Label Content="HH:MM" HorizontalAlignment="Left" Margin="149,126,0,0" VerticalAlignment="Top"/>
-                <Label Content="HH:MM" HorizontalAlignment="Left" Margin="149,160,0,0" VerticalAlignment="Top"/>
+                <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top"/>
+                <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="0,205,0,0" VerticalAlignment="Top"/>
+                <Label Content="(hh:mm)" HorizontalAlignment="Left" Margin="149,175,0,0" VerticalAlignment="Top"/>
+                <Label Content="(hh:mm)" HorizontalAlignment="Left" Margin="149,209,0,0" VerticalAlignment="Top"/>
 
             </Grid>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
         <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="62,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" IsReadOnly="True"/>
         <TextBox x:Name="TextBox_Destination" Text="{Binding Destination, Mode=TwoWay }" MaxLines="1" IsReadOnly="True" HorizontalAlignment="Left" Margin="18,10,0,0" Grid.Row="2"  TextWrapping="Wrap" VerticalAlignment="Top" Width="222"/>
-     <!--   <bh:Interaction.Triggers>
+        <!--   <bh:Interaction.Triggers>
             <bh:EventTrigger EventName="Closing">
             <bh:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
         </bh:EventTrigger>

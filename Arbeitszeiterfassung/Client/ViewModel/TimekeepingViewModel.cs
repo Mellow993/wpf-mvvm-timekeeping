@@ -105,6 +105,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void LogicCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
+            _startCoffeeBreakCommand = new DelegateCommand(StartCoffeeBreak);
+            _finishCoffeeBreakCommand = new DelegateCommand(FinishCoffeeBreak);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
             _continueWorkCommand = new DelegateCommand(ContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork);
@@ -127,6 +129,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region Commands
+        private DelegateCommand _startCoffeeBreakCommand;
+        private DelegateCommand _finishCoffeeBreakCommand;
         private DelegateCommand _startTimekeepingCommand;
         private DelegateCommand _startBreakTimeCommand;
         private DelegateCommand _finishWorkCommand;
@@ -135,7 +139,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _saveCommand;
         //private RelayCommand _hideFormCommand;
 
-
+        public ICommand StartCoffeeBreakCommand { get =>_startCoffeeBreakCommand; }
+        public ICommand FinishCoffeeBreakCommand { get => _finishCoffeeBreakCommand; }
         public ICommand LoadedCommand { get; set; }
         public ICommand ClosingCommand { get; set; }
         public ICommand NotifyCommand { get; set; }
@@ -151,6 +156,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region private methods
+
+        private void FinishCoffeeBreak()
+        {
+
+        }
+
+        private void StartCoffeeBreak()
+        {
+
+        }
+
 
         private void Loaded()
         {
