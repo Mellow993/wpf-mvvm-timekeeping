@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:Arbeitszeiterfassung" 
         xmlns:ViewModel="clr-namespace:Arbeitszeiterfassung.Client.ViewModel" 
         xmlns:Model="clr-namespace:Arbeitszeiterfassung.Model" x:Class="Arbeitszeiterfassung.MainWindow" 
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
+
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
         mc:Ignorable="d"
@@ -38,6 +40,15 @@
 
         <Separator Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,2,0,0"/>
         <Separator Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Margin="0,2,0,0" Grid.ColumnSpan="2"/>
+
+        <Model:NotifyIconWrapper NotifyRequest="{Binding NotifyRequest}">
+            <bh:Interaction.Triggers>
+                <bh:EventTrigger EventName="OpenSelected">
+                    <bh:InvokeCommandAction Command="{Binding NotifyIconOpenCommand}"/>
+                </bh:EventTrigger>
+            </bh:Interaction.Triggers>
+        </Model:NotifyIconWrapper>
+
 
         <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.Today, Converter={StaticResource ResourceKey=datetimeconverter}, ConverterParameter=DateTimeToString, Mode=OneWay}" x:Name="TextBox_HeutigerTag" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="179" IsReadOnly="True" Grid.ColumnSpan="2"/>
         <Separator Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,37,0,0"/>
@@ -111,4 +122,12 @@
         </bh:Interaction.Triggers> -->
 
     </Grid>
+    <bh:Interaction.Triggers>
+        <bh:EventTrigger EventName="Loaded">
+            <bh:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </bh:EventTrigger>
+        <bh:EventTrigger EventName="Closing">
+            <bh:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
+        </bh:EventTrigger>
+    </bh:Interaction.Triggers>
 </Window>
