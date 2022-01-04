@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
-using Form =  System.Windows.Forms;
+using Form = System.Windows.Forms;
 using System.Drawing;
 using Arbeitszeiterfassung.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -21,9 +21,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
         #region Fields and properties
-
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
 
+        private void Notify(string message)
+        {
+            NotifyRequest = new NotifyIconWrapper.NotifyRequestRecord
+            {
+                Title = "Notify",
+                Text = message,
+                Duration = 1000
+            };
+        }
         public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
         {
             get => _notifyRequest;
@@ -77,17 +85,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region Events
-        private void NotifyIconClick(object sender, EventArgs e)
-        {
-            MessageBox.Show("Event wurde getriggert");
-        }
 
         #endregion
 
         #region Setup commands
         private void SetupCommands()
         {
-            SetupNotification();
+            //SetupNotification();
             LogicCommands();
             ControlCommands();
         }
@@ -96,7 +100,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
             _notifyIcon.Visible = true;
             _notifyIcon.Text = "Arbeitszeiterfassung";
-            _notifyIcon.Click += NotifyIconClick;
+            //_notifyIcon.Click += OpenItemOnClick;
         }
         private void LogicCommands()
         {
@@ -112,6 +116,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             //ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);  //new RelayCommand<CancelEventArgs>(HideForm);
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             _exitWindowCommand = new DelegateCommand(ExitWindow);
+
+
+            LoadedCommand = new RelayCommand(Loaded);
+            ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);
+            NotifyCommand = new RelayCommand(() => Notify("Hello world!"));
+            NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
+            NotifyIconExitCommand = new RelayCommand(() => { Application.Current.Shutdown(); });
         }
         #endregion
 
@@ -123,20 +134,28 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
         //private RelayCommand _hideFormCommand;
+
+
+        public ICommand LoadedCommand { get; set; }
+        public ICommand ClosingCommand { get; set; }
+        public ICommand NotifyCommand { get; set; }
         public ICommand NotifyIconOpenCommand { get; set; }
-
-
+        public ICommand NotifyIconExitCommand { get; set; }
         public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
         public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
         public ICommand ContinueWorkCommand { get => _continueWorkCommand; }
         public ICommand FinishWorkCommand { get => _finishWorkCommand; }
         public ICommand HideFormCommand { get; } // => _hideFormCommand; }
-        public ICommand ClosingCommand { get; }
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         public ICommand SaveCommand { get => _saveCommand; }
         #endregion
 
         #region private methods
+
+        private void Loaded()
+        {
+            WindowState = WindowState.Minimized;
+        }
 
         private bool IsEnabledButton()
         {

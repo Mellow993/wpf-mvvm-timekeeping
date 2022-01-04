@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 using Application = System.Windows.Application;
-using Arbeitszeiterfassung.Model;
+using Arbeitszeiterfassung.Client.ViewModel;
 
 namespace Arbeitszeiterfassung.Model
 {
