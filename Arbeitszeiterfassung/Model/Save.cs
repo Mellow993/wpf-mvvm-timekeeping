@@ -48,6 +48,8 @@ namespace Arbeitszeiterfassung.Model
         #region Public methods (SaveFile)
         public bool SaveFile()
         {
+            //if (String.IsNullOrEmpty(Destination))
+            //    Destination = @"c:\";
             DirectoryInfo directoryinfo = new DirectoryInfo(Path.GetDirectoryName(Destination));
             if (directoryinfo.Exists)
             {

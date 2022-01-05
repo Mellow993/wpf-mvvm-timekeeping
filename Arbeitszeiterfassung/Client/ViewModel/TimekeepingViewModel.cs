@@ -91,7 +91,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #region Setup commands
         private void SetupCommands()
         {
-            //SetupNotification();
+            SetupNotification();
             LogicCommands();
             ControlCommands();
         }
@@ -114,15 +114,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void ControlCommands()
         {
             _saveCommand = new DelegateCommand(SaveInformations);
-            //HideFormCommand = new RelayCommand<CancelEventArgs>(HideForm);  //new RelayCommand<CancelEventArgs>(HideForm);
-            //ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);  //new RelayCommand<CancelEventArgs>(HideForm);
-            NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             _exitWindowCommand = new DelegateCommand(ExitWindow);
 
-
-            LoadedCommand = new RelayCommand(Loaded);
-            ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);
-            NotifyCommand = new RelayCommand(() => Notify("Hello world!"));
+            NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
+            //LoadedCommand = new RelayCommand(Loaded);
+            //ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);
+            //NotifyCommand = new RelayCommand(() => Notify("Hello world!"));
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
             NotifyIconExitCommand = new RelayCommand(() => { Application.Current.Shutdown(); });
         }
@@ -137,7 +134,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _exitWindowCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
-        //private RelayCommand _hideFormCommand;
 
         public ICommand StartCoffeeBreakCommand { get =>_startCoffeeBreakCommand; }
         public ICommand FinishCoffeeBreakCommand { get => _finishCoffeeBreakCommand; }
@@ -150,7 +146,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
         public ICommand ContinueWorkCommand { get => _continueWorkCommand; }
         public ICommand FinishWorkCommand { get => _finishWorkCommand; }
-        public ICommand HideFormCommand { get; } // => _hideFormCommand; }
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         public ICommand SaveCommand { get => _saveCommand; }
         #endregion
@@ -191,16 +186,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
-        public void HideForm(CancelEventArgs? e)
-        {
-            //WindowState = WindowState.Minimized;
-            //_notifyIcon.ShowBalloonTip(5000, "Hinweis", "Die Anwendung läuft noch", Form.ToolTipIcon.Info);
-
-            if (e == null)
-                return;
-            e.Cancel = true;
-            WindowState = WindowState.Minimized;
-        }
+        
         private void SaveInformations()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -210,14 +196,19 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 _ = saveFileDialog.FileName;
 
             Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance, saveFileDialog.FileName);
-            Destination = saveFileDialog.FileName;
-            OnPropertyChanged(nameof(Destination));
-
-            if(saveTimeKeeping.SaveFile())
-                _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+            if (!String.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                Destination = saveFileDialog.FileName;
+                if (saveTimeKeeping.SaveFile())
+                {
+                    _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+                    OnPropertyChanged(nameof(Destination));
+                }
+            }
             else
                 _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
         }
+
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
@@ -226,25 +217,5 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DateTime GetDateTime() => DateTime.Now;
         #endregion
 
-        private void Closing(CancelEventArgs? e)
-        {
-            if (e == null)
-                return;
-            e.Cancel = true;
-            WindowState = WindowState.Minimized;
-        }
-
     }
-
-    internal class DelegateCommand<T>
-    {
-        private Action<CancelEventArgs> hideForm;
-
-        public DelegateCommand(Action<CancelEventArgs> hideForm)
-        {
-            this.hideForm = hideForm;
-        }
-    }
-
-
 }

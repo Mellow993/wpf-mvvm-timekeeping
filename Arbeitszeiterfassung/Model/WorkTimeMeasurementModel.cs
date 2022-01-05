@@ -173,6 +173,7 @@ namespace Arbeitszeiterfassung.Model
         #region Private methods
         private void CalculateWorkTime()
         {
+            //ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
             ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
             NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
             LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
@@ -190,11 +191,10 @@ namespace Arbeitszeiterfassung.Model
         private void CalculateTimeSpanWithBreak()
         {
             var timeFromStartTillBreak = StartBreak.Subtract(StartWork);
-            //BreakTime = ContinueWork.Subtract(StartBreak);
             var timeFromBreakTillFinish = FinishWork.Subtract(ContinueWork);
-            BreakTime = new TimeSpan(1, 1, 1); //DEbugging
-            NetWorkTime = new TimeSpan(8, 36, 5); // #debugging //timeFromStartTillBreak + timeFromBreakTillFinish;
-            GrossWorkTime = new TimeSpan(10, 30, 0); //#debugging // timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
+            BreakTime = ContinueWork.Subtract(StartBreak);
+            NetWorkTime = timeFromStartTillBreak + timeFromBreakTillFinish;
+            GrossWorkTime = timeFromStartTillBreak + BreakTime + timeFromBreakTillFinish;
             Timecard = Convert.ToDecimal(NetWorkTime.TotalHours);
             UpdateUserinterface();
         }

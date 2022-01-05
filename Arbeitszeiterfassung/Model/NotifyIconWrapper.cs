@@ -75,31 +75,17 @@ namespace Arbeitszeiterfassung.Model
             remove => RemoveHandler(OpenSelectedEvent, value);
         }
 
-        public event RoutedEventHandler ExitSelected
-        {
-            add => AddHandler(ExitSelectedEvent, value);
-            remove => RemoveHandler(ExitSelectedEvent, value);
-        }
-
         private ContextMenuStrip CreateContextMenu()
         {
             var openItem = new ToolStripMenuItem("Open");
             openItem.Click += OpenItemOnClick;
-            var exitItem = new ToolStripMenuItem("Exit");
-            exitItem.Click += ExitItemOnClick;
-            var contextMenu = new ContextMenuStrip { Items = { openItem, exitItem } };
+            var contextMenu = new ContextMenuStrip { Items = { openItem } };
             return contextMenu;
         }
 
         private void OpenItemOnClick(object? sender, EventArgs eventArgs)
         {
             var args = new RoutedEventArgs(OpenSelectedEvent);
-            RaiseEvent(args);
-        }
-
-        private void ExitItemOnClick(object? sender, EventArgs eventArgs)
-        {
-            var args = new RoutedEventArgs(ExitSelectedEvent);
             RaiseEvent(args);
         }
 
