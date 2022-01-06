@@ -65,6 +65,7 @@ namespace Arbeitszeiterfassung.Model
             private set => _longDay = value;
         }
 
+
         private int _breakTimeInMinutes;
         public int BreakTimeInMinutes
         {
