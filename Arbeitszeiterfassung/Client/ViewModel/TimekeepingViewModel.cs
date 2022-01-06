@@ -183,6 +183,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
         private void FinishWork()
         {
+            _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Feierabend", Form.ToolTipIcon.Info);
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
@@ -215,6 +216,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
              Application.Current.Shutdown();
         }
         private DateTime GetDateTime() => DateTime.Now;
+
         #endregion
 
     }
