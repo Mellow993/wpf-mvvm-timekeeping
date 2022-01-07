@@ -171,29 +171,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void SetRegistry()
         {
-            //RegistryKey key = Registry.CurrentUser.CreateSubKey("AppEvents", true);
-            //var keyvalue = key.GetValue("Standard").ToString();
-            //MessageBox.Show(keyvalue.ToString());
 
- 
-
-
-            //RegistryKey keyy = Registry.CurrentUser.OpenSubKey(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", true);
-            //keyy = keyy.CreateSubKey("Arbeitszeiterfassung");
-            //keyy.SetValue("Pfad", 1, RegistryValueKind.DWord);
-
-            string InstallPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
-            if (InstallPath != null)
-            {
-                MessageBox.Show(InstallPath);
-            }
-            else
-                MessageBox.Show("something wrong");
-
-            Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", "c:desktop");
-
-            string test = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
-            MessageBox.Show(test);
         }
 
         private bool IsEnabledButton()
