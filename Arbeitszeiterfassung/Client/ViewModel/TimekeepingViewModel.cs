@@ -1,25 +1,33 @@
 ﻿using Arbeitszeiterfassung.Client.Common;
-using Arbeitszeiterfassung.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows;
-using Form = System.Windows.Forms;
-using System.Drawing;
 using Arbeitszeiterfassung.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
+using System;
+using System.Windows;
+using System.Windows.Input;
+using Form = System.Windows.Forms;
 //using SystemTrayApp.WPF;
-using System.ComponentModel;
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
+        private bool _btnEnabled;
+        public bool btnEnabled
+        {
+            get { return _btnEnabled; }
+            set
+            {
+                if (_btnEnabled != value)
+                {
+                    _btnEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
         #region Fields and properties
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
 
@@ -71,13 +79,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             set
             {
                 if (!string.IsNullOrEmpty(value))
+                {
                     _destination = value;
+                    Properties.Settings.Default["Pfad"] = Destination;
+                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                }
             }
         }
         #endregion
 
         #region Constructor
-        public TimekeepingViewModel() 
+        public TimekeepingViewModel()
         {
             _notifyIcon = new Form.NotifyIcon();
             SetupCommands();
@@ -105,7 +117,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void LogicCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
-            _startCoffeeBreakCommand = new DelegateCommand(StartCoffeeBreak);
+            _setRegistryCommand = new DelegateCommand(SetRegistry);
             _finishCoffeeBreakCommand = new DelegateCommand(FinishCoffeeBreak);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
             _continueWorkCommand = new DelegateCommand(ContinueWork);
@@ -126,7 +138,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region Commands
-        private DelegateCommand _startCoffeeBreakCommand;
+        private DelegateCommand _setRegistryCommand;
         private DelegateCommand _finishCoffeeBreakCommand;
         private DelegateCommand _startTimekeepingCommand;
         private DelegateCommand _startBreakTimeCommand;
@@ -135,7 +147,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
 
-        public ICommand StartCoffeeBreakCommand { get =>_startCoffeeBreakCommand; }
+        public ICommand SetRegistryCommand { get => _setRegistryCommand; }
         public ICommand FinishCoffeeBreakCommand { get => _finishCoffeeBreakCommand; }
         public ICommand LoadedCommand { get; set; }
         public ICommand ClosingCommand { get; set; }
@@ -157,15 +169,31 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         }
 
-        private void StartCoffeeBreak()
+        private void SetRegistry()
         {
+            //RegistryKey key = Registry.CurrentUser.CreateSubKey("AppEvents", true);
+            //var keyvalue = key.GetValue("Standard").ToString();
+            //MessageBox.Show(keyvalue.ToString());
 
-        }
+ 
 
 
-        private void Loaded()
-        {
-            WindowState = WindowState.Minimized;
+            //RegistryKey keyy = Registry.CurrentUser.OpenSubKey(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", true);
+            //keyy = keyy.CreateSubKey("Arbeitszeiterfassung");
+            //keyy.SetValue("Pfad", 1, RegistryValueKind.DWord);
+
+            string InstallPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
+            if (InstallPath != null)
+            {
+                MessageBox.Show(InstallPath);
+            }
+            else
+                MessageBox.Show("something wrong");
+
+            Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", "c:desktop");
+
+            string test = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
+            MessageBox.Show(test);
         }
 
         private bool IsEnabledButton()
@@ -174,6 +202,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         private void StartTimekeeping()
         {
+            //btnEnabled = true;
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
             // TODO: Creates new objects when Property is invoked => baaad
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay)) // remove exclamation mark just for debugging
@@ -187,12 +216,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
-        
+
         private void SaveInformations()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = @"C:\Users\Lenovo\Desktop";
             saveFileDialog.Filter = "Text file (*.txt)|*.txt";
+
             if (saveFileDialog.ShowDialog() == true)
                 _ = saveFileDialog.FileName;
 
@@ -200,6 +230,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             if (!String.IsNullOrEmpty(saveFileDialog.FileName))
             {
                 Destination = saveFileDialog.FileName;
+
                 if (saveTimeKeeping.SaveFile())
                 {
                     _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
@@ -213,9 +244,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
-             Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
         private DateTime GetDateTime() => DateTime.Now;
+
+        private bool startTimekeeping;
+
+        public bool _StartTimekeeping { get => startTimekeeping; set => SetProperty(ref startTimekeeping, value); }
 
         #endregion
 

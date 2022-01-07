@@ -17,10 +17,11 @@
         <converters:ConvertTime x:Key="timeconverter"></converters:ConvertTime>
         <converters:ConvertMinutes x:Key="intconverter"></converters:ConvertMinutes>
         <converters:ConvertDate x:Key="datetimeconverter"></converters:ConvertDate>
-        <converters:BoolConverter x:Key="boolconverter"></converters:BoolConverter>
         <converters:ConvertTimeSpan x:Key="timespanconverter"></converters:ConvertTimeSpan>
         <converters:ConvertTimeSpanToMiniutes x:Key="timespanconvertertominutes"></converters:ConvertTimeSpanToMiniutes>
         <converters:ConvertDecimalToString x:Key="decimaltostring"></converters:ConvertDecimalToString>
+        <converters:NullBooleanConverter x:Key="NullBooleanConverter" />
+
     </Window.Resources>
     <Window.DataContext>
         <ViewModel:TimekeepingViewModel/>
@@ -100,16 +101,14 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Start" Command="{Binding StartTimekeepingCommand}" IsEnabled="{Binding StartTimekeeping}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="200"/>
-                <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
-                <Button Content="Weiter" Command="{Binding ContinueWorkCommand}" IsEnabled="True" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="200"/>
+                <Button Content="Start" Command="{Binding StartTimekeepingCommand}" IsEnabled="{Binding _StartTimekeeping, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="200"/>
+                <Button Content="Pause"  IsEnabled="{Binding btnEnabled}" Command="{Binding StartBreakTimeCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="10, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
+                <Button Content="Weiter" IsEnabled="{Binding btnEnabled}" Command="{Binding ContinueWorkCommand}"  HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="200"/>
                 <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
 
-                <Button Content="Kaffeepause" Width="200" Height="20" Margin="10,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="10 Minuten extra, die zur Arbeitszeit gehören. (max. 2 mal wählbar"/>
-
-
-
+      
             </Grid>
+            <Button Content="Add key" Command="{Binding SetRegistryCommand}"/>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
         <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="62,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" IsReadOnly="True"/>
