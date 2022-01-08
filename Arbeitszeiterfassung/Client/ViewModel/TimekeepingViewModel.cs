@@ -118,7 +118,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
             _setRegistryCommand = new DelegateCommand(SetRegistry);
-            _finishCoffeeBreakCommand = new DelegateCommand(FinishCoffeeBreak);
+            _addKeyCommand = new DelegateCommand(AddKey);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
             _continueWorkCommand = new DelegateCommand(ContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork);
@@ -146,6 +146,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _exitWindowCommand;
         private DelegateCommand _continueWorkCommand;
         private DelegateCommand _saveCommand;
+        private DelegateCommand _addKeyCommand;
 
         public ICommand SetRegistryCommand { get => _setRegistryCommand; }
         public ICommand FinishCoffeeBreakCommand { get => _finishCoffeeBreakCommand; }
@@ -160,40 +161,30 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand FinishWorkCommand { get => _finishWorkCommand; }
         public ICommand ExitWindowCommand { get => _exitWindowCommand; }
         public ICommand SaveCommand { get => _saveCommand; }
+        public ICommand AddKeyCommand { get => _addKeyCommand; }
         #endregion
 
         #region private methods
 
-        private void FinishCoffeeBreak()
+        private void AddKey()
         {
+            RegistryKey subKey = Registry.CurrentUser.OpenSubKey("Test\\Arbeitszeiterfassung", true);
+            if(!KeyExists(subKey))
+            {
+                Registry.CurrentUser.CreateSubKey("Test\\Arbeitszeiterfassung", true);
+                Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", "hallo");
+            }
+
+
 
         }
 
+        private static bool KeyExists(RegistryKey subKey) => subKey == null ? false : true;
+
+
         private void SetRegistry()
         {
-            //RegistryKey key = Registry.CurrentUser.CreateSubKey("AppEvents", true);
-            //var keyvalue = key.GetValue("Standard").ToString();
-            //MessageBox.Show(keyvalue.ToString());
 
- 
-
-
-            //RegistryKey keyy = Registry.CurrentUser.OpenSubKey(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", true);
-            //keyy = keyy.CreateSubKey("Arbeitszeiterfassung");
-            //keyy.SetValue("Pfad", 1, RegistryValueKind.DWord);
-
-            string InstallPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
-            if (InstallPath != null)
-            {
-                MessageBox.Show(InstallPath);
-            }
-            else
-                MessageBox.Show("something wrong");
-
-            Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", "c:desktop");
-
-            string test = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
-            MessageBox.Show(test);
         }
 
         private bool IsEnabledButton()
