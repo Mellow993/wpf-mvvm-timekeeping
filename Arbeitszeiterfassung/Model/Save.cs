@@ -38,8 +38,8 @@ namespace Arbeitszeiterfassung.Model
         #endregion
 
         #region Constructor
-        public Save(WorkTimeMeasurementModel worktimemeasurementmodel, string destination) 
-        { 
+        public Save(WorkTimeMeasurementModel worktimemeasurementmodel, string destination)
+        {
             _workTimeMeasurementModel = worktimemeasurementmodel;
             _destination = destination;
         }
@@ -48,13 +48,10 @@ namespace Arbeitszeiterfassung.Model
         #region Public methods (SaveFile)
         public bool SaveFile()
         {
-            //if (String.IsNullOrEmpty(Destination))
-            //    Destination = @"c:\";
             DirectoryInfo directoryinfo = new DirectoryInfo(Path.GetDirectoryName(Destination));
             if (directoryinfo.Exists)
             {
-                var content = BuildInformation();
-                File.AppendAllText(Destination, content);
+                PrepareOutput();
                 return true;
             }
             else
@@ -63,6 +60,7 @@ namespace Arbeitszeiterfassung.Model
         #endregion
 
         #region Private methods (Stringbuilder)
+        private void PrepareOutput() => File.AppendAllText(Destination, BuildInformation());
         private string BuildInformation()
         {
             StringBuilder Content = new StringBuilder();
@@ -73,7 +71,7 @@ namespace Arbeitszeiterfassung.Model
             _ = Content.Append("Pausenende\t" + WorkTimeMeasurementModel.ContinueWork.ToShortTimeString() + " Uhr" + "\n");
             _ = Content.Append("Feierabend\t" + WorkTimeMeasurementModel.FinishWork.ToShortTimeString() + " Uhr" + "\n"); ;
             _ = Content.Append("Nettozeit\t" + WorkTimeMeasurementModel.NetWorkTime + " (hh:mm)" + "\n");
-            _ = Content.Append("Bruttozeit\t" + WorkTimeMeasurementModel.GrossWorkTime + " (hh:mm)"+ "\n");
+            _ = Content.Append("Bruttozeit\t" + WorkTimeMeasurementModel.GrossWorkTime + " (hh:mm)" + "\n");
             _ = Content.Append("Timecard\t" + WorkTimeMeasurementModel.Timecard + "\n");
             _ = Content.Append("------------------------------------\n");
             return Content.ToString();

@@ -15,16 +15,8 @@ namespace Arbeitszeiterfassung.Model
         #endregion
 
         #region Compare Inputs
-
-        public static bool IsServiceTime(DateTime starttime, DateTime endtime) 
-        {
-            // work started to early or to late
-            if (starttime <= ServiceTimeStart || endtime >= ServiceTimeEnd)  
-                return false;
-            
-            else
-                return true; 
-        }
+        public static bool IsServiceTime(DateTime starttime, DateTime endtime)
+            => (starttime <= ServiceTimeStart || endtime >= ServiceTimeEnd) ? false : true;
 
         public bool IsLegalInput => true;
         #endregion

@@ -96,10 +96,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         #endregion
 
-        #region Events
-
-        #endregion
-
         #region Setup commands
         private void SetupCommands()
         {
@@ -117,7 +113,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void LogicCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
-            _setRegistryCommand = new DelegateCommand(SetRegistry);
             _addKeyCommand = new DelegateCommand(AddKey);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
             _continueWorkCommand = new DelegateCommand(ContinueWork);
@@ -127,18 +122,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             _saveCommand = new DelegateCommand(SaveInformations);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
-
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
-            //LoadedCommand = new RelayCommand(Loaded);
-            //ClosingCommand = new RelayCommand<CancelEventArgs>(Closing);
-            //NotifyCommand = new RelayCommand(() => Notify("Hello world!"));
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
             NotifyIconExitCommand = new RelayCommand(() => { Application.Current.Shutdown(); });
         }
         #endregion
 
         #region Commands
-        private DelegateCommand _setRegistryCommand;
         private DelegateCommand _finishCoffeeBreakCommand;
         private DelegateCommand _startTimekeepingCommand;
         private DelegateCommand _startBreakTimeCommand;
@@ -148,7 +138,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _saveCommand;
         private DelegateCommand _addKeyCommand;
 
-        public ICommand SetRegistryCommand { get => _setRegistryCommand; }
         public ICommand FinishCoffeeBreakCommand { get => _finishCoffeeBreakCommand; }
         public ICommand LoadedCommand { get; set; }
         public ICommand ClosingCommand { get; set; }
@@ -174,23 +163,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 Registry.CurrentUser.CreateSubKey("Test\\Arbeitszeiterfassung", true);
                 Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", "hallo");
             }
-
-
-
         }
 
         private static bool KeyExists(RegistryKey subKey) => subKey == null ? false : true;
 
 
-        private void SetRegistry()
-        {
-
-        }
-
-        private bool IsEnabledButton()
-        {
-            return false;
-        }
         private void StartTimekeeping()
         {
             //btnEnabled = true;
@@ -240,7 +217,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DateTime GetDateTime() => DateTime.Now;
 
         private bool startTimekeeping;
-
         public bool _StartTimekeeping { get => startTimekeeping; set => SetProperty(ref startTimekeeping, value); }
 
         #endregion
