@@ -9,6 +9,8 @@ namespace Arbeitszeiterfassung.Model
 {
     class UserSettings
     {
+        public event EventHandler PathHasChanged;
+
         //RegistryKey key = Registry.CurrentUser.CreateSubKey("AppEvents", true);
         //var keyvalue = key.GetValue("Standard").ToString();
         //MessageBox.Show(keyvalue.ToString());

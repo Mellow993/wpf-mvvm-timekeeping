@@ -108,7 +108,7 @@
 
       
             </Grid>
-            <Button Content="Add key" Command="{Binding SetRegistryCommand}"/>
+            <Button Content="Add key" Command="{Binding AddKeyCommand}"/>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
         <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.State, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="62,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" IsReadOnly="True"/>
