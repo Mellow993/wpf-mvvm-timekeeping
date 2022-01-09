@@ -9,47 +9,45 @@ namespace Arbeitszeiterfassung.Model
 {
     class UserSettings
     {
-        public event EventHandler PathHasChanged;
+        private const string _pathToKey = @"HKEY_CURRENT_USER\SOFTWARE\Arbeitszeiterfassung";
+        private const string _keyValue = "Pfad";
 
-        //RegistryKey key = Registry.CurrentUser.CreateSubKey("AppEvents", true);
-        //var keyvalue = key.GetValue("Standard").ToString();
-        //MessageBox.Show(keyvalue.ToString());
+        public event EventHandler PathHasChanged;
 
         private string _savePath;
         public string SavePath
         {
             get => _savePath;
-            set => _savePath = value;
+            private set => _savePath = value;
         }
 
-        // Keep the class clean, no validation, the validation is made before the constructor is invoked.
+        public UserSettings() { }
         public UserSettings(string savePath) { _savePath = savePath; }
 
-        public bool CheckRegistry()
-        {
-            //if (exits)
-            //    return true;
-            //else
-            //    return false;
-            return true;
-        }
-
-        public void SetRegistry(string destination) =>  Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", SavePath);
-
+        public void SetRegistry() => Registry.SetValue(_pathToKey, _keyValue, SavePath);
+    
         public string ReadRegistry()
         {
-            SavePath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", null);
-            return SavePath;
+            if (TheKeyExits())
+                return (string)Registry.GetValue(_pathToKey, _keyValue, null);
+
+            else
+            {
+                CreateSubKey();
+                return String.Empty;
+            }
         }
 
-        //RegistryKey keyy = Registry.CurrentUser.OpenSubKey(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", true);
-        //keyy = keyy.CreateSubKey("Arbeitszeiterfassung");
-        //keyy.SetValue("Pfad", 1, RegistryValueKind.DWord);
+        private void CreateSubKey() => Registry.CurrentUser.CreateSubKey(_pathToKey, true);
 
-
-
+        private bool TheKeyExits()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(_pathToKey, true);
+            if (key == null)
+                return false;
+            else
+                return true;
+        }
     }
-
-
 }
 
