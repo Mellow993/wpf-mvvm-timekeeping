@@ -81,8 +81,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 if (!string.IsNullOrEmpty(value))
                 {
                     _destination = value;
-                    Properties.Settings.Default["Pfad"] = Destination;
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                    OnPropertyChanged(nameof(Destination));
                 }
             }
         }
@@ -102,7 +101,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             SetupNotification();
             LogicCommands();
             ControlCommands();
+            FetchUserSettings();
         }
+
+        private void FetchUserSettings()
+        {
+            UserSettings su = new UserSettings();
+            Destination = su.ReadRegistry();
+            OnPropertyChanged(nameof(Destination));
+        }
+
         private void SetupNotification()
         {
             _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
@@ -129,7 +137,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region Commands
-        private DelegateCommand _finishCoffeeBreakCommand;
         private DelegateCommand _startTimekeepingCommand;
         private DelegateCommand _startBreakTimeCommand;
         private DelegateCommand _finishWorkCommand;
@@ -138,7 +145,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private DelegateCommand _saveCommand;
         private DelegateCommand _addKeyCommand;
 
-        public ICommand FinishCoffeeBreakCommand { get => _finishCoffeeBreakCommand; }
         public ICommand LoadedCommand { get; set; }
         public ICommand ClosingCommand { get; set; }
         public ICommand NotifyCommand { get; set; }
@@ -157,16 +163,14 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void AddKey()
         {
-            RegistryKey subKey = Registry.CurrentUser.OpenSubKey("Test\\Arbeitszeiterfassung", true);
-            if(!KeyExists(subKey))
-            {
-                Registry.CurrentUser.CreateSubKey("Test\\Arbeitszeiterfassung", true);
-                Registry.SetValue(@"HKEY_CURRENT_USER\Test\Arbeitszeiterfassung", "Pfad", "hallo");
-            }
+            //RegistryKey subKey = Registry.CurrentUser.OpenSubKey(Name, true);
+            //if(KeyExists(subKey))
+            //{
+
+            //}
+
+
         }
-
-        private static bool KeyExists(RegistryKey subKey) => subKey == null ? false : true;
-
 
         private void StartTimekeeping()
         {
@@ -198,6 +202,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             if (!String.IsNullOrEmpty(saveFileDialog.FileName))
             {
                 Destination = saveFileDialog.FileName;
+                UserSettings su = new UserSettings(Destination);
+                su.SetRegistry();
 
                 if (saveTimeKeeping.SaveFile())
                 {
@@ -215,7 +221,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             Application.Current.Shutdown();
         }
         private DateTime GetDateTime() => DateTime.Now;
-
         private bool startTimekeeping;
         public bool _StartTimekeeping { get => startTimekeeping; set => SetProperty(ref startTimekeeping, value); }
 

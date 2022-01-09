@@ -17,7 +17,6 @@ namespace Arbeitszeiterfassung.Model
     {
         #region Fields and Attributes
         private readonly WorkTimeMeasurementModel _workTimeMeasurementModel;
-
         public WorkTimeMeasurementModel WorkTimeMeasurementModel { get => _workTimeMeasurementModel; }
 
         private string _destination;
