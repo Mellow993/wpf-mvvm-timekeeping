@@ -11,8 +11,11 @@ using Form = System.Windows.Forms;
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
+
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
+        UserOutpus uo = new UserOutpus();
+
         private UserOutpus _useroutputs;
         public UserOutpus UserOutputs
         {
@@ -91,29 +94,33 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #region Setup commands
         private void SetupCommands()
         {
-            SetupNotification();
             LogicCommands();
             ControlCommands();
             FetchUserSettings();
+            CheckForEvents();
+        }
+
+        private void CheckForEvents()
+        {
+            // Event              // Methode
+            uo.FileHasBeenSaved += EventTriggered;
+        }
+
+        private void EventTriggered(object sender, EventArgs e)
+        {
+            MessageBox.Show("event has been triggered");
         }
 
         private void FetchUserSettings()
         {
-            UserSettings su = new UserSettings();
-            Destination = su.ReadRegistry();
+            UserSettings usersettings = new UserSettings();
+            Destination = usersettings.ReadRegistry();
             OnPropertyChanged(nameof(Destination));
         }
 
-        private void SetupNotification()
-        {
-            UserOutpus uo = new UserOutpus();
-
-            //_notifyIcon.Click += OpenItemOnClick;
-        }
         private void LogicCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping);
-            _addKeyCommand = new DelegateCommand(AddKey);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime);
             _continueWorkCommand = new DelegateCommand(ContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork);
@@ -124,7 +131,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _exitWindowCommand = new DelegateCommand(ExitWindow);
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
-            NotifyIconExitCommand = new RelayCommand(() => { Application.Current.Shutdown(); });
         }
         #endregion
 
@@ -152,16 +158,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region private methods
-
-        private void AddKey() { }
-
         private void StartTimekeeping()
         {
-            //btnEnabled = true;
+            //UserOutpus ui = new UserOutpus();
+            uo.OnSaveCompleted();
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
             // TODO: Creates new objects when Property is invoked => baaad
-            if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay)) // remove exclamation mark just for debugging
+            if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
+            {
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
+            }
         }
         private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
         private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
@@ -217,7 +223,5 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public bool _StartTimekeeping { get => startTimekeeping; set => SetProperty(ref startTimekeeping, value); }
 
         #endregion
-        //MessageBox.Show("File has been saved");
-        //    //_notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
     }
 }
