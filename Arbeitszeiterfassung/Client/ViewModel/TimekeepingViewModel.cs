@@ -7,17 +7,16 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using Form = System.Windows.Forms;
-//using SystemTrayApp.WPF;
 
 namespace Arbeitszeiterfassung.Client.ViewModel
 {
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        UserOutpus uo = new UserOutpus();
+        UserOutputs uo = new UserOutputs();
 
-        private UserOutpus _useroutputs;
-        public UserOutpus UserOutputs
+        private UserOutputs _useroutputs;
+        public UserOutputs UserOutputs
         {
             get => _useroutputs;
             set => _useroutputs = value;
@@ -104,6 +103,10 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             // Event              // Methode
             uo.FileHasBeenSaved += EventTriggered;
+            uo.FileHasBeenSaved += UserOutputs.OutputInformation;
+            uo.Information += UserOutputs.OutputInformation;
+            uo.Warning += UserOutputs.OutputInformation;
+            uo.Error += UserOutputs.OutputInformation;   
         }
 
         private void EventTriggered(object sender, EventArgs e)
@@ -180,7 +183,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void SaveInformations()
         {
-            UserOutpus uo = new UserOutpus();
+            UserOutputs uo = new UserOutputs();
             //uo.OnSaveCompleted += ProgrammInformation;
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
