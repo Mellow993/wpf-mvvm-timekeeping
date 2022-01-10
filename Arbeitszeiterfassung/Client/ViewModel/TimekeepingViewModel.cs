@@ -13,6 +13,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 {
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
+        private UserOutpus _useroutputs;
+        public UserOutpus UserOutputs
+        {
+            get => _useroutputs;
+            set => _useroutputs = value;
+        }
+
         private bool _btnEnabled;
         public bool btnEnabled
         {
@@ -27,28 +34,14 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             }
         }
 
-
         #region Fields and properties
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
-
-        private void Notify(string message)
-        {
-            NotifyRequest = new NotifyIconWrapper.NotifyRequestRecord
-            {
-                Title = "Notify",
-                Text = message,
-                Duration = 1000
-            };
-        }
         public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
         {
             get => _notifyRequest;
             set => SetProperty(ref _notifyRequest, value);
         }
-
         private readonly Form.NotifyIcon _notifyIcon;
-
-
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
         private bool _showInTaskbar;
@@ -113,9 +106,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void SetupNotification()
         {
-            _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
-            _notifyIcon.Visible = true;
-            _notifyIcon.Text = "Arbeitszeiterfassung";
+            UserOutpus uo = new UserOutpus();
+
             //_notifyIcon.Click += OpenItemOnClick;
         }
         private void LogicCommands()
@@ -161,16 +153,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         #region private methods
 
-        private void AddKey()
-        {
-            //RegistryKey subKey = Registry.CurrentUser.OpenSubKey(Name, true);
-            //if(KeyExists(subKey))
-            //{
-
-            //}
-
-
-        }
+        private void AddKey() { }
 
         private void StartTimekeeping()
         {
@@ -191,6 +174,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void SaveInformations()
         {
+            UserOutpus uo = new UserOutpus();
+            //uo.OnSaveCompleted += ProgrammInformation;
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = @"C:\Users\Lenovo\Desktop";
             saveFileDialog.Filter = "Text file (*.txt)|*.txt";
@@ -207,12 +193,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
                 if (saveTimeKeeping.SaveFile())
                 {
-                    _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+                    //OnSaveCompleted();
+                    //_notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
                     OnPropertyChanged(nameof(Destination));
                 }
             }
             else
                 _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
+        }
+
+        public void ProgrammInformation(object sender, EventArgs e)
+        {
+            MessageBox.Show("save erfolgreich");
         }
 
         private void ExitWindow()
@@ -225,6 +217,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public bool _StartTimekeeping { get => startTimekeeping; set => SetProperty(ref startTimekeeping, value); }
 
         #endregion
-
+        //MessageBox.Show("File has been saved");
+        //    //_notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
     }
 }
