@@ -1,16 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Form = System.Windows.Forms;
-using Arbeitszeiterfassung.Client.Common;
-using Arbeitszeiterfassung.Model;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Win32;
-using System.Windows.Input;
 using System.Windows.Forms;
 
 namespace Arbeitszeiterfassung.Model
@@ -28,7 +16,7 @@ namespace Arbeitszeiterfassung.Model
         }
     }
 
-    public class UserOutpus : Notify
+    public class UserOutputs : Notify
     {
         public event EventHandler FileHasBeenSaved;
         public event EventHandler Information;
