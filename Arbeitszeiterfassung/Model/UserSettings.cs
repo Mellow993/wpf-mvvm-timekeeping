@@ -9,6 +9,8 @@ namespace Arbeitszeiterfassung.Model
 {
     class UserSettings
     {
+
+
         private const string _pathToKey = @"HKEY_CURRENT_USER\SOFTWARE\Arbeitszeiterfassung";
         private const string _keyValue = "Pfad";
 
