@@ -13,8 +13,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        public ButtonControl ButtonControl { get; set; } = new ButtonControl(); 
-        
+        //public ButtonControl ButtonControl { get; set; } = new ButtonControl();
+
+        readonly ButtonControl bc = new ButtonControl();
         private readonly UserOutputs uo = new UserOutputs();
 
         private UserOutputs _useroutputs;
@@ -25,7 +26,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
 
         #region Fields and properties
-        #region MyRegion
+        #region Hide form in traybar
 
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
         public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
@@ -93,9 +94,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand SaveCommand { get => _saveCommand; }
         #endregion
 
-
-
-
         #region Constructor
         public TimekeepingViewModel()
         {
@@ -147,27 +145,26 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
         private void StartTimekeeping()
         {
-            //UserOutpus ui = new UserOutpus();
-            ButtonControl.Work = true;
-            OnPropertyChanged(nameof(ButtonControl.Work));
-            uo.OnSaveCompleted();
+            bc.CurrentState = ButtonControl.State.Work;
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
             
+            //UserOutpus ui = new UserOutpus();
+            //uo.OnSaveCompleted();
         }
         private bool CanStartTimeKeeping() => true;
         private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
-        private bool CanDoBreak() => false;
+        private bool CanDoBreak() => (bc.CurrentState == ButtonControl.State.Work) ? true : false;
         private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
-        private bool CanContinueWork() => false;
+        private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
         private void FinishWork()
         {
             _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Feierabend", Form.ToolTipIcon.Info);
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
         }
-        private bool CanFinishWork() => false;
+        private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break ? true : false;
         private void SaveInformations()
         {
             var initialDirectory = @"C:\Users\Lenovo\Desktop";
@@ -199,7 +196,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             else
                 _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
         }
-        private bool CanSave() => false;
+        private bool CanSave() => bc.CurrentState == ButtonControl.State.HomeTime ? true : false;
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
