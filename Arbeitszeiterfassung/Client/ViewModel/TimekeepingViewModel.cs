@@ -102,16 +102,10 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void CheckForEvents()
         {
             // Event              // Methode
-            uo.FileHasBeenSaved += EventTriggered;
             uo.FileHasBeenSaved += UserOutputs.OutputInformation;
             uo.Information += UserOutputs.OutputInformation;
             uo.Warning += UserOutputs.OutputInformation;
             uo.Error += UserOutputs.OutputInformation;   
-        }
-
-        private void EventTriggered(object sender, EventArgs e)
-        {
-            MessageBox.Show("event has been triggered");
         }
 
         private void FetchUserSettings()
@@ -171,6 +165,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             {
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
             }
+            
         }
         private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
         private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
