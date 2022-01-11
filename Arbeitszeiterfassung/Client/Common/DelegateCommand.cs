@@ -11,16 +11,12 @@ namespace Arbeitszeiterfassung.Client.Common
     {
         private Action _execute;
         private Func<bool> _canExecute;
+        public event EventHandler CanExecuteChanged;
 
         public DelegateCommand(Action execute) { _execute = execute; }
         public DelegateCommand(Action execute, Func<bool> canexecute) { _execute = execute; _canExecute = canexecute; }
-
-        public event EventHandler CanExecuteChanged;
-
         public void OnExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-        public void Execute(object parameter) => _execute.Invoke();
-
-        public bool CanExecute(object parameter) => _canExecute == null;
+        public void Execute(object parameter) => _execute(); //_execute.Invoke();
+        public bool CanExecute(object parameter) => _canExecute != null ? _canExecute() : true;
     }
 }
