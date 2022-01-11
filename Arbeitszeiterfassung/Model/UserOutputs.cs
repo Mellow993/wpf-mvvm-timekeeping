@@ -18,6 +18,14 @@ namespace Arbeitszeiterfassung.Model
 
     public class UserOutputs : Notify
     {
+        private NotifyIcon _notifyIcon;
+        public UserOutputs()
+        {
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
+            _notifyIcon.Visible = true;
+            _notifyIcon.Text = "Arbeitszeiterfassung";
+        }
         public event EventHandler FileHasBeenSaved;
         public event EventHandler Information;
         public event EventHandler Warning;
@@ -34,6 +42,7 @@ namespace Arbeitszeiterfassung.Model
 
         public static void OutputInformation(object sender, EventArgs e)
         {
+            _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
 
         }
 
