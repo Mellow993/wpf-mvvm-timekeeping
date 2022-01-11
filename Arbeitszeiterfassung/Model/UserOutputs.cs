@@ -42,7 +42,7 @@ namespace Arbeitszeiterfassung.Model
 
         public static void OutputInformation(object sender, EventArgs e)
         {
-            _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
+            //_notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
 
         }
 

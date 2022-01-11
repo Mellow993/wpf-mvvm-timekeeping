@@ -64,10 +64,7 @@ namespace Arbeitszeiterfassung.Model
             set => SetValue(NotifyRequestProperty, value);
         }
 
-        public void Dispose()
-        {
-            _notifyIcon?.Dispose();
-        }
+        public void Dispose() => _notifyIcon?.Dispose();
 
         public event RoutedEventHandler OpenSelected
         {

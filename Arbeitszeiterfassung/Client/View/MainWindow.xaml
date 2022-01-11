@@ -102,9 +102,9 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Button Content="Start" Command="{Binding StartTimekeepingCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"  RenderTransformOrigin="1.02,0.176" Width="200"/>
-                <Button Content="Pause"  IsEnabled="{Binding btnEnabled}" Command="{Binding StartBreakTimeCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="10, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
-                <Button Content="Weiter" IsEnabled="{Binding btnEnabled}" Command="{Binding ContinueWorkCommand}"  HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="200"/>
-                <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" IsEnabled="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
+                <Button Content="Pause" Command="{Binding StartBreakTimeCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="10, 30,3,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
+                <Button Content="Weiter" Command="{Binding ContinueWorkCommand}"  HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="200"/>
+                <Button Content="Feierabend" Command="{Binding FinishWorkCommand}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.02,0.176" Width="200"/>
             </Grid>
         </StackPanel>
         <Label Content="Zustand" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0" VerticalAlignment="Center" Width="62"/>
