@@ -13,6 +13,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             None,
             Work,
             Break,
+            ContinueWork,
             HomeTime
         }
 

@@ -1,9 +1,12 @@
 ﻿using Arbeitszeiterfassung.Client.Common;
 using Arbeitszeiterfassung.Model;
+using Arbeitszeiterfassung.ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using Form = System.Windows.Forms;
@@ -14,6 +17,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
         //public ButtonControl ButtonControl { get; set; } = new ButtonControl();
+        public event EventHandler CanExecuteChanged;
 
         readonly ButtonControl bc = new ButtonControl();
         private readonly UserOutputs uo = new UserOutputs();
@@ -149,32 +153,45 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
-            
+            RaisePropertyChanged();
+            //CanDoBreak();
             //UserOutpus ui = new UserOutpus();
             //uo.OnSaveCompleted();
         }
         private bool CanStartTimeKeeping() => true;
-        private void StartBreakTime() => WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
+        private void StartBreakTime()
+        {
+            bc.CurrentState = ButtonControl.State.Break;
+            WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
+            RaisePropertyChanged();
+        }
         private bool CanDoBreak() => (bc.CurrentState == ButtonControl.State.Work) ? true : false;
-        private void ContinueWork() => WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
+        private void ContinueWork()
+        { 
+            WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
+            bc.CurrentState = ButtonControl.State.ContinueWork;
+            RaisePropertyChanged();
+        }
         private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
         private void FinishWork()
         {
             _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Feierabend", Form.ToolTipIcon.Info);
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
+            bc.CurrentState = ButtonControl.State.HomeTime;
+            RaisePropertyChanged();
         }
         private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break ? true : false;
         private void SaveInformations()
         {
             var initialDirectory = @"C:\Users\Lenovo\Desktop";
-            var allowdFiles = "Text file (*.txt)|*.txt";
+            var allowedFiles = "Text file (*.txt)|*.txt";
             UserOutputs uo = new UserOutputs();
             //uo.OnSaveCompleted += ProgrammInformation;
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = initialDirectory;
-            saveFileDialog.Filter = allowdFiles;
+            saveFileDialog.Filter = allowedFiles;
 
             if (saveFileDialog.ShowDialog() == true)
                 _ = saveFileDialog.FileName;
@@ -207,6 +224,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #region Provide acutal date and time
         private DateTime GetDateTime() => DateTime.Now;
         #endregion
+
+        private void RaisePropertyChanged([CallerMemberName] string propname = "")
+        {
+            ((DelegateCommand)StartTimekeepingCommand).OnExecuteChanged();
+            ((DelegateCommand)StartBreakTimeCommand).OnExecuteChanged();
+            ((DelegateCommand)ContinueWorkCommand).OnExecuteChanged();
+            ((DelegateCommand)FinishWorkCommand).OnExecuteChanged();
+            ((DelegateCommand)SaveCommand).OnExecuteChanged();
+
+            //CanExecuteChanged ? Invoke(this, new PropertyChangedEventArgs(propname));
+        }
 
         #region methods waiting for event
         public void ProgrammInformation(object sender, EventArgs e)
