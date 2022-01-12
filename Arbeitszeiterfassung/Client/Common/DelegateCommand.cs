@@ -15,7 +15,7 @@ namespace Arbeitszeiterfassung.Client.Common
 
         public DelegateCommand(Action execute) { _execute = execute; }
         public DelegateCommand(Action execute, Func<bool> canexecute) { _execute = execute; _canExecute = canexecute; }
-        public void OnExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void OnExecuteChanged() => CanExecuteChanged?.Invoke(this, new EventArgs());
         public void Execute(object parameter) => _execute(); //_execute.Invoke();
         public bool CanExecute(object parameter) => _canExecute != null ? _canExecute() : true;
     }
