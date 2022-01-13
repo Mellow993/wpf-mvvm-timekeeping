@@ -16,7 +16,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        //public ButtonControl ButtonControl { get; set; } = new ButtonControl();
         public event EventHandler CanExecuteChanged;
 
         readonly ButtonControl bc = new ButtonControl();
@@ -102,6 +101,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public TimekeepingViewModel()
         {
             _notifyIcon = new Form.NotifyIcon();
+            bc.CurrentState = ButtonControl.State.None;
             SetupCommands();
         }
         #endregion
@@ -158,7 +158,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             //UserOutpus ui = new UserOutpus();
             //uo.OnSaveCompleted();
         }
-        private bool CanStartTimeKeeping() => true;
+        private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
         private void StartBreakTime()
         {
             bc.CurrentState = ButtonControl.State.Break;
@@ -181,7 +181,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             bc.CurrentState = ButtonControl.State.HomeTime;
             RaisePropertyChanged();
         }
-        private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break ? true : false;
+        private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
         private void SaveInformations()
         {
             var initialDirectory = @"C:\Users\Lenovo\Desktop";
