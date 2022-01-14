@@ -3,9 +3,10 @@ using System.Windows.Forms;
 
 namespace Arbeitszeiterfassung.Model
 {
-
-    public class Notify 
+    public class Notify : EventArgs
     {
+        private string _message;
+        public string Message { get => _message; set => _message = value; }
         private NotifyIcon _notifyIcon;
         public Notify() 
         {
@@ -40,27 +41,26 @@ namespace Arbeitszeiterfassung.Model
         public void OnUserOutput() => Output?.Invoke(this, EventArgs.Empty); 
 
 
-        public static void OutputInformation(object sender, EventArgs e)
+        public void OutputInformation(object sender, EventArgs e)
         {
             //_notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
 
         }
 
-        public static void UserOutputInformations(object sender, EventArgs e)
+        public void UserOutputInformations(object sender, EventArgs e)
         {
 
         }
 
-        public static void UserOutputWarning(object sender, EventArgs e)
+        public void UserOutputWarning(object sender, EventArgs e)
         {
 
         }
 
-        public static void UserOutputError(object sender, EventArgs e)
+        public void UserOutputError(object sender, EventArgs e)
         {
 
         }
     }
-
 }
 

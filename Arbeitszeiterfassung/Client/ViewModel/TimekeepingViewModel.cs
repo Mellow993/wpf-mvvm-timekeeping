@@ -16,7 +16,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler<MyEvents> OnWorkFinished;
+
 
         readonly ButtonControl bc = new ButtonControl();
         private readonly UserOutputs uo = new UserOutputs();
@@ -113,6 +114,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ControlCommands();      // commands for save and close
             FetchUserSettings();    // get or sets registry key
             CheckForEvents();       // subscribe for events => not finished
+            OnWorkFinished += ArbeitEnde;
+        }
+
+        public void ArbeitEnde(object sender, MyEvents e)
+        {
+            MessageBox.Show(e.Message);
         }
 
         private void ModelCommands()
@@ -154,9 +161,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
             RaisePropertyChanged();
-            //CanDoBreak();
-            //UserOutpus ui = new UserOutpus();
-            //uo.OnSaveCompleted();
         }
         private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
         private void StartBreakTime()
@@ -175,6 +179,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
         private void FinishWork()
         {
+            RaiseEvent("Work Finished");
             _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Feierabend", Form.ToolTipIcon.Info);
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
@@ -232,16 +237,24 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ((DelegateCommand)ContinueWorkCommand).OnExecuteChanged();
             ((DelegateCommand)FinishWorkCommand).OnExecuteChanged();
             ((DelegateCommand)SaveCommand).OnExecuteChanged();
-
-            //CanExecuteChanged ? Invoke(this, new PropertyChangedEventArgs(propname));
         }
 
         #region methods waiting for event
-        public void ProgrammInformation(object sender, EventArgs e)
+        public void RaiseEvent(string message)
         {
-            MessageBox.Show("save erfolgreich");
+            
+            OnWorkFinished?.Invoke(this, new MyEvents(message));
         }
-
         #endregion
+    }
+
+    class MyEvents : EventArgs
+    {
+        private string _message;
+        public MyEvents(string message) { _message = message; }
+        public MyEvents() { }
+        public string Message { get => _message; set => _message = value; }
+
+        
     }
 }
