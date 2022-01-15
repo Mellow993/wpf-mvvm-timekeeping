@@ -14,9 +14,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        public event EventHandler<Dispatch> OnWorkFinished;
+        
         public event EventHandler<Dispatch> OnWorkStarted;
+        public event EventHandler<Dispatch> OnBreakStarted;
+        public event EventHandler<Dispatch> OnContinueWorkd;
+        public event EventHandler<Dispatch> OnWorkFinished;
         public event EventHandler<Dispatch> OnSave;
+        public event EventHandler<Dispatch> OnNoSave;
         public event EventHandler<Dispatch> OnServiceTime;
 
         readonly ButtonControl bc = new ButtonControl();
@@ -122,8 +126,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void SubscribeToEvents()       
         {
             OnWorkStarted += _dispatch.StartWorking;
+            OnBreakStarted += _dispatch.StartBreak;
+            OnContinueWorkd += _dispatch.ContinueWork;
             OnWorkFinished += _dispatch.FinishWorking;
             OnSave += _dispatch.SaveTimes;
+            OnNoSave += _dispatch.NoSaveTimes;
+            OnServiceTime += _dispatch.ServiceTimes;
         }
         #endregion
 
@@ -214,10 +222,14 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         #region methods waiting for event
         public void RaiseStart(string message) => OnWorkStarted?.Invoke(this, new Dispatch());
-        public void RaiseServiceTime(string message) => OnServiceTime?.Invoke(this, new Dispatch());
+        public void RasieBreak(string message) => OnBreakStarted?.Invoke(this, new Dispatch());
+        public void RasieContinue(string message) => OnContinueWorkd?.Invoke(this, new Dispatch());
         public void RaiseFinish(string message) => OnWorkFinished?.Invoke(this, new Dispatch());
+        public void RaiseServiceTime(string message) => OnServiceTime?.Invoke(this, new Dispatch());
         public void RaiseSave(string message) => OnSave?.Invoke(this, new Dispatch());
-   
+        public void RaiseNoSave(string message) => OnNoSave?.Invoke(this, new Dispatch());
+
+
         #endregion
     }
 }
