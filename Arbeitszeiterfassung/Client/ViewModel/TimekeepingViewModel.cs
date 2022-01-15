@@ -101,7 +101,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             FetchUserSettings();    // get or sets registry key
             SubscribeToEvents();       // subscribe for events => not finished
         }
-
         private void ModelCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping, CanStartTimeKeeping);
@@ -109,7 +108,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _continueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
         }     
-
         private void ControlCommands()
         {
             _saveCommand = new DelegateCommand(SaveInformations, CanSave);
@@ -139,35 +137,36 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private void StartTimekeeping()
         {
             bc.CurrentState = ButtonControl.State.Work;
-            WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
+            WorkTimeMeasurementModelInstance.StartWork = DateTime.Now; 
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
-                _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
+                RaiseServiceTime();
             
-            RaiseStart("Arbeit beginnt");
+            RaiseStart();
             RaisePropertyChanged();
         }
         private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
         private void StartBreakTime()
         {
             bc.CurrentState = ButtonControl.State.Break;
-            WorkTimeMeasurementModelInstance.StartBreak = GetDateTime();
+            WorkTimeMeasurementModelInstance.StartBreak = DateTime.Now; 
+            RasieBreak();
             RaisePropertyChanged();
         }
         private bool CanDoBreak() => (bc.CurrentState == ButtonControl.State.Work) ? true : false;
         private void ContinueWork()
         { 
-            WorkTimeMeasurementModelInstance.ContinueWork = GetDateTime();
+            WorkTimeMeasurementModelInstance.ContinueWork = DateTime.Now;
             bc.CurrentState = ButtonControl.State.ContinueWork;
+            RasieContinue();
             RaisePropertyChanged();
         }
         private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
         private void FinishWork()
         {
-            _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Feierabend", Form.ToolTipIcon.Info);
-            WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
+            WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
             bc.CurrentState = ButtonControl.State.HomeTime;
-            RaiseFinish("Feierabend");
+            RaiseFinish();
             RaisePropertyChanged();
         }
         private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
@@ -192,13 +191,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
                 if (saveTimeKeeping.SaveFile())
                 {
-                    //OnSaveCompleted();
-                    //_notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten wurden gespeichert", Form.ToolTipIcon.Info);
+                    RaiseSave();
                     OnPropertyChanged(nameof(Destination));
                 }
             }
             else
-                _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Arbeitszeiten konnte nicht gespeichert werden", Form.ToolTipIcon.Warning);
+                RaiseNoSave();
         }
         private bool CanSave() => bc.CurrentState == ButtonControl.State.HomeTime ? true : false;
         private void ExitWindow()
@@ -206,10 +204,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _notifyIcon.Dispose();
             Application.Current.Shutdown();
         }
-        #endregion
-
-        #region Provide acutal date and time
-        private DateTime GetDateTime() => DateTime.Now;
         #endregion
 
         private void RaisePropertyChanged([CallerMemberName] string propname = "")
@@ -221,13 +215,13 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ((DelegateCommand)SaveCommand).OnExecuteChanged();
         }
         #region methods waiting for event
-        public void RaiseStart(string message) => OnWorkStarted?.Invoke(this, new Dispatch());
-        public void RasieBreak(string message) => OnBreakStarted?.Invoke(this, new Dispatch());
-        public void RasieContinue(string message) => OnContinueWorkd?.Invoke(this, new Dispatch());
-        public void RaiseFinish(string message) => OnWorkFinished?.Invoke(this, new Dispatch());
-        public void RaiseServiceTime(string message) => OnServiceTime?.Invoke(this, new Dispatch());
-        public void RaiseSave(string message) => OnSave?.Invoke(this, new Dispatch());
-        public void RaiseNoSave(string message) => OnNoSave?.Invoke(this, new Dispatch());
+        public void RaiseStart() => OnWorkStarted?.Invoke(this, new Dispatch());
+        public void RasieBreak() => OnBreakStarted?.Invoke(this, new Dispatch());
+        public void RasieContinue() => OnContinueWorkd?.Invoke(this, new Dispatch());
+        public void RaiseFinish() => OnWorkFinished?.Invoke(this, new Dispatch());
+        public void RaiseServiceTime() => OnServiceTime?.Invoke(this, new Dispatch());
+        public void RaiseSave() => OnSave?.Invoke(this, new Dispatch());
+        public void RaiseNoSave() => OnNoSave?.Invoke(this, new Dispatch());
 
 
         #endregion
