@@ -1,12 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
-using Form = System.Windows.Forms;
 
 
 namespace Arbeitszeiterfassung.Model

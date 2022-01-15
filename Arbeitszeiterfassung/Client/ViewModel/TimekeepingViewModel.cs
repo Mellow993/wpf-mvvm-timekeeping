@@ -1,11 +1,9 @@
 ﻿using Arbeitszeiterfassung.Client.Common;
 using Arbeitszeiterfassung.Model;
-using Arbeitszeiterfassung.ViewModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using System;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
