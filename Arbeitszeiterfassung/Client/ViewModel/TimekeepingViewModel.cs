@@ -16,43 +16,32 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        public event EventHandler<MyEvents> OnWorkFinished;
-
+        public event EventHandler<Dispatch> OnWorkFinished;
+        public event EventHandler<Dispatch> OnWorkStarted;
 
         readonly ButtonControl bc = new ButtonControl();
         private readonly UserOutputs uo = new UserOutputs();
 
-        private UserOutputs _useroutputs;
-        public UserOutputs UserOutputs
-        {
-            get => _useroutputs;
-            set => _useroutputs = value;
-        }
+        //private UserOutputs _useroutputs;
+        //public UserOutputs UserOutputs
+        //{
+        //    get => _useroutputs;
+        //    set => _useroutputs = value;
+        //}
 
         #region Fields and properties
         #region Hide form in traybar
 
-        private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
-        public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
-        {
-            get => _notifyRequest;
-            set => SetProperty(ref _notifyRequest, value);
-        }
         private readonly Form.NotifyIcon _notifyIcon;
+        private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
+        public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest { get => _notifyRequest; set => SetProperty(ref _notifyRequest, value); }
         public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
 
+
         private bool _showInTaskbar;
-
         private WindowState _windowState;
-        public bool ShowInTaskbar
-        {
-            get => _showInTaskbar;
-            set => SetProperty(ref _showInTaskbar, value);
-        }
-        public WindowState WindowState
-        {
-            get => _windowState;
-
+        public bool ShowInTaskbar { get => _showInTaskbar; set => SetProperty(ref _showInTaskbar, value); }
+        public WindowState WindowState { get => _windowState;
             set
             {
                 ShowInTaskbar = true;
@@ -63,9 +52,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         private string _destination;
-        public string Destination
-        {
-            get => _destination;
+        public string Destination { get => _destination;
             set
             {
                 if (!string.IsNullOrEmpty(value))
@@ -113,13 +100,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ModelCommands();        // interact with the model
             ControlCommands();      // commands for save and close
             FetchUserSettings();    // get or sets registry key
-            CheckForEvents();       // subscribe for events => not finished
-            OnWorkFinished += ArbeitEnde;
-        }
-
-        public void ArbeitEnde(object sender, MyEvents e)
-        {
-            MessageBox.Show(e.Message);
+            SubscribeToEvents();       // subscribe for events => not finished
         }
 
         private void ModelCommands()
@@ -128,38 +109,37 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
             _continueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
-        }     // interact with the model
+        }     
+
         private void ControlCommands()
         {
             _saveCommand = new DelegateCommand(SaveInformations, CanSave);
             _exitWindowCommand = new DelegateCommand(ExitWindow);
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
-        }   // commands for save and close
+        }  
         private void FetchUserSettings()
         {
             UserSettings usersettings = new UserSettings();
             Destination = usersettings.ReadRegistry();
             OnPropertyChanged(nameof(Destination));
-        } // get or sets registry key
-        private void CheckForEvents()       // subscribe for events
+        } 
+        private void SubscribeToEvents()       
         {
-            // Event              // Methode
-            uo.FileHasBeenSaved += UserOutputs.OutputInformation;
-            uo.Information += UserOutputs.OutputInformation;
-            uo.Warning += UserOutputs.OutputInformation;
-            uo.Error += UserOutputs.OutputInformation;
+            OnWorkStarted += Dispatch.StartWorking;
+            OnWorkFinished += Dispatch.FinishWorking;
         }   
         #endregion
 
         #region Commands to start the logic part
-
         private void StartTimekeeping()
         {
             bc.CurrentState = ButtonControl.State.Work;
             WorkTimeMeasurementModelInstance.StartWork = GetDateTime();
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
+            
+            RaiseEvent("Arbeit beginnt");
             RaisePropertyChanged();
         }
         private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
@@ -179,11 +159,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
         private void FinishWork()
         {
-            RaiseEvent("Work Finished");
             _notifyIcon.ShowBalloonTip(10000, "Hinweis", "Feierabend", Form.ToolTipIcon.Info);
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
             bc.CurrentState = ButtonControl.State.HomeTime;
+            RaiseEvent("Feierabend");
             RaisePropertyChanged();
         }
         private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
@@ -191,8 +171,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             var initialDirectory = @"C:\Users\Lenovo\Desktop";
             var allowedFiles = "Text file (*.txt)|*.txt";
-            UserOutputs uo = new UserOutputs();
-            //uo.OnSaveCompleted += ProgrammInformation;
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = initialDirectory;
@@ -238,23 +216,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ((DelegateCommand)FinishWorkCommand).OnExecuteChanged();
             ((DelegateCommand)SaveCommand).OnExecuteChanged();
         }
-
         #region methods waiting for event
-        public void RaiseEvent(string message)
-        {
-            
-            OnWorkFinished?.Invoke(this, new MyEvents(message));
-        }
+        public void RaiseEvent(string message) => OnWorkFinished?.Invoke(this, new Dispatch(message));
+   
         #endregion
-    }
-
-    class MyEvents : EventArgs
-    {
-        private string _message;
-        public MyEvents(string message) { _message = message; }
-        public MyEvents() { }
-        public string Message { get => _message; set => _message = value; }
-
-        
     }
 }
