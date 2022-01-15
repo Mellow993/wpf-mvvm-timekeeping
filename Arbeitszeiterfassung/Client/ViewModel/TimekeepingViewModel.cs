@@ -18,19 +18,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     {
         public event EventHandler<Dispatch> OnWorkFinished;
         public event EventHandler<Dispatch> OnWorkStarted;
+        public event EventHandler<Dispatch> OnSave;
+        public event EventHandler<Dispatch> OnServiceTime;
 
         readonly ButtonControl bc = new ButtonControl();
         private readonly UserOutputs uo = new UserOutputs();
 
-        //private UserOutputs _useroutputs;
-        //public UserOutputs UserOutputs
-        //{
-        //    get => _useroutputs;
-        //    set => _useroutputs = value;
-        //}
-
         #region Fields and properties
         #region Hide form in traybar
+
+        private readonly Dispatch _dispatch;
 
         private readonly Form.NotifyIcon _notifyIcon;
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
@@ -89,6 +86,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public TimekeepingViewModel()
         {
             _notifyIcon = new Form.NotifyIcon();
+            _dispatch= new Dispatch();
             bc.CurrentState = ButtonControl.State.None;
             SetupCommands();
         }
@@ -126,9 +124,10 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         } 
         private void SubscribeToEvents()       
         {
-            OnWorkStarted += Dispatch.StartWorking;
-            OnWorkFinished += Dispatch.FinishWorking;
-        }   
+            OnWorkStarted += _dispatch.StartWorking;
+            OnWorkFinished += _dispatch.FinishWorking;
+            OnSave += _dispatch.Save;
+        }
         #endregion
 
         #region Commands to start the logic part
@@ -139,7 +138,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
                 _notifyIcon.ShowBalloonTip(5000, "Hinweis", "Servicezeiten beachten!", Form.ToolTipIcon.Info);
             
-            RaiseEvent("Arbeit beginnt");
+            RaiseStart("Arbeit beginnt");
             RaisePropertyChanged();
         }
         private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
@@ -163,7 +162,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             WorkTimeMeasurementModelInstance.FinishWork = GetDateTime();
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
             bc.CurrentState = ButtonControl.State.HomeTime;
-            RaiseEvent("Feierabend");
+            RaiseFinish("Feierabend");
             RaisePropertyChanged();
         }
         private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
@@ -217,7 +216,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ((DelegateCommand)SaveCommand).OnExecuteChanged();
         }
         #region methods waiting for event
-        public void RaiseEvent(string message) => OnWorkFinished?.Invoke(this, new Dispatch(message));
+        public void RaiseStart(string message) => OnWorkStarted?.Invoke(this, new Dispatch(message));
+
+        public void RaiseServiceTime(string message) => OnServiceTime?.Invoke(this, new Dispatch(message));
+        public void RaiseFinish(string message) => OnWorkFinished?.Invoke(this, new Dispatch(message));
+        public void RaiseSave(string message) => OnSave?.Invoke(this, new Dispatch(message));
    
         #endregion
     }
