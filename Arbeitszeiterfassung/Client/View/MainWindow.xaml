@@ -20,7 +20,6 @@
         <converters:ConvertTimeSpan x:Key="timespanconverter"></converters:ConvertTimeSpan>
         <converters:ConvertTimeSpanToMiniutes x:Key="timespanconvertertominutes"></converters:ConvertTimeSpanToMiniutes>
         <converters:ConvertDecimalToString x:Key="decimaltostring"></converters:ConvertDecimalToString>
-        <converters:NullBooleanConverter x:Key="NullBooleanConverter" />
 
     </Window.Resources>
     <Window.DataContext>

@@ -20,7 +20,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public event EventHandler<Dispatch> OnServiceTime;
 
         readonly ButtonControl bc = new ButtonControl();
-        private readonly UserOutputs uo = new UserOutputs();
 
         #region Fields and properties
         #region Hide form in traybar
