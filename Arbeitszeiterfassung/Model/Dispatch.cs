@@ -19,7 +19,6 @@ namespace Arbeitszeiterfassung.Model
         private readonly string _saveTime = "Arbeitszeit wurde gespeichert";
         private readonly string _noSaveTime = "Arbeitszeit konnte nicht gespeichert werden";
         private readonly string _finishWork = "Arbeitsende";
-
         private readonly string _serviceTimes = "Beachten Sie die Servicezeiten";
 
 
@@ -34,13 +33,16 @@ namespace Arbeitszeiterfassung.Model
         public void FinishWorking(object sender, Dispatch e) => _notifyuser.ShowInformation(_info, _finishWork, __info);
         public void SaveTimes(object sender, Dispatch e) => _notifyuser.ShowInformation(_info, _saveTime, __info);
         public void NoSaveTimes(object sender, Dispatch e) => _notifyuser.ShowInformation(_error, _noSaveTime, __error);
-        public void ServiceTimes(object sender, Dispatch e) => _notifyuser.ShowInformation(_error, _noSaveTime, __warning);
+        public void ServiceTimes(object sender, Dispatch e) => _notifyuser.ShowInformation(_warning, _serviceTimes, __warning);
 
     }
 
-    public class NotifyUser : ObservableRecipient // : Notify
+    public class NotifyUser : ObservableRecipient 
     {
         private readonly NotifyIcon _notifyIcon;
+        private readonly int _timeOfAppearance = 5000;
+        private readonly string _pathToIcon = @"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico"
+        private readonly string _nameInTraybar = "Arbeitszeiterfassung";
 
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
         public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
@@ -51,15 +53,14 @@ namespace Arbeitszeiterfassung.Model
         public NotifyUser()
         {
             _notifyIcon = new NotifyIcon();
-            _notifyIcon.Icon = new System.Drawing.Icon(@"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico");
+            _notifyIcon.Icon = new System.Drawing.Icon(_pathToIcon);
             _notifyIcon.Visible = true;
-            _notifyIcon.Text = "Arbeitszeiterfassung";
+            _notifyIcon.Text = _nameInTraybar;
         }
 
         public void ShowInformation(string infotype, string info, ToolTipIcon mode)
-        {
-            _notifyIcon.ShowBalloonTip(5000, infotype, info, mode);
-        }
+            =>  _notifyIcon.ShowBalloonTip(_timeOfAppearance, infotype, info, mode);
+        
     }
 
    
