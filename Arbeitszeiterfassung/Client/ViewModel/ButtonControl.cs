@@ -10,12 +10,6 @@
             ContinueWork,
             HomeTime
         }
-
-        public State _currentState;
-        public State CurrentState
-        {
-            get => _currentState;
-            set => _currentState = value; // on property changed?
-        }
+        public State CurrentState { get; set; }
     }
 }
