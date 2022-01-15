@@ -123,7 +123,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             OnWorkStarted += _dispatch.StartWorking;
             OnWorkFinished += _dispatch.FinishWorking;
-            OnSave += _dispatch.Save;
+            OnSave += _dispatch.SaveTimes;
         }
         #endregion
 
@@ -213,11 +213,10 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ((DelegateCommand)SaveCommand).OnExecuteChanged();
         }
         #region methods waiting for event
-        public void RaiseStart(string message) => OnWorkStarted?.Invoke(this, new Dispatch(message));
-
-        public void RaiseServiceTime(string message) => OnServiceTime?.Invoke(this, new Dispatch(message));
-        public void RaiseFinish(string message) => OnWorkFinished?.Invoke(this, new Dispatch(message));
-        public void RaiseSave(string message) => OnSave?.Invoke(this, new Dispatch(message));
+        public void RaiseStart(string message) => OnWorkStarted?.Invoke(this, new Dispatch());
+        public void RaiseServiceTime(string message) => OnServiceTime?.Invoke(this, new Dispatch());
+        public void RaiseFinish(string message) => OnWorkFinished?.Invoke(this, new Dispatch());
+        public void RaiseSave(string message) => OnSave?.Invoke(this, new Dispatch());
    
         #endregion
     }
