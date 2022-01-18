@@ -14,7 +14,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        
         public event EventHandler<Dispatch> OnWorkStarted;
         public event EventHandler<Dispatch> OnBreakStarted;
         public event EventHandler<Dispatch> OnContinueWorkd;
@@ -22,7 +21,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public event EventHandler<Dispatch> OnSave;
         public event EventHandler<Dispatch> OnNoSave;
         public event EventHandler<Dispatch> OnServiceTime;
-
         readonly ButtonControl bc = new ButtonControl();
 
         #region Fields and properties
@@ -37,8 +35,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
 
         private bool _showInTaskbar;
-        private WindowState _windowState;
         public bool ShowInTaskbar { get => _showInTaskbar; set => SetProperty(ref _showInTaskbar, value); }
+
+        private WindowState _windowState;
         public WindowState WindowState { get => _windowState;
             set
             {
@@ -99,15 +98,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             ModelCommands();        // interact with the model
             ControlCommands();      // commands for save and close
             FetchUserSettings();    // get or sets registry key
-            SubscribeToEvents();       // subscribe for events => not finished
+            SubscribeToEvents();       // subscribe for events 
         }
+
         private void ModelCommands()
         {
             _startTimekeepingCommand = new DelegateCommand(StartTimekeeping, CanStartTimeKeeping);
             _startBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
             _continueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
             _finishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
-        }     
+        }    
+        
         private void ControlCommands()
         {
             _saveCommand = new DelegateCommand(SaveInformations, CanSave);
@@ -115,12 +116,14 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
         }  
+
         private void FetchUserSettings()
         {
             UserSettings usersettings = new UserSettings();
             Destination = usersettings.ReadRegistry();
             OnPropertyChanged(nameof(Destination));
         } 
+
         private void SubscribeToEvents()       
         {
             OnWorkStarted += _dispatch.StartWorking;
@@ -144,7 +147,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RaiseStart();
             RaisePropertyChanged();
         }
-        private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
+        private bool CanStartTimeKeeping() 
+            => bc.CurrentState == ButtonControl.State.None ? true : false;
         private void StartBreakTime()
         {
             bc.CurrentState = ButtonControl.State.Break;
@@ -152,7 +156,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RasieBreak();
             RaisePropertyChanged();
         }
-        private bool CanDoBreak() => (bc.CurrentState == ButtonControl.State.Work) ? true : false;
+        private bool CanDoBreak() 
+            => bc.CurrentState == ButtonControl.State.Work ? true : false;
         private void ContinueWork()
         { 
             WorkTimeMeasurementModelInstance.ContinueWork = DateTime.Now;
@@ -160,7 +165,10 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RasieContinue();
             RaisePropertyChanged();
         }
-        private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
+
+        private bool CanContinueWork() 
+            => bc.CurrentState == ButtonControl.State.Break ? true : false;
+
         private void FinishWork()
         {
             WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
@@ -169,20 +177,18 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RaiseFinish();
             RaisePropertyChanged();
         }
-        private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
+
+        private bool CanFinishWork() 
+            => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
+        
         private void SaveInformations()
         {
-            var initialDirectory = @"C:\Users\Lenovo\Desktop";
-            var allowedFiles = "Text file (*.txt)|*.txt";
+            //SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = initialDirectory;
-            saveFileDialog.Filter = allowedFiles;
+            //if (saveFileDialog.ShowDialog() == true)
+            //    _ = saveFileDialog.FileName;
 
-            if (saveFileDialog.ShowDialog() == true)
-                _ = saveFileDialog.FileName;
-
-            Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance, saveFileDialog.FileName);
+            Save saveTimeKeeping = new Save(saveFileDialog.FileName);
             if (!String.IsNullOrEmpty(saveFileDialog.FileName))
             {
                 Destination = saveFileDialog.FileName;
@@ -198,7 +204,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             else
                 RaiseNoSave();
         }
-        private bool CanSave() => bc.CurrentState == ButtonControl.State.HomeTime ? true : false;
+        private bool CanSave() 
+            => bc.CurrentState == ButtonControl.State.HomeTime ? true : false;
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
@@ -222,8 +229,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public void RaiseServiceTime() => OnServiceTime?.Invoke(this, new Dispatch());
         public void RaiseSave() => OnSave?.Invoke(this, new Dispatch());
         public void RaiseNoSave() => OnNoSave?.Invoke(this, new Dispatch());
-
-
         #endregion
     }
 }
