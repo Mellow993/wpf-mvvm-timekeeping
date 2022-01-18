@@ -9,44 +9,49 @@ using System.IO;
 using Arbeitszeiterfassung.Client.Common.Converters;
 using System.Windows;
 using Microsoft.Win32;
-
+using Arbeitszeiterfassung.Client.Common;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using Form = System.Windows.Forms;
+using Arbeitszeiterfassung.Client.ViewModel;
 
 namespace Arbeitszeiterfassung.Model
 {
+    interface IDestination
+    {
+        string Destination { get; set; } 
+    }
+
     class Save
     {
-        #region Fields and Attributes
-        private readonly WorkTimeMeasurementModel _workTimeMeasurementModel;
-        public WorkTimeMeasurementModel WorkTimeMeasurementModel { get => _workTimeMeasurementModel; }
-
+        private readonly WorkTimeMeasurementModel _worktime;
+        public  WorkTimeMeasurementModel WorkTimeMeasurementModel { get => _worktime; }
+        public TimekeepingViewModel TimekeepingViewModel { get; set; }
+        private string _initialDirectory = @"C:\";
+        private string _allowedFiles = "Text file (*.txt)|*.txt";
         private string _destination;
-
         private string Destination
         {
-            get => _destination;
+            get => TimekeepingViewModel.Destination;
             set => _destination = value;
         }
-
         private StringBuilder _content;
-
         public StringBuilder Content
         {
             get => _content;
             set => _content = value;
         }
-        #endregion
 
-        #region Constructor
-        public Save(WorkTimeMeasurementModel worktimemeasurementmodel, string destination)
-        {
-            _workTimeMeasurementModel = worktimemeasurementmodel;
-            _destination = destination;
-        }
-        #endregion
+        public Save(string destination) { _destination = destination; }
 
-        #region Public methods (SaveFile)
+
+
+
         public bool SaveFile()
         {
+            SetupSaveWindow();
             DirectoryInfo directoryinfo = new DirectoryInfo(Path.GetDirectoryName(Destination));
             if (directoryinfo.Exists)
             {
@@ -56,9 +61,16 @@ namespace Arbeitszeiterfassung.Model
             else
                 return false;
         }
-        #endregion
 
-        #region Private methods (Stringbuilder)
+
+        private void SetupSaveWindow()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (saveFileDialog.ShowDialog() == true)
+                _ = saveFileDialog.FileName;
+        }
+
         private void PrepareOutput() => File.AppendAllText(Destination, BuildInformation());
         private string BuildInformation()
         {
@@ -75,7 +87,5 @@ namespace Arbeitszeiterfassung.Model
             _ = Content.Append("------------------------------------\n");
             return Content.ToString();
         }
-        #endregion
     }
-
 }
