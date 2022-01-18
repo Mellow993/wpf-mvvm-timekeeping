@@ -14,7 +14,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        
         public event EventHandler<Dispatch> OnWorkStarted;
         public event EventHandler<Dispatch> OnBreakStarted;
         public event EventHandler<Dispatch> OnContinueWorkd;
@@ -133,6 +132,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         #endregion
 
+
         #region Commands to start the logic part
         private void StartTimekeeping()
         {
@@ -144,7 +144,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RaiseStart();
             RaisePropertyChanged();
         }
-        private bool CanStartTimeKeeping() => bc.CurrentState == ButtonControl.State.None ? true : false;
+        private bool CanStartTimeKeeping() 
+            => bc.CurrentState == ButtonControl.State.None ? true : false;
         private void StartBreakTime()
         {
             bc.CurrentState = ButtonControl.State.Break;
@@ -152,7 +153,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RasieBreak();
             RaisePropertyChanged();
         }
-        private bool CanDoBreak() => (bc.CurrentState == ButtonControl.State.Work) ? true : false;
+        private bool CanDoBreak() 
+            => (bc.CurrentState == ButtonControl.State.Work) ? true : false;
         private void ContinueWork()
         { 
             WorkTimeMeasurementModelInstance.ContinueWork = DateTime.Now;
@@ -160,7 +162,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RasieContinue();
             RaisePropertyChanged();
         }
-        private bool CanContinueWork() => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
+        private bool CanContinueWork() 
+            => (bc.CurrentState == ButtonControl.State.Break) ? true : false;
         private void FinishWork()
         {
             WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
@@ -169,7 +172,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             RaiseFinish();
             RaisePropertyChanged();
         }
-        private bool CanFinishWork() => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
+        private bool CanFinishWork() 
+            => bc.CurrentState != ButtonControl.State.Break && bc.CurrentState != ButtonControl.State.None ? true : false;
         private void SaveInformations()
         {
             var initialDirectory = @"C:\Users\Lenovo\Desktop";
@@ -198,7 +202,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             else
                 RaiseNoSave();
         }
-        private bool CanSave() => bc.CurrentState == ButtonControl.State.HomeTime ? true : false;
+        private bool CanSave() 
+            => bc.CurrentState == ButtonControl.State.HomeTime ? true : false;
         private void ExitWindow()
         {
             _notifyIcon.Dispose();
@@ -222,8 +227,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public void RaiseServiceTime() => OnServiceTime?.Invoke(this, new Dispatch());
         public void RaiseSave() => OnSave?.Invoke(this, new Dispatch());
         public void RaiseNoSave() => OnNoSave?.Invoke(this, new Dispatch());
-
-
         #endregion
     }
 }
