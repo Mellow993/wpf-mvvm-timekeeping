@@ -12,8 +12,8 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
     {
         public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
         public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
-      
     }
+
     public class ConvertTimeSpan : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -28,9 +28,7 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
     public class ConvertTimeSpanToMiniutes : TimeConverter
     {
@@ -39,17 +37,14 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             if (value != null && parameter.ToString() == "TimeSpanMinutesToString")
             {
                 var worktimespanminutes = (TimeSpan)value;
-                var test = worktimespanminutes.TotalMinutes.ToString("#");
-                return test; // worktimespanminutes.TotalMinutes.ToString("#");
+                return worktimespanminutes.TotalMinutes.ToString("#");
             }
             else
                 return "0";
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
     public class ConvertTime : TimeConverter
     {
@@ -65,12 +60,10 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
+            => throw new NotImplementedException();
 
-        }
     }
-    public class ConvertMinutes : TimeConverter // : TimeConverter
+    public class ConvertMinutes : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -82,12 +75,8 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
             else
                 return "0";
         }
-
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-
-        }
+           =>  throw new NotImplementedException();
     }
     public class ConvertDate : TimeConverter
     {
@@ -102,28 +91,20 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
                 return value;
         }
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
     public class ConvertStringBuilderToString : TimeConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value != null)
-            {
                 return true;
-            }   
             else
-            {
                 return false;
-            }
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
     public class ConvertDecimalToString : TimeConverter
     {
@@ -139,8 +120,6 @@ namespace Arbeitszeiterfassung.Client.Common.Converters
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }
