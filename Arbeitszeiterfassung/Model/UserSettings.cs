@@ -5,8 +5,6 @@ namespace Arbeitszeiterfassung.Model
 {
     class UserSettings
     {
-
-
         private const string _pathToKey = @"HKEY_CURRENT_USER\SOFTWARE\Arbeitszeiterfassung";
         private const string _keyValue = "Pfad";
 
@@ -36,9 +34,9 @@ namespace Arbeitszeiterfassung.Model
             }
         }
 
-        private void CreateSubKey() => Registry.CurrentUser.CreateSubKey(_pathToKey, true);
+        private static void CreateSubKey() => Registry.CurrentUser.CreateSubKey(_pathToKey, true);
 
-        private bool TheKeyExits()
+        private static bool TheKeyExits()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(_pathToKey, true);
             if (key == null)

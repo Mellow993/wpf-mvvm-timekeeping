@@ -10,7 +10,6 @@ namespace Arbeitszeiterfassung.Model
 {
     class WorkTimeMeasurementModel : ViewModelBase
     {
-
         #region Fields and properties timespans without break
         private string _state;
         public string State
@@ -64,7 +63,6 @@ namespace Arbeitszeiterfassung.Model
             get => _longDay;
             private set => _longDay = value;
         }
-
 
         private int _breakTimeInMinutes;
         public int BreakTimeInMinutes
@@ -154,7 +152,6 @@ namespace Arbeitszeiterfassung.Model
             set => _timecard = value;
         }
         #endregion
-
         #region Properties TimeSpans
         private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
         private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
