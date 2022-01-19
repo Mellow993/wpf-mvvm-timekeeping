@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Arbeitszeiterfassung.Model;
-using System.Diagnostics;
+﻿using System.Text;
 using System.IO;
-using Arbeitszeiterfassung.Client.Common.Converters;
-using System.Windows;
-using Microsoft.Win32;
+
 namespace Arbeitszeiterfassung.Model
 {
     class Save
@@ -59,8 +51,6 @@ namespace Arbeitszeiterfassung.Model
             _ = Content.Append("------------------------------------\n");
             return Content.ToString();
         }
-        public string ReturnNewDestination() => Destination;
-        
         #endregion
     }
 }

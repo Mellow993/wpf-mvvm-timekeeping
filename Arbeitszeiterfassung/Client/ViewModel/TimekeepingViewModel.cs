@@ -141,6 +141,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         #endregion
 
+
         #region Button methods
         private void StartTimekeeping()
         {
@@ -176,7 +177,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         private void SaveInformations()
         {
-
             var initialDirectory = @"C:\Users\Lenovo\Desktop";
             var allowedFiles = "Text file (*.txt)|*.txt";
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -192,7 +192,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 su.SetRegistry();
                 if (saveTimeKeeping.SaveFile())
                 {
-                    var newDestination = saveTimeKeeping.ReturnNewDestination();
                     RaiseSave();
                     OnPropertyChanged(nameof(Destination));
                 }
