@@ -5,23 +5,20 @@ namespace Arbeitszeiterfassung.Model
 {
     class UserSettings
     {
+        #region Fields and properties
         private const string _pathToKey = @"HKEY_CURRENT_USER\SOFTWARE\Arbeitszeiterfassung";
         private const string _keyValue = "Pfad";
+        public string SavePath { get; private set; }
+        #endregion
 
-        public event EventHandler PathHasChanged;
 
-        private string _savePath;
-        public string SavePath
-        {
-            get => _savePath;
-            private set => _savePath = value;
-        }
-
+        #region Constructors
         public UserSettings() { }
-        public UserSettings(string savePath) { _savePath = savePath; }
+        public UserSettings(string savepath) { SavePath = savepath; }
+        #endregion
+
 
         public void SetRegistry() => Registry.SetValue(_pathToKey, _keyValue, SavePath);
-    
         public string ReadRegistry()
         {
             if (TheKeyExits())
@@ -33,9 +30,6 @@ namespace Arbeitszeiterfassung.Model
                 return String.Empty;
             }
         }
-
-        private static void CreateSubKey() => Registry.CurrentUser.CreateSubKey(_pathToKey, true);
-
         private static bool TheKeyExits()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(_pathToKey, true);
@@ -44,6 +38,7 @@ namespace Arbeitszeiterfassung.Model
             else
                 return true;
         }
+        private static void CreateSubKey() => Registry.CurrentUser.CreateSubKey(_pathToKey, true);
     }
 }
 
