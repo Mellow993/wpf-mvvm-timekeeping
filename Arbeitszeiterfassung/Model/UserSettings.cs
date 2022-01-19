@@ -21,7 +21,7 @@ namespace Arbeitszeiterfassung.Model
         public void SetRegistry() => Registry.SetValue(_pathToKey, _keyValue, SavePath);
         public string ReadRegistry()
         {
-            if (TheKeyExits())
+            if (KeyExits())
                 return (string)Registry.GetValue(_pathToKey, _keyValue, null);
 
             else
@@ -30,7 +30,7 @@ namespace Arbeitszeiterfassung.Model
                 return String.Empty;
             }
         }
-        private static bool TheKeyExits()
+        private static bool KeyExits()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(_pathToKey, true);
             if (key == null)
