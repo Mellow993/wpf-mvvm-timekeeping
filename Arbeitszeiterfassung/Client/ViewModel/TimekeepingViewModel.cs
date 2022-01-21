@@ -147,7 +147,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             bc.CurrentState = ButtonControl.State.Work;
             WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
-            if (!Validation.IsServiceTime(WorkTimeMeasurementModelInstance.StartWork, WorkTimeMeasurementModelInstance.LongDay))
+            var ServiceTimeOrnet = WorkTimeMeasurementModelInstance.InServiceTime;
+            if (!WorkTimeMeasurementModelInstance.InServiceTime)
                 RaiseServiceTime();
 
             RaiseStart();
