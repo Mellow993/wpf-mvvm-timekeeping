@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Client\View\42604hourglassnotdone_99029.ico" />
+    <None Remove="Client\View\SandGlass.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Client\View\42604hourglassnotdone_99029.ico" />
+    <Resource Include="Client\ViewModel\SandGlass.ico" />
   </ItemGroup>
 
   <ItemGroup>
