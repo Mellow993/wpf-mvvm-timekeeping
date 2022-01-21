@@ -11,6 +11,10 @@ namespace Arbeitszeiterfassung.Model
     class WorkTimeMeasurementModel : ViewModelBase
     {
         #region Fields and properties timespans without break
+
+        private bool _inServiceTime;
+        public bool InServiceTime { get => _inServiceTime; private set => _inServiceTime = value; }
+
         private string _state;
         public string State
         {
@@ -38,6 +42,7 @@ namespace Arbeitszeiterfassung.Model
                     _startWork = value;
                     SetState("work");
                     CalculateWorkTime();
+                    CheckServiceTime();
                     UpdateUserinterface();
                 }
             }
@@ -87,9 +92,10 @@ namespace Arbeitszeiterfassung.Model
             {
                 if(_startBreak != value)
                 {
-                    _startBreak = value;
-                    SetState("break");
-                    UpdateUserinterface();
+
+                        _startBreak = value;
+                        SetState("break");
+                        UpdateUserinterface();
                 }
             }
         }
@@ -238,6 +244,18 @@ namespace Arbeitszeiterfassung.Model
                     break;
             }
         }
+
+        private void CheckServiceTime()
+        {
+            if (ValidateServiceTime())
+                InServiceTime = true; 
+            else
+                InServiceTime = false;
+        }
+
+        private bool ValidateServiceTime() => Validation.IsServiceTime(StartWork, LongDay);
+        
+
         #endregion
     }
 }
