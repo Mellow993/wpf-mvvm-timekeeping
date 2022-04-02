@@ -11,7 +11,7 @@
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
         mc:Ignorable="d"
-        Title="Arbeitszeiterfassung" Height="400" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/ViewModel/SandGlass.ico" ResizeMode="CanResize">
+        Title="Arbeitszeiterfassung" Height="400" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/ViewModel/SandGlass.ico" ResizeMode="NoResize">
 
     <Window.Resources>
         <converters:ConvertTime x:Key="timeconverter"></converters:ConvertTime>
@@ -75,13 +75,11 @@
                 <TextBox BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.Timecard, Converter={StaticResource ResourceKey=decimaltostring}, ConverterParameter=DecimalToString, Mode=OneWay}" Grid.Column="1" Margin="5,165,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" Width="40" Grid.ColumnSpan="2" MaxLines="1" MaxLength="5"/>
                 <TextBox x:Name="TextBox_BreakTimeInMinutes" BorderThickness="2" Text="{Binding WorkTimeMeasurementModelInstance.BreakTime, Converter={StaticResource ResourceKey=timespanconvertertominutes}, ConverterParameter=TimeSpanMinutesToString, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" IsReadOnly="True" MaxLength="1" MaxLines="1"/>
 
-                <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="min" HorizontalAlignment="Right" Margin="0,40,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,70,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,100,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="Uhr" HorizontalAlignment="Right" Margin="0,130,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="hh:mm" HorizontalAlignment="Right" Margin="0,220,10,0" VerticalAlignment="Top"/>
-                <Label Grid.Column="2" Content="hh:mm" HorizontalAlignment="Right" Margin="0,190,10,0" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" Content="Uhrzeit" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" Content="Minuten" HorizontalAlignment="Right" Margin="0,40,10,0" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" Content="Uhrzeit" HorizontalAlignment="Right" Margin="0,70,10,0" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" Content="Uhrzeit" HorizontalAlignment="Right" Margin="0,100,10,0" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" Content="Uhrzeit" HorizontalAlignment="Right" Margin="0,130,10,0" VerticalAlignment="Top"/>
                 <Label Content="Netto Arbeitszeit" HorizontalAlignment="Left" Margin="5,186,0,0" VerticalAlignment="Top"/>
                 <Label Content="Brutto Arbeitszeit" HorizontalAlignment="Left" Margin="5,216,0,0" VerticalAlignment="Top"/>
                 <Label Content="(hh:mm)" HorizontalAlignment="Left" Margin="149,175,0,0" VerticalAlignment="Top"/>
