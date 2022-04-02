@@ -10,7 +10,7 @@ namespace Arbeitszeiterfassung.Model
     {
         private static  DateTime ServiceTimeStart { get => new DateTime(DateTime.Now.Year , DateTime.Now.Month, DateTime.Now.Day, 7, 0, 0); }
         private static DateTime ServiceTimeEnd { get => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0); }
-        public static bool IsServiceTime(DateTime starttime, DateTime endtime)
+        internal static bool IsServiceTime(DateTime starttime, DateTime endtime)
             => starttime <= ServiceTimeStart || endtime >= ServiceTimeEnd ? false : true;
     }
 }

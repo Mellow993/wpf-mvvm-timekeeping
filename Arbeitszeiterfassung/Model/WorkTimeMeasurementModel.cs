@@ -10,11 +10,26 @@ namespace Arbeitszeiterfassung.Model
 {
     class WorkTimeMeasurementModel : ViewModelBase
     {
-        #region Fields and properties timespans without break
 
-        public bool InServiceTime { get ; private set; }
-
+        private int _breakTimeInMinutes;
         private string _state;
+        private DateTime _startWork;
+        private DateTime _shortDay;
+        private DateTime _finishWork;
+        private DateTime _continueWork;
+        public int BreakTimeInMinutes
+        {
+            get => _breakTimeInMinutes;
+            set
+            {
+                if (_breakTimeInMinutes != value)
+                {
+                    _breakTimeInMinutes = value;
+                    UpdateUserinterface();
+                }
+            }
+        }
+        public bool InServiceTime { get ; private set; }
         public string State
         {
             get => _state;
@@ -27,10 +42,7 @@ namespace Arbeitszeiterfassung.Model
                 }
             }
         }
-
         public DateTime Today { get => DateTime.Now; }
-
-        private DateTime _startWork;
         public DateTime StartWork
         {
             get => _startWork;
@@ -46,43 +58,13 @@ namespace Arbeitszeiterfassung.Model
                 }
             }
         }
-
-        private DateTime _shortDay;
         public DateTime ShortDay
         {
             get => _shortDay;
             private set => _shortDay = value;
         }
-
-        private DateTime _normalDay;
-        public DateTime NormalDay
-        {
-            get => _normalDay;
-            private set => _normalDay = value;
-        }
-
-        private DateTime _longDay;
-        public DateTime LongDay
-        {
-            get => _longDay;
-            private set => _longDay = value;
-        }
-
-        private int _breakTimeInMinutes;
-        public int BreakTimeInMinutes
-        {
-            get => _breakTimeInMinutes;
-            set
-            {
-                if (_breakTimeInMinutes != value)
-                {
-                    _breakTimeInMinutes = value;
-                    //CalculateWorkTime();
-                    UpdateUserinterface();
-                }
-            }
-        }
-
+        public DateTime NormalDay { get; private set; }
+        public DateTime LongDay { get; private set; }
         private DateTime _startBreak;
         public DateTime StartBreak
         {
@@ -91,22 +73,13 @@ namespace Arbeitszeiterfassung.Model
             {
                 if(_startBreak != value)
                 {
-
-                        _startBreak = value;
-                        SetState("break");
-                        UpdateUserinterface();
+                    _startBreak = value;
+                    SetState("break");
+                    UpdateUserinterface();
                 }
             }
         }
-
-        private TimeSpan _breakTime;
-        public TimeSpan BreakTime
-        {
-            get => _breakTime;
-            set => _breakTime = value;
-        }
-
-        private DateTime _continueWork;
+        public TimeSpan BreakTime { get; private set; }
         public DateTime ContinueWork
         {
             get => _continueWork;
@@ -120,8 +93,6 @@ namespace Arbeitszeiterfassung.Model
                 }
             }
         }
-
-        private DateTime _finishWork;
         public DateTime FinishWork
         {
             get => _finishWork;
@@ -135,35 +106,13 @@ namespace Arbeitszeiterfassung.Model
                 }
             }
         }
-
-        private TimeSpan _neteWorkTime;
-        public TimeSpan NetWorkTime
-        {
-            get => _neteWorkTime;
-            set => _neteWorkTime = value;
-        }
-
-        private TimeSpan _grossWorkTime;
-        public TimeSpan GrossWorkTime
-        {
-            get => _grossWorkTime;
-            set => _grossWorkTime = value;
-        }
-
-        private decimal _timecard;
-        public decimal Timecard
-        {
-            get => _timecard;
-            set => _timecard = value;
-        }
-        #endregion
-        #region Properties TimeSpans
+        public TimeSpan NetWorkTime { get; set; }
+        public TimeSpan GrossWorkTime { get; set; }
+        public decimal Timecard { get; set; }
         private TimeSpan Short { get => new TimeSpan(6, 0, 0); }
         private TimeSpan Normal { get => new TimeSpan(8, 6, 0); }
         private TimeSpan Long { get => new TimeSpan(10, 51, 0); }
-        #endregion
 
-        #region Public methods
         public void CalculateTimeSpan()
         {
             if (StartBreak == DateTime.MinValue)
@@ -171,15 +120,14 @@ namespace Arbeitszeiterfassung.Model
             else
                 CalculateTimeSpanWithBreak();
         }
-        #endregion
+        
 
         #region Private methods
         private void CalculateWorkTime()
         {
-            //ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
-            ShortDay = StartWork.Add(Short); //.AddMinutes(BreakTimeInMinutes);
-            NormalDay = StartWork.Add(Normal); //.AddMinutes(BreakTimeInMinutes);
-            LongDay = StartWork.Add(Long); //.AddMinutes(BreakTimeInMinutes);
+            ShortDay = StartWork.Add(Short);
+            NormalDay = StartWork.Add(Normal);
+            LongDay = StartWork.Add(Long); 
             UpdateUserinterface();
         }
 
@@ -251,7 +199,7 @@ namespace Arbeitszeiterfassung.Model
             else
                 InServiceTime = false;
         }
-
+        
         private bool ValidateServiceTime() => Validation.IsServiceTime(StartWork, LongDay);
         #endregion
     }

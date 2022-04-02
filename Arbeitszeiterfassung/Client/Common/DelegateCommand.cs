@@ -8,7 +8,6 @@ namespace Arbeitszeiterfassung.Client.Common
         private Action _execute;
         private Func<bool> _canExecute;
         public event EventHandler CanExecuteChanged;
-
         public DelegateCommand(Action execute) { _execute = execute; }
         public DelegateCommand(Action execute, Func<bool> canexecute) { _execute = execute; _canExecute = canexecute; }
         public void OnExecuteChanged() => CanExecuteChanged?.Invoke(this, new EventArgs());

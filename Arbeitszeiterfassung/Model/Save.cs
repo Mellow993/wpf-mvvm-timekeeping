@@ -5,22 +5,16 @@ namespace Arbeitszeiterfassung.Model
 {
     class Save
     {
-        #region Attributes
-        public WorkTimeMeasurementModel WorkTimeMeasurementModel { get; private set; }
         private string Destination { get; set; }
+        public WorkTimeMeasurementModel WorkTimeMeasurementModel { get; private set; }
         public StringBuilder Content { get; private set; }
 
-        #endregion
-
-        #region Constructor
         public Save(WorkTimeMeasurementModel worktimemeasurementmodel, string destination)
         {
             WorkTimeMeasurementModel = worktimemeasurementmodel;
             Destination = destination;
         }
-        #endregion
 
-        #region Public methods (SaveFile)
         public bool SaveFile()
         {
             DirectoryInfo directoryinfo = new DirectoryInfo(Path.GetDirectoryName(Destination));
@@ -32,9 +26,7 @@ namespace Arbeitszeiterfassung.Model
             else
                 return false;
         }
-        #endregion
 
-        #region Private methods (Stringbuilder)
         private void PrepareOutput() => File.AppendAllText(Destination, BuildInformation());
         private string BuildInformation()
         {
@@ -51,6 +43,5 @@ namespace Arbeitszeiterfassung.Model
             _ = Content.Append("------------------------------------\n");
             return Content.ToString();
         }
-        #endregion
     }
 }

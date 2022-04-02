@@ -14,19 +14,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
     class TimekeepingViewModel : ObservableRecipient // ViewModelBase
     {
-        private string _destination;
-        
-        #region Declarate Events
-        public event EventHandler<Dispatch> OnWorkStarted;
-        public event EventHandler<Dispatch> OnBreakStarted;
-        public event EventHandler<Dispatch> OnContinueWorkd;
-        public event EventHandler<Dispatch> OnWorkFinished;
-        public event EventHandler<Dispatch> OnSave;
-        public event EventHandler<Dispatch> OnNoSave;
-        public event EventHandler<Dispatch> OnServiceTime;
-        #endregion
-
         #region Fields and properties
+        private string _destination;
+        private bool _showInTaskbar;
+        readonly ButtonControl bc = new ButtonControl();
+        private readonly Dispatch _dispatch;
+        private readonly Form.NotifyIcon _notifyIcon;
+        private WindowState _windowState;
+        private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
+        public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest { get => _notifyRequest; set => SetProperty(ref _notifyRequest, value); }
+        public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
         public string Destination { get => _destination;
             set
             {
@@ -37,21 +34,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 }
             }
         }
-        #endregion
-
         public ButtonControl ButtonControl { get; set; }
-
-        readonly ButtonControl bc = new ButtonControl();
-        #region Hide form in traybar
-        private bool _showInTaskbar;
-        private readonly Dispatch _dispatch;
-        private readonly Form.NotifyIcon _notifyIcon;
-        private WindowState _windowState;
-        private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
-        public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest { get => _notifyRequest; set => SetProperty(ref _notifyRequest, value); }
-        public static WorkTimeMeasurementModel WorkTimeMeasurementModelInstance { get; } = new WorkTimeMeasurementModel();
         public bool ShowInTaskbar { get => _showInTaskbar; set => SetProperty(ref _showInTaskbar, value); }
-        public WindowState WindowState { get => _windowState;
+        public WindowState WindowState
+        {
+            get => _windowState;
             set
             {
                 ShowInTaskbar = true;
@@ -59,6 +46,16 @@ namespace Arbeitszeiterfassung.Client.ViewModel
                 ShowInTaskbar = value != WindowState.Minimized;
             }
         }
+        #endregion
+
+        #region Declarate Events
+        public event EventHandler<Dispatch> OnWorkStarted;
+        public event EventHandler<Dispatch> OnBreakStarted;
+        public event EventHandler<Dispatch> OnContinueWorkd;
+        public event EventHandler<Dispatch> OnWorkFinished;
+        public event EventHandler<Dispatch> OnSave;
+        public event EventHandler<Dispatch> OnNoSave;
+        public event EventHandler<Dispatch> OnServiceTime;
         #endregion
 
         #region Declarate commands
@@ -131,7 +128,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             ButtonControl.CurrentState = ButtonControl.State.Work;
             WorkTimeMeasurementModelInstance.StartWork = DateTime.Now;
-            var ServiceTimeOrnet = WorkTimeMeasurementModelInstance.InServiceTime;
             if (!WorkTimeMeasurementModelInstance.InServiceTime)
                 OnServiceTime?.Invoke(this, new Dispatch());
 
@@ -160,7 +156,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             OnWorkFinished?.Invoke(this, new Dispatch());
             RaisePropertyChanged();
         }
-        private void SaveInformations()
+        private void SaveInformations() //TODO: Reduce lines
         {
             var initialDirectory = Environment.SpecialFolder.MyDocuments; //@"C:\Users\Lenovo\Desktop";
             var allowedFiles = "Text file (*.txt)|*.txt";
