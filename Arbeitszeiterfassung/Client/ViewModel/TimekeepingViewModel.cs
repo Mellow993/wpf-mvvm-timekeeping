@@ -68,24 +68,17 @@ namespace Arbeitszeiterfassung.Client.ViewModel
 
 
         #region Declarate commands
-        private DelegateCommand _startTimekeepingCommand;
-        private DelegateCommand _startBreakTimeCommand;
-        private DelegateCommand _finishWorkCommand;
-        private DelegateCommand _exitWindowCommand;
-        private DelegateCommand _continueWorkCommand;
-        private DelegateCommand _saveCommand;
-
-        public ICommand LoadedCommand { get; set; }
-        public ICommand ClosingCommand { get; set; }
-        public ICommand NotifyCommand { get; set; }
-        public ICommand NotifyIconOpenCommand { get; set; }
-        public ICommand NotifyIconExitCommand { get; set; }
-        public ICommand StartTimekeepingCommand { get => _startTimekeepingCommand; }
-        public ICommand StartBreakTimeCommand { get => _startBreakTimeCommand; }
-        public ICommand ContinueWorkCommand { get => _continueWorkCommand; }
-        public ICommand FinishWorkCommand { get => _finishWorkCommand; }
-        public ICommand ExitWindowCommand { get => _exitWindowCommand; }
-        public ICommand SaveCommand { get => _saveCommand; }
+        public ICommand LoadedCommand { get; private set; }
+        public ICommand ClosingCommand { get; private set; }
+        public ICommand NotifyCommand { get; private set; }
+        public ICommand NotifyIconOpenCommand { get; private set; }
+        public ICommand NotifyIconExitCommand { get; private set; }
+        public ICommand StartTimekeepingCommand { get; private set; }
+        public ICommand StartBreakTimeCommand { get; private set; }
+        public ICommand ContinueWorkCommand { get; private set; }
+        public ICommand FinishWorkCommand { get; private set; }
+        public ICommand ExitWindowCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
         #endregion
 
 
@@ -100,6 +93,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
 
+
         #region Provide constructor content
         private void SetupButtonState() => bc.CurrentState = ButtonControl.State.None;
         private void SetupCommands()// preapare commands and user settings
@@ -111,15 +105,15 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         }
         private void ModelCommands()
         {
-            _startTimekeepingCommand = new DelegateCommand(StartTimekeeping, CanStartTimeKeeping);
-            _startBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
-            _continueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
-            _finishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
+            StartTimekeepingCommand = new DelegateCommand(StartTimekeeping, CanStartTimeKeeping);
+            StartBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
+            ContinueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
+            FinishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
         }    
         private void ControlCommands()
         {
-            _saveCommand = new DelegateCommand(SaveInformations, CanSave);
-            _exitWindowCommand = new DelegateCommand(ExitWindow);
+            SaveCommand = new DelegateCommand(SaveInformations, CanSave);
+            ExitWindowCommand = new DelegateCommand(ExitWindow);
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Minimized; });
             NotifyIconOpenCommand = new RelayCommand(() => { WindowState = WindowState.Normal; });
         }  

@@ -12,8 +12,7 @@ namespace Arbeitszeiterfassung.Model
     {
         #region Fields and properties timespans without break
 
-        private bool _inServiceTime;
-        public bool InServiceTime { get => _inServiceTime; private set => _inServiceTime = value; }
+        public bool InServiceTime { get ; private set; }
 
         private string _state;
         public string State
@@ -254,8 +253,6 @@ namespace Arbeitszeiterfassung.Model
         }
 
         private bool ValidateServiceTime() => Validation.IsServiceTime(StartWork, LongDay);
-        
-
         #endregion
     }
 }
