@@ -6,9 +6,9 @@ namespace Arbeitszeiterfassung.Model
     class Save
     {
         #region Attributes
-        public WorkTimeMeasurementModel WorkTimeMeasurementModel { get; set; }
+        public WorkTimeMeasurementModel WorkTimeMeasurementModel { get; private set; }
         private string Destination { get; set; }
-        public StringBuilder Content { get; set; }
+        public StringBuilder Content { get; private set; }
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Arbeitszeiterfassung.Model
         private void PrepareOutput() => File.AppendAllText(Destination, BuildInformation());
         private string BuildInformation()
         {
-            StringBuilder Content = new StringBuilder();
+            StringBuilder Content = new();
             _ = Content.Append("\nAktueller Tag\t" + WorkTimeMeasurementModel.StartWork.ToShortDateString() + "\n");
             _ = Content.Append("Arbeitsbeginn\t" + WorkTimeMeasurementModel.StartWork.ToShortTimeString() + " Uhr" + "\n");
             _ = Content.Append("Pausenbeginn\t" + WorkTimeMeasurementModel.StartBreak.ToShortTimeString() + " Uhr" + "\n");

@@ -1,6 +1,6 @@
 ﻿namespace Arbeitszeiterfassung.Client.ViewModel
 {
-    class ButtonControl
+    internal class ButtonControl
     {
         public enum State
         {
