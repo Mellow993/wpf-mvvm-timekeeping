@@ -16,7 +16,6 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     {
         #region Fields and properties
         private string _destination;
-        private bool _showInTaskbar;
         readonly ButtonControl bc = new ButtonControl();
         private readonly Dispatch _dispatch;
         private readonly Form.NotifyIcon _notifyIcon;
@@ -35,15 +34,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             }
         }
         public ButtonControl ButtonControl { get; set; }
-        public bool ShowInTaskbar { get => _showInTaskbar; set => SetProperty(ref _showInTaskbar, value); }
         public WindowState WindowState
         {
             get => _windowState;
             set
             {
-                ShowInTaskbar = true;
                 SetProperty(ref _windowState, value);
-                ShowInTaskbar = value != WindowState.Minimized;
             }
         }
         #endregion

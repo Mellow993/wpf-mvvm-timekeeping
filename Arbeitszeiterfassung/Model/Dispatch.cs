@@ -36,7 +36,6 @@ namespace Arbeitszeiterfassung.Model
     {
         private readonly NotifyIcon _notifyIcon;
         private readonly int _timeOfAppearance = 5000;
-
         private readonly string _pathToIcon = @"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico";
         private readonly string _nameInTraybar = "Arbeitszeiterfassung";
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
@@ -52,7 +51,6 @@ namespace Arbeitszeiterfassung.Model
             _notifyIcon.Visible = true;
             _notifyIcon.Text = _nameInTraybar;
         }
-
         public void ShowInformation(string infotype, string info, ToolTipIcon mode)
             =>  _notifyIcon.ShowBalloonTip(_timeOfAppearance, infotype, info, mode);
     }
