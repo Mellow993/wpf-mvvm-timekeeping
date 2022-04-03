@@ -47,7 +47,7 @@ namespace Arbeitszeiterfassung.Model
         public NotifyUser()
         {
             _notifyIcon = new NotifyIcon();
-            _notifyIcon.Icon = new System.Drawing.Icon(_pathToIcon);
+            //_notifyIcon.Icon = new System.Drawing.Icon(_pathToIcon);
             _notifyIcon.Visible = true;
             _notifyIcon.Text = _nameInTraybar;
         }

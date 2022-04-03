@@ -148,7 +148,9 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
-            ButtonControl.CurrentState = ButtonControl.State.HomeTime;
+            //ButtonControl.CurrentState = ButtonControl.State.HomeTime;
+            ButtonControl.CurrentState = ButtonControl.State.None;
+
             OnWorkFinished?.Invoke(this, new Dispatch());
             RaisePropertyChanged();
         }
