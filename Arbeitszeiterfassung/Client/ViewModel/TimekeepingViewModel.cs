@@ -66,6 +66,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand FinishWorkCommand { get; private set; }
         public ICommand ExitWindowCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+        public ICommand CorrectionCommand { get; private set; }
         #endregion
         
         #region Constructor
@@ -93,6 +94,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             StartBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
             ContinueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
             FinishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
+            CorrectionCommand = new DelegateCommand(CorrectInput, CanCorrect);
         }    
         private void ControlCommands()
         {
@@ -120,6 +122,11 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region Button methods
+        private void CorrectInput()
+        {
+            throw new NotImplementedException();
+        }
+
         private void StartTimekeeping()
         {
             ButtonControl.CurrentState = ButtonControl.State.Work;
@@ -197,6 +204,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
            => ButtonControl.CurrentState != ButtonControl.State.Break && ButtonControl.CurrentState != ButtonControl.State.None ? true : false;
         private bool CanSave()
             => ButtonControl.CurrentState == ButtonControl.State.HomeTime ? true : false;
+        private bool CanCorrect() => true;
         #endregion
 
 
