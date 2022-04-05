@@ -11,7 +11,7 @@
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
         mc:Ignorable="d"
-        Title="Arbeitszeiterfassung" Height="400" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/ViewModel/SandGlass.ico" ResizeMode="NoResize">
+        Title="Arbeitszeiterfassung" Height="400" Width="490" WindowStartupLocation="CenterScreen" Icon="/Client/ViewModel/SandGlass.ico" ResizeMode="CanMinimize">
 
     <Window.Resources>
         <converters:ConvertTime x:Key="timeconverter"></converters:ConvertTime>
