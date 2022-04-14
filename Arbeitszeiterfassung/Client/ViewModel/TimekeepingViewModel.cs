@@ -158,35 +158,26 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         {
             WorkTimeMeasurementModelInstance.FinishWork = DateTime.Now;
             WorkTimeMeasurementModelInstance.CalculateTimeSpan();
-            //ButtonControl.CurrentState = ButtonControl.State.HomeTime;
             ButtonControl.CurrentState = ButtonControl.State.None;
-
             OnWorkFinished?.Invoke(this, new Dispatch());
             RaisePropertyChanged();
         }
         private void SaveInformations() //TODO: Reduce lines
         {
-            var initialDirectory = Environment.SpecialFolder.MyDocuments; //@"C:\Users\Lenovo\Desktop";
-            var allowedFiles = "Text file (*.txt)|*.txt";
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = initialDirectory.ToString();
-            saveFileDialog.Filter = allowedFiles;
-            if (saveFileDialog.ShowDialog() == true)
-                _ = saveFileDialog.FileName;
-            Save saveTimeKeeping = new Save(WorkTimeMeasurementModelInstance, saveFileDialog.FileName);
-            if (!String.IsNullOrEmpty(saveFileDialog.FileName))
+            Save save = new Save(WorkTimeMeasurementModelInstance, Destination);
+            save.OpenSaveDialog();
+            save.SaveFile();
+
+            if(save.SaveFile())
             {
-                Destination = saveFileDialog.FileName;
-                UserSettings su = new UserSettings(saveFileDialog.FileName);
+                OnSave?.Invoke(this, new Dispatch());
+                UserSettings su = new UserSettings(Destination);
                 su.SetRegistry();
-                if (saveTimeKeeping.SaveFile())
-                {
-                    OnSave?.Invoke(this, new Dispatch());
-                    OnPropertyChanged(nameof(Destination));
-                }
+                OnPropertyChanged(nameof(Destination));
             }
             else
                 OnNoSave?.Invoke(this, new Dispatch());
+
         }
         private void ExitWindow()
         {
