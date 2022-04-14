@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using System.IO;
+using System.Windows.Forms;
+using System;
 
 namespace Arbeitszeiterfassung.Model
 {
     class Save
     {
-        private string Destination { get; set; }
+        public string Destination { get; private set; }
         public WorkTimeMeasurementModel WorkTimeMeasurementModel { get; private set; }
         public StringBuilder Content { get; private set; }
 
@@ -14,6 +16,23 @@ namespace Arbeitszeiterfassung.Model
             WorkTimeMeasurementModel = worktimemeasurementmodel;
             Destination = destination;
         }
+
+        public Save()
+        {
+        }
+
+        public void OpenSaveDialog()
+        {
+            var initialDirectory = Environment.SpecialFolder.MyDocuments;
+            var allowedFiles = "Text file (*.txt)|*.txt";
+            SaveFileDialog saveFileDialog = new();
+            saveFileDialog.InitialDirectory = initialDirectory.ToString();
+            saveFileDialog.Filter = allowedFiles;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                Destination = saveFileDialog.FileName;
+        }
+
 
         public bool SaveFile()
         {
