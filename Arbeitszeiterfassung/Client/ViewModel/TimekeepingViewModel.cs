@@ -1,4 +1,5 @@
 ﻿using Arbeitszeiterfassung.Client.Common;
+using Arbeitszeiterfassung.Client.View;
 using Arbeitszeiterfassung.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -94,7 +95,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             StartBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
             ContinueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
             FinishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
-            CorrectionCommand = new DelegateCommand(CorrectInput, CanCorrect);
+            //CorrectionCommand = new DelegateCommand(CorrectInput, CanCorrect);
+            CorrectionCommand = new DelegateCommand(CorrectInput);
         }    
         private void ControlCommands()
         {
@@ -124,7 +126,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #region Button methods
         private void CorrectInput()
         {
-            throw new NotImplementedException();
+            Correction correctionWindow = new Correction();
+            correctionWindow.Show();
         }
 
         private void StartTimekeeping()
@@ -203,8 +206,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private bool CanFinishWork() 
            => ButtonControl.CurrentState != ButtonControl.State.Break && ButtonControl.CurrentState != ButtonControl.State.None ? true : false;
         private bool CanSave()
-            => ButtonControl.CurrentState == ButtonControl.State.HomeTime ? true : false;
-        private bool CanCorrect() => true;
+            => ButtonControl.CurrentState == ButtonControl.State.HomeTime || ButtonControl.CurrentState == ButtonControl.State.None ? true : false;
         #endregion
 
 
