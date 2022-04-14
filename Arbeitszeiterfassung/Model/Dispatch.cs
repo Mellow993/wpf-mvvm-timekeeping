@@ -18,7 +18,6 @@ namespace Arbeitszeiterfassung.Model
         private readonly string _noSaveTime = "Arbeitszeit konnte nicht gespeichert werden";
         private readonly string _finishWork = "Arbeitsende";
         private readonly string _serviceTimes = "Beachten Sie die Servicezeiten";
-
         private readonly ToolTipIcon __info = ToolTipIcon.Info;
         private readonly ToolTipIcon __warning = ToolTipIcon.Warning;
         private readonly ToolTipIcon __error = ToolTipIcon.Error;
@@ -36,8 +35,8 @@ namespace Arbeitszeiterfassung.Model
     public class NotifyUser : ObservableRecipient 
     {
         private readonly NotifyIcon _notifyIcon;
-        private readonly int _timeOfAppearance = 5000;
-        private readonly string _pathToIcon = @"C:\Users\Lenovo\source\repos\Arbeitszeiterfassung\Arbeitszeiterfassung\Client\Icon\icon.ico";
+        private readonly int _timeOfAppearance = 3000;
+        private readonly string _pathToIcon = @"C:\Users\Lenovo\source\repos\wpf-mvvm-timekeeping\Arbeitszeiterfassung\Client\Icon\icon.ico";
         private readonly string _nameInTraybar = "Arbeitszeiterfassung";
         private NotifyIconWrapper.NotifyRequestRecord? _notifyRequest;
         public NotifyIconWrapper.NotifyRequestRecord? NotifyRequest
@@ -48,7 +47,7 @@ namespace Arbeitszeiterfassung.Model
         public NotifyUser()
         {
             _notifyIcon = new NotifyIcon();
-            //_notifyIcon.Icon = new System.Drawing.Icon(_pathToIcon);
+            _notifyIcon.Icon = new System.Drawing.Icon(_pathToIcon);
             _notifyIcon.Visible = true;
             _notifyIcon.Text = _nameInTraybar;
         }
