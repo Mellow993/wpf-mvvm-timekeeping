@@ -1,4 +1,5 @@
 ﻿using Arbeitszeiterfassung.Client.Common;
+using Arbeitszeiterfassung.Client.View;
 using Arbeitszeiterfassung.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -66,6 +67,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         public ICommand FinishWorkCommand { get; private set; }
         public ICommand ExitWindowCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+        public ICommand CorrectionCommand { get; private set; }
         #endregion
         
         #region Constructor
@@ -93,6 +95,8 @@ namespace Arbeitszeiterfassung.Client.ViewModel
             StartBreakTimeCommand = new DelegateCommand(StartBreakTime, CanDoBreak);
             ContinueWorkCommand = new DelegateCommand(ContinueWork, CanContinueWork);
             FinishWorkCommand = new DelegateCommand(FinishWork, CanFinishWork);
+            //CorrectionCommand = new DelegateCommand(CorrectInput, CanCorrect);
+            CorrectionCommand = new DelegateCommand(CorrectInput);
         }    
         private void ControlCommands()
         {
@@ -120,6 +124,12 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         #endregion
 
         #region Button methods
+        private void CorrectInput()
+        {
+            Correction correctionWindow = new Correction();
+            correctionWindow.Show();
+        }
+
         private void StartTimekeeping()
         {
             ButtonControl.CurrentState = ButtonControl.State.Work;
@@ -196,7 +206,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
         private bool CanFinishWork() 
            => ButtonControl.CurrentState != ButtonControl.State.Break && ButtonControl.CurrentState != ButtonControl.State.None ? true : false;
         private bool CanSave()
-            => ButtonControl.CurrentState == ButtonControl.State.HomeTime ? true : false;
+            => ButtonControl.CurrentState == ButtonControl.State.HomeTime || ButtonControl.CurrentState == ButtonControl.State.None ? true : false;
         #endregion
 
 
