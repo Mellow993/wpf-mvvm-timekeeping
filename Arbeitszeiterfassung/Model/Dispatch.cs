@@ -18,6 +18,7 @@ namespace Arbeitszeiterfassung.Model
         private readonly string _noSaveTime = "Arbeitszeit konnte nicht gespeichert werden";
         private readonly string _finishWork = "Arbeitsende";
         private readonly string _serviceTimes = "Beachten Sie die Servicezeiten";
+
         private readonly ToolTipIcon __info = ToolTipIcon.Info;
         private readonly ToolTipIcon __warning = ToolTipIcon.Warning;
         private readonly ToolTipIcon __error = ToolTipIcon.Error;
