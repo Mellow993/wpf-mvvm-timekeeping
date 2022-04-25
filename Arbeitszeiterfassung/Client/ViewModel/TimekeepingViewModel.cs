@@ -17,7 +17,7 @@ namespace Arbeitszeiterfassung.Client.ViewModel
     {
         #region Fields and properties
         private string _destination;
-        readonly ButtonControl bc = new ButtonControl();
+        //readonly ButtonControl bc = new ButtonControl();
         private readonly Dispatch _dispatch;
         private readonly Form.NotifyIcon _notifyIcon;
         private WindowState _windowState;

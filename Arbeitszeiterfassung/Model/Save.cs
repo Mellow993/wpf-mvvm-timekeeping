@@ -12,10 +12,7 @@ namespace Arbeitszeiterfassung.Model
         public StringBuilder Content { get; private set; }
 
         public Save(WorkTimeMeasurementModel worktimemeasurementmodel, string destination)
-        {
-            WorkTimeMeasurementModel = worktimemeasurementmodel;
-            Destination = destination;
-        }
+            => (WorkTimeMeasurementModel, Destination) = (worktimemeasurementmodel, destination);
 
         public Save()
         {
@@ -32,7 +29,6 @@ namespace Arbeitszeiterfassung.Model
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 Destination = saveFileDialog.FileName;
         }
-
 
         public bool SaveFile()
         {

@@ -8,16 +8,16 @@ namespace Arbeitszeiterfassung.Model
     public class Dispatch : EventArgs
     {
         private readonly NotifyUser _notifyuser = new NotifyUser();
-        private readonly string _info = "Hinweis";
-        private readonly string _warning = "Warnung";
-        private readonly string _error = "Fehler";
-        private readonly string _startWork = "Arbeitsbeginn";
-        private readonly string _startBreak = "Pause";
-        private readonly string _continueWork = "Weiterarbeiten";
-        private readonly string _saveTime = "Arbeitszeit wurde gespeichert";
-        private readonly string _noSaveTime = "Arbeitszeit konnte nicht gespeichert werden";
-        private readonly string _finishWork = "Arbeitsende";
-        private readonly string _serviceTimes = "Beachten Sie die Servicezeiten";
+        private const string _info = "Hinweis";
+        private const string _warning = "Warnung";
+        private const string _error = "Fehler";
+        private const string _startWork = "Arbeitsbeginn";
+        private const string _startBreak = "Pause";
+        private const string _continueWork = "Weiterarbeiten";
+        private const string _saveTime = "Arbeitszeit wurde gespeichert";
+        private const string _noSaveTime = "Arbeitszeit konnte nicht gespeichert werden";
+        private const string _finishWork = "Arbeitsende";
+        private const string _serviceTimes = "Beachten Sie die Servicezeiten";
         private readonly ToolTipIcon __info = ToolTipIcon.Info;
         private readonly ToolTipIcon __warning = ToolTipIcon.Warning;
         private readonly ToolTipIcon __error = ToolTipIcon.Error;

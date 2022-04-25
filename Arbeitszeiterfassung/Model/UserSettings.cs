@@ -27,10 +27,7 @@ namespace Arbeitszeiterfassung.Model
         private static bool KeyExits()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(_pathToKey, true);
-            if (key == null)
-                return false;
-            else
-                return true;
+            return (key != null) ? true : false;
         }
         private static void CreateSubKey() => Registry.CurrentUser.CreateSubKey(_pathToKey, true);
     }
